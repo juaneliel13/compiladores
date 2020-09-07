@@ -125,14 +125,26 @@ public class MatrizDeTransicion {
             case ')':
                 return 18;
 
-            case ',':
+            case '.':
                 return 19;
 
-            case ';':
+            case ',':
                 return 20;
 
-            case '\n':
+            case ';':
                 return 21;
+
+            case '\n':
+                return 22;
+
+            case '\t':
+                return 23;
+
+            case ' ':
+                return 24;
+
+            case '\'':
+                return 25;
 
             default:
                 return -1;
