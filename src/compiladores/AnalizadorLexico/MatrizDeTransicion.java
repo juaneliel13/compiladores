@@ -30,7 +30,6 @@ public class MatrizDeTransicion {
             case 'e':
             case 'g':
             case 'h':
-            case 'i':
             case 'j':
             case 'k':
             case 'l':
@@ -50,8 +49,11 @@ public class MatrizDeTransicion {
             case 'z':
                 return 1;
 
-            case 'f':
+            case 'i':
                 return 2;
+
+            case 'f':
+                return 3;
 
             case 'A':
             case 'B':
@@ -79,64 +81,75 @@ public class MatrizDeTransicion {
             case 'X':
             case 'Y':
             case 'Z':
-                return 3;
-
-            case '+':
                 return 4;
 
-            case '-':
+            case '+':
                 return 5;
 
-            case '*':
+            case '-':
                 return 6;
 
-            case '/':
+            case '*':
                 return 7;
 
-            case '%':
+            case '/':
                 return 8;
 
-            case '!':
+            case '%':
                 return 9;
 
-            case '<':
+            case '!':
                 return 10;
 
-            case '>':
+            case '<':
                 return 11;
 
-            case '=':
+            case '>':
                 return 12;
 
-            case '_':
+            case '=':
                 return 13;
 
-            case '{':
+            case '_':
                 return 14;
 
-            case '}':
+            case '{':
                 return 15;
 
-            case '(':
+            case '}':
                 return 16;
 
-            case ')':
+            case '(':
                 return 17;
 
-            case ',':
+            case ')':
                 return 18;
 
-            case ';':
+            case ',':
                 return 19;
 
-            case '\n':
+            case ';':
                 return 20;
+
+            case '\n':
+                return 21;
 
             default:
                 return -1;
         }
 
 
+    }
+    public void agregarTransicion(Integer estado, char simbolo, Integer nuevoEstado,AccionSemantica as){
+        matriz[estado][convertir(simbolo)]= new Tupla(nuevoEstado,as);
+    }
+
+    public Integer siguienteEstado(Integer estado, char simbolo){
+        return matriz[estado][convertir(simbolo)].getEstado();
+    }
+
+    public AccionSemantica accionSemantica(Integer estado, char simbolo){
+        return matriz[estado][convertir(simbolo)].getAS();
     }
 
 }
