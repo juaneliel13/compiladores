@@ -1,10 +1,10 @@
 package compiladores.AnalizadorLexico;
 
+import compiladores.AnalizadorLexico.Acciones.AccionSemantica;
+
 public class Tupla {
     private Integer estado;
     private AccionSemantica AS;
-
-
 
     public Tupla(Integer estado, AccionSemantica AS) {
         this.estado = estado;

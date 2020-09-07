@@ -1,11 +1,10 @@
 package compiladores.AnalizadorLexico;
 
-
+import compiladores.AnalizadorLexico.Acciones.AccionSemantica;
 
 public class MatrizDeTransicion {
 
     private Tupla matriz[][] = new Tupla [12][];
-
 
     public Integer convertir(char simbolo){
 
@@ -152,8 +151,8 @@ public class MatrizDeTransicion {
 
 
     }
-    public void agregarTransicion(Integer estado, char simbolo, Integer nuevoEstado,AccionSemantica as){
-        matriz[estado][convertir(simbolo)]= new Tupla(nuevoEstado,as);
+    public void agregarTransicion(Integer estado, char simbolo, Integer nuevoEstado, AccionSemantica as){
+        matriz[estado][convertir(simbolo)] = new Tupla(nuevoEstado,as);
     }
 
     public Integer siguienteEstado(Integer estado, char simbolo){
@@ -162,6 +161,14 @@ public class MatrizDeTransicion {
 
     public AccionSemantica accionSemantica(Integer estado, char simbolo){
         return matriz[estado][convertir(simbolo)].getAS();
+    }
+
+    public boolean finalizo() {
+        return true;
+    }
+
+    public void avanzar() {
+
     }
 
 }
