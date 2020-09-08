@@ -4,7 +4,7 @@ import compiladores.AnalizadorLexico.Acciones.AccionSemantica;
 
 public class MatrizDeTransicion {
 
-    private Tupla matriz[][] = new Tupla [12][];
+    private Tupla matriz[][] = new Tupla [17][26];
 
     public Integer convertir(char simbolo){
 
