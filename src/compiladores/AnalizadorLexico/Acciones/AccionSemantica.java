@@ -10,5 +10,5 @@ public abstract class AccionSemantica {
         this.lexico = lexico;
     }
 
-    public abstract void accion();
+    public abstract void accion(char simbolo);
 }

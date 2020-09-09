@@ -1,4 +1,16 @@
 package compiladores.AnalizadorLexico.Acciones;
 
-public class InicBuffer {
+import compiladores.AnalizadorLexico.AnalizadorLexico;
+
+public class InicBuffer extends AccionSemantica {
+
+    public InicBuffer(AnalizadorLexico lexico) {
+        super(lexico);
+    }
+
+    @Override
+    public void accion(char simbolo) {
+        buffer = "" + simbolo;
+    }
+
 }

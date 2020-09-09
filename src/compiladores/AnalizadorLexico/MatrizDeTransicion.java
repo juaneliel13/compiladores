@@ -4,7 +4,11 @@ import compiladores.AnalizadorLexico.Acciones.AccionSemantica;
 
 public class MatrizDeTransicion {
 
-    private Tupla matriz[][] = new Tupla [17][26];
+    private Tupla matriz[][] ; //= new Tupla [17][26];
+
+    public MatrizDeTransicion(int estados,int simbolos){
+        this.matriz = new Tupla[estados][simbolos];
+    }
 
     public Integer convertir(char simbolo){
 
@@ -161,14 +165,6 @@ public class MatrizDeTransicion {
 
     public AccionSemantica accionSemantica(Integer estado, char simbolo){
         return matriz[estado][convertir(simbolo)].getAS();
-    }
-
-    public boolean finalizo() {
-        return true;
-    }
-
-    public void avanzar() {
-
     }
 
 }
