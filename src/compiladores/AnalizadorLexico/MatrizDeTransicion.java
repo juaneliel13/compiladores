@@ -151,7 +151,7 @@ public class MatrizDeTransicion {
                 return 25;
 
             default:
-                return -1;
+                return 26;
         }
 
 
