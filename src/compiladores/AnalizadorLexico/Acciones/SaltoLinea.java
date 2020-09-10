@@ -9,7 +9,7 @@ public class SaltoLinea extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        if(simbolo == '\n')
+        if (simbolo == '\n')
             lexico.linea++;
     }
 }

@@ -2,16 +2,15 @@ package compiladores.AnalizadorLexico.Acciones;
 
 import compiladores.AnalizadorLexico.AnalizadorLexico;
 
-public class AltaTablaSimbolos extends AccionSemantica {
-    public AltaTablaSimbolos(AnalizadorLexico lexico) {
+public class CheckCadena extends AccionSemantica {
+    public CheckCadena(AnalizadorLexico lexico) {
         super(lexico);
     }
 
     @Override
     public void accion(char simbolo) {
-        //se carga en algun lado
-        lexico.token = 10;
-        lexico.indice--;
+        //acomodar la wea
+        lexico.token = 13;
         buffer = "";
     }
 }

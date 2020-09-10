@@ -1,0 +1,10 @@
+algo = 8.5 + 2;
+{ } ( ) 
+/% 
+( ) { [ ) }
+
+gg
+algo
+xddd
+%/
+'una cadena re piolita'

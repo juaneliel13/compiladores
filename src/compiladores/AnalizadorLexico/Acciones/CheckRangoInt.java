@@ -9,6 +9,8 @@ public class CheckRangoInt extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-
+        //leer el valor y checkear rango
+        lexico.token = 11;
+        buffer = "";
     }
 }

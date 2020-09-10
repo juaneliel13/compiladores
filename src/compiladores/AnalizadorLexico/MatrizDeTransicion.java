@@ -4,15 +4,15 @@ import compiladores.AnalizadorLexico.Acciones.AccionSemantica;
 
 public class MatrizDeTransicion {
 
-    private Tupla matriz[][] ; //= new Tupla [17][26];
+    private Tupla matriz[][]; //= new Tupla [17][26];
 
-    public MatrizDeTransicion(int estados,int simbolos){
+    public MatrizDeTransicion(int estados, int simbolos) {
         this.matriz = new Tupla[estados][simbolos];
     }
 
-    public Integer convertir(char simbolo){
+    public Integer convertir(char simbolo) {
 
-        switch (simbolo){
+        switch (simbolo) {
 
             case '0':
             case '1':
@@ -155,19 +155,20 @@ public class MatrizDeTransicion {
 
 
     }
-    public void agregarTransicion(int estado, int simbolo, int nuevoEstado, AccionSemantica as){
-        matriz[estado][simbolo] = new Tupla(nuevoEstado,as);
+
+    public void agregarTransicion(int estado, int simbolo, int nuevoEstado, AccionSemantica as) {
+        matriz[estado][simbolo] = new Tupla(nuevoEstado, as);
     }
 
-    public void agregarTransicion(Integer estado, char simbolo, Integer nuevoEstado, AccionSemantica as){
-        matriz[estado][convertir(simbolo)] = new Tupla(nuevoEstado,as);
+    public void agregarTransicion(Integer estado, char simbolo, Integer nuevoEstado, AccionSemantica as) {
+        matriz[estado][convertir(simbolo)] = new Tupla(nuevoEstado, as);
     }
 
-    public Integer siguienteEstado(Integer estado, char simbolo){
+    public Integer siguienteEstado(Integer estado, char simbolo) {
         return matriz[estado][convertir(simbolo)].getEstado();
     }
 
-    public AccionSemantica accionSemantica(Integer estado, char simbolo){
+    public AccionSemantica accionSemantica(Integer estado, char simbolo) {
         return matriz[estado][convertir(simbolo)].getAS();
     }
 

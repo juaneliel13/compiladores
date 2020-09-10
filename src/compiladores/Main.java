@@ -17,6 +17,8 @@ public class Main {
         }
         System.out.println(data);
         AnalizadorLexico lexic = new AnalizadorLexico(data);
-
+        for(int i = 0; i<12; i++){
+            System.out.println(lexic.getToken());
+        }
     }
 }
