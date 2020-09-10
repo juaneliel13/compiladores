@@ -1,6 +1,8 @@
 package compiladores.AnalizadorLexico;
 
 import compiladores.AnalizadorLexico.Acciones.AccionSemantica;
+import compiladores.AnalizadorLexico.Acciones.AñadirBuffer;
+import compiladores.AnalizadorLexico.Acciones.InicBuffer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,33 +54,37 @@ public class AnalizadorLexico {
     }
 
     private void cargarMatrizDeTransicion(){
+        //Instanciando las Acciones Semanticas
+        AccionSemantica inicBuffer = new InicBuffer(this);
+        AccionSemantica añadirBuffer = new AñadirBuffer(this);
+
         //FILA: 0
-        matrizDeTransicion.agregarTransicion(0,0,2);
-        matrizDeTransicion.agregarTransicion(0,1,1);
-        matrizDeTransicion.agregarTransicion(0,2,1);
-        matrizDeTransicion.agregarTransicion(0,3,1);
+        matrizDeTransicion.agregarTransicion(0,0,2,inicBuffer);
+        matrizDeTransicion.agregarTransicion(0,1,1,inicBuffer);
+        matrizDeTransicion.agregarTransicion(0,2,1,inicBuffer);
+        matrizDeTransicion.agregarTransicion(0,3,1,inicBuffer);
         matrizDeTransicion.agregarTransicion(0,4,15);
         matrizDeTransicion.agregarTransicion(0,5,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,6,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,7,Integer.MAX_VALUE);
-        matrizDeTransicion.agregarTransicion(0,8,8);
+        matrizDeTransicion.agregarTransicion(0,8,8,null);
         //matrizDeTransicion.agregarTransicion(0,9,);
-        matrizDeTransicion.agregarTransicion(0,10,13);
-        matrizDeTransicion.agregarTransicion(0,11,12);
-        matrizDeTransicion.agregarTransicion(0,12,11);
-        matrizDeTransicion.agregarTransicion(0,13,14);
+        matrizDeTransicion.agregarTransicion(0,10,13,null);
+        matrizDeTransicion.agregarTransicion(0,11,12,null);
+        matrizDeTransicion.agregarTransicion(0,12,11,null);
+        matrizDeTransicion.agregarTransicion(0,13,14,null);
         //matrizDeTransicion.agregarTransicion(0,14,);
         matrizDeTransicion.agregarTransicion(0,15,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,16,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,17,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,18,Integer.MAX_VALUE);
-        matrizDeTransicion.agregarTransicion(0,19,4);
+        matrizDeTransicion.agregarTransicion(0,19,4,inicBuffer);
         matrizDeTransicion.agregarTransicion(0,20,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,21,Integer.MAX_VALUE);
         matrizDeTransicion.agregarTransicion(0,22,0);
         matrizDeTransicion.agregarTransicion(0,23,0);
         matrizDeTransicion.agregarTransicion(0,24,0);
-        matrizDeTransicion.agregarTransicion(0,25,16);
+        matrizDeTransicion.agregarTransicion(0,25,16,añadirBuffer);
         //FILA: 1
         matrizDeTransicion.agregarTransicion(1,0,1);
         matrizDeTransicion.agregarTransicion(1,1,1);

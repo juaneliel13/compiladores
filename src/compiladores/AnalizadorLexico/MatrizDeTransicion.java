@@ -155,6 +155,10 @@ public class MatrizDeTransicion {
 
 
     }
+    public void agregarTransicion(int estado, int simbolo, int nuevoEstado, AccionSemantica as){
+        matriz[estado][simbolo] = new Tupla(nuevoEstado,as);
+    }
+
     public void agregarTransicion(Integer estado, char simbolo, Integer nuevoEstado, AccionSemantica as){
         matriz[estado][convertir(simbolo)] = new Tupla(nuevoEstado,as);
     }
