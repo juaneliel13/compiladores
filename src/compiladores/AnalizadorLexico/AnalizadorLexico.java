@@ -30,6 +30,7 @@ public class AnalizadorLexico {
         char simbolo;
         AccionSemantica as;
         while (estado != Integer.MAX_VALUE) {
+
                 simbolo = fuente.charAt(indice);
                 as = matrizDeTransicion.accionSemantica(estado, simbolo);
                 if (as != null)
