@@ -29,16 +29,29 @@ public class AnalizadorLexico {
         estado = 0;
         char simbolo;
         AccionSemantica as;
-        while (estado != Integer.MAX_VALUE) {
-                simbolo = fuente.charAt(indice);
-                as = matrizDeTransicion.accionSemantica(estado, simbolo);
-                if (as != null)
-                    as.accion(simbolo);
-                estado = matrizDeTransicion.siguienteEstado(estado, simbolo);
-                //matrizDeTransicion.avanzar();
-                indice++;
-
+        while (indice < fuente.length() && estado != Integer.MAX_VALUE) {
+            simbolo = fuente.charAt(indice);
+            as = matrizDeTransicion.accionSemantica(estado, simbolo);
+            if (as != null)
+                as.accion(simbolo);
+            estado = matrizDeTransicion.siguienteEstado(estado, simbolo);
+            indice++;
         }
+
+        //Mandamos un espacio mas para que termine de identificar el ultimo token.
+        if(indice == fuente.length()){
+            as = matrizDeTransicion.accionSemantica(estado, ' ');
+            if (as != null)
+                as.accion(' ');
+            estado = matrizDeTransicion.siguienteEstado(estado, ' ');
+            indice++;
+        }
+
+        //Esto quiere decir que ya leeimos todooo
+        if(indice > fuente.length()){
+            token = 1000;
+        }
+
         return token;
     }
 

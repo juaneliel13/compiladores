@@ -138,6 +138,7 @@ public class MatrizDeTransicion {
                 return 21;
 
             case '\n':
+            case '\r':
                 return 22;
 
             case '\t':

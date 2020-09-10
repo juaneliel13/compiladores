@@ -16,6 +16,7 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println(data);
+        System.out.println("LOS TOKEN SON: ");
         AnalizadorLexico lexic = new AnalizadorLexico(data);
         for(int i = 0; i<12; i++){
             System.out.println(lexic.getToken());
