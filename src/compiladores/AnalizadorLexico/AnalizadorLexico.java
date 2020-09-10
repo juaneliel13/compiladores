@@ -29,14 +29,15 @@ public class AnalizadorLexico {
         estado = 0;
         char simbolo;
         AccionSemantica as;
-        while (estado != Integer.MAX_VALUE ) {
-            simbolo = fuente.charAt(indice);
-            as = matrizDeTransicion.accionSemantica(estado, simbolo);
-            if (as != null)
-                as.accion(simbolo);
-            estado = matrizDeTransicion.siguienteEstado(estado, simbolo);
-            //matrizDeTransicion.avanzar();
-            indice++;
+        while (estado != Integer.MAX_VALUE) {
+                simbolo = fuente.charAt(indice);
+                as = matrizDeTransicion.accionSemantica(estado, simbolo);
+                if (as != null)
+                    as.accion(simbolo);
+                estado = matrizDeTransicion.siguienteEstado(estado, simbolo);
+                //matrizDeTransicion.avanzar();
+                indice++;
+
         }
         return token;
     }
@@ -524,7 +525,7 @@ public class AnalizadorLexico {
         //matrizDeTransicion.agregarTransicion(16,22,);
         matrizDeTransicion.agregarTransicion(16, 23, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 24, 16, añadirBuffer);
-        matrizDeTransicion.agregarTransicion(16, 25, Integer.MAX_VALUE, añadirBuffer);
+        matrizDeTransicion.agregarTransicion(16, 25, Integer.MAX_VALUE, checkCadena);
     }
 
 }

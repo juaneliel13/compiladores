@@ -1,0 +1,4 @@
+'una cadena re piolita'
+algo
+aca
+ultimo
