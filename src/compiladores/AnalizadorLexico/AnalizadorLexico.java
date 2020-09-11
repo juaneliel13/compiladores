@@ -2,8 +2,9 @@ package compiladores.AnalizadorLexico;
 
 import compiladores.AnalizadorLexico.Acciones.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AnalizadorLexico {
 
@@ -13,12 +14,15 @@ public class AnalizadorLexico {
     public int indice;
     public int linea;
     MatrizDeTransicion matrizDeTransicion;
-    public List<String> palabrasReservadas;
+    public Set<String> palabrasReservadas;
+    public HashMap<String,HashMap<String,Object>> tablaDeSimbolos;
+
 
     public AnalizadorLexico(String fuente) {
         this.fuente = fuente;
         this.linea = 1;
         this.matrizDeTransicion = new MatrizDeTransicion(17, 26);
+        tablaDeSimbolos=new HashMap<String,HashMap<String,Object>>();
         cargarPalabrasReservadas();
         cargarMatrizDeTransicion();
     }
@@ -56,7 +60,7 @@ public class AnalizadorLexico {
     }
 
     private void cargarPalabrasReservadas() {
-        palabrasReservadas = new ArrayList<String>();
+        palabrasReservadas = new HashSet<String>();
         palabrasReservadas.add("IF");
         palabrasReservadas.add("THEN");
         palabrasReservadas.add("ELSE");
@@ -70,6 +74,7 @@ public class AnalizadorLexico {
     }
 
     private void cargarMatrizDeTransicion() {
+        this.matrizDeTransicion = new MatrizDeTransicion(17, 26);
         //Instanciando las Acciones Semanticas
         AccionSemantica inicBuffer = new InicBuffer(this);
         AccionSemantica añadirBuffer = new AñadirBuffer(this);

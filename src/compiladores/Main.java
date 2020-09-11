@@ -17,9 +17,10 @@ public class Main {
         }
         System.out.println(data);
         System.out.println("LOS TOKEN SON: ");
-        AnalizadorLexico lexic = new AnalizadorLexico(data);
+        AnalizadorLexico lexico = new AnalizadorLexico(data);
         for(int i = 0; i<12; i++){
-            System.out.println(lexic.getToken());
+            System.out.println(lexico.getToken());
         }
+        System.out.println(lexico.tablaDeSimbolos.toString());
     }
 }
