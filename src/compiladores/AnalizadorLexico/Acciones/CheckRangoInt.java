@@ -20,11 +20,11 @@ public class CheckRangoInt extends AccionSemantica {
             error=true;
             entero=(int)Math.pow(2,15)-1;//maximo permitido
         }
-        if (!(entero>= Math.pow(-2,15) && entero<=(Math.pow(2,15)-1)) || error) {
+        if (!(entero<=Math.pow(2,15)) || error) {
             System.out.println("Error en la linea " +lexico.linea +": Entero fuera de rango");
             entero = (int) Math.pow(2, 15) - 1; //maximo permitido
         }
-        //rango entre -2^15 y 2^15-1
+
 
         if(!lexico.tablaDeSimbolos.containsKey(String.valueOf(entero))) {
             HashMap<String, Object> aux = new HashMap<String, Object>();

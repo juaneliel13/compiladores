@@ -1,5 +1,5 @@
 'una cadena re piolita'
 algo
 aca
-a = 123145_i
+a = -32768_i
 ultimo
