@@ -33,11 +33,14 @@ lista_variables : ID {}
                 | ID ',' lista_variables {}
                 ;
 
-dec_procedimiento : PROC ID '(' lista_parametros? ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {}
+dec_procedimiento : PROC ID '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {}
                   ;
 
-lista_parametros : VAR? tipo ID',' lista_parametros {}
-                 | VAR? tipo ID {}
+lista_parametros : {}
+                 | VAR tipo ID ',' lista_parametros {}
+                 | VAR tipo ID {}
+                 | tipo ID ',' lista_parametros {}
+                 | tipo ID {}
                  ;
 
 ejecutable : asignacion {}
@@ -47,7 +50,7 @@ ejecutable : asignacion {}
            | iteracion {}
            ;
 
-asignacion : ID = expresion';' {}
+asignacion : ID = expresion ';' {}
            ;
 
 expresion : expresion '+' termino {}
@@ -81,17 +84,18 @@ bloque_ejecutables : ejecutable {}
                    | '{' ejecutable bloque_ejecutables '}'
                    ;
         
-salida : OUT'(' CADENA ')' ';' {} 
+salida : OUT '(' CADENA ')' ';' {} 
        ;
 
-llamada : ID'(' parametros? ')' ';' {} 
+llamada : ID '(' parametros ')' ';' {} 
         ;
 
-parametros : ID {}
+parametros : {}
+           | ID {}
            | ID ',' parametros {}
            ;
 
-iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT )' bloque_ejecutables {}
+iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {}
           ;
 
 incr_decr : UP {}
