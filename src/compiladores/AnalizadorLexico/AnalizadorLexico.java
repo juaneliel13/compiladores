@@ -71,6 +71,11 @@ public class AnalizadorLexico {
         palabrasReservadas.put("INTEGER",263);
         palabrasReservadas.put("FLOAT",264);
         palabrasReservadas.put("FOR",265);
+        palabrasReservadas.put("PROC",266);
+        palabrasReservadas.put("NI",267);
+        palabrasReservadas.put("VAR",268);
+        palabrasReservadas.put("UP",269);
+        palabrasReservadas.put("DOWN",270);
     }
 
     private void cargarMatrizDeTransicion() {
