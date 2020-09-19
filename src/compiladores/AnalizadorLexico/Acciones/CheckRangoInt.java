@@ -21,14 +21,14 @@ public class CheckRangoInt extends AccionSemantica {
             entero=(int)Math.pow(2,15)-1;//maximo permitido
         }
         if (!(entero<=Math.pow(2,15)) || error) {
-            System.out.println("Error en la linea " +lexico.linea +": Entero fuera de rango");
+            System.out.println("Error en la linea " + lexico.linea +": Entero fuera de rango");
             entero = (int) Math.pow(2, 15) - 1; //maximo permitido
         }
-
-
+        if(entero != (int) Math.pow(2, 15) - 1 && !error)
+            System.out.println("Se encontro el entero " + buffer + "i");
         if(!lexico.tablaDeSimbolos.containsKey(String.valueOf(entero))) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
-            aux.put("Tipo","ENTERO");
+            aux.put("Tipo","INT");
             lexico.tablaDeSimbolos.put(String.valueOf(entero),aux);
         }
         //leer el valor y checkear rango

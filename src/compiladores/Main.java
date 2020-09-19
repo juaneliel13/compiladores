@@ -15,11 +15,9 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(data);
-        System.out.println("LOS TOKEN SON: ");
         AnalizadorLexico lexico = new AnalizadorLexico(data);
-        for(int i = 0; i<12; i++){
-            System.out.println(lexico.getToken());
+        for(int i = 0; i<12+6+2; i++){
+            lexico.getToken();
         }
         System.out.println(lexico.tablaDeSimbolos.toString());
     }
