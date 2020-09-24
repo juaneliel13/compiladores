@@ -67,6 +67,8 @@ termino : termino '*' factor {}
 factor : ID {}
        | CTE_INT {}
        | CTE_FLOAT {}
+       | '-' CTE_INT {}
+       | '-' CTE_FLOAT {}
        ;
        
 seleccion : IF'(' expresion comparador expresion ')' bloque_ejecutables END_INF {}
