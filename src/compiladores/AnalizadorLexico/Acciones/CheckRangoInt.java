@@ -32,6 +32,7 @@ public class CheckRangoInt extends AccionSemantica {
             lexico.tablaDeSimbolos.put(String.valueOf(entero),aux);
         }
         //leer el valor y checkear rango
+        lexico.yylval=String.valueOf(entero);
         lexico.token = 11;
         buffer = "";
     }

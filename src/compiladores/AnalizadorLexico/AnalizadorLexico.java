@@ -1,6 +1,7 @@
 package compiladores.AnalizadorLexico;
 
 import compiladores.AnalizadorLexico.Acciones.*;
+import compiladores.Parser;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ public class AnalizadorLexico {
     MatrizDeTransicion matrizDeTransicion;
     public Map<String,Integer> palabrasReservadas;
     public HashMap<String,HashMap<String,Object>> tablaDeSimbolos;
+    public String yylval;
 
 
     public AnalizadorLexico(String fuente) {

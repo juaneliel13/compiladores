@@ -1,8 +1,9 @@
 %{
-
+package compiladores;
+import compiladores.AnalizadorLexico.AnalizadorLexico;
 %}
 
-%token IF THEN ELSE END_INF FUNC OUT RETURN INTEGER FLOAT FOR PROC NI VAR UP DOWN ID CTE_INT CTE_FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL COMP DISTINTO 
+%token IF THEN ELSE END_INF FUNC OUT RETURN INTEGER FLOAT FOR PROC NI VAR UP DOWN ID CTE_INT CTE_FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL COMP DISTINTO
 %start programa
 
 %%
@@ -15,11 +16,11 @@ conjunto_sentencias : sentencia {}
                     | sentencia conjunto_sentencias {}
                     ;
 
-sentencia : declarativa {} 
+sentencia : declarativa {}
           | ejecutable {}
           ;
 
-declarativa : dec_variable {} 
+declarativa : dec_variable {}
             | dec_procedimiento {}
             ;
 
@@ -29,20 +30,23 @@ dec_variable : tipo lista_variables ';' {}
 tipo : INTEGER {}
      | FLOAT {}
      ;
-    
+
 lista_variables : ID {}
                 | ID ',' lista_variables {}
                 ;
 
 dec_procedimiento : PROC ID '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {}
+                  | PROC ID '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {}
                   ;
 
-lista_parametros : {}
-                 | VAR tipo ID ',' lista_parametros {}
-                 | VAR tipo ID {}
-                 | tipo ID ',' lista_parametros {}
-                 | tipo ID {}
+lista_parametros :parametro {}
+                 | parametro  ',' parametro  {}
+                 | parametro  ',' parametro  ',' parametro  {}
                  ;
+
+parametro: ID {}
+	   | VAR ID {}
+	   ;
 
 ejecutable : asignacion {}
            | seleccion {}
@@ -51,7 +55,7 @@ ejecutable : asignacion {}
            | iteracion {}
            ;
 
-asignacion : ID = expresion ';' {}
+asignacion : ID '=' expresion ';' {}
            ;
 
 expresion : expresion '+' termino {}
@@ -65,12 +69,12 @@ termino : termino '*' factor {}
         ;
 
 factor : ID {}
-       | CTE_INT {}
+       | CTE_INT { $1}
        | CTE_FLOAT {}
        | '-' CTE_INT {}
        | '-' CTE_FLOAT {}
        ;
-       
+
 seleccion : IF'(' expresion comparador expresion ')' bloque_ejecutables END_INF {}
           | IF'(' expresion comparador expresion ')' bloque_ejecutables ELSE bloque_ejecutables END_INF {}
           ;
@@ -86,15 +90,15 @@ comparador : '<' {}
 bloque_ejecutables : ejecutable {}
                    | '{' ejecutable bloque_ejecutables '}'
                    ;
-        
-salida : OUT '(' CADENA ')' ';' {} 
+
+salida : OUT '(' CADENA ')' ';' {}
        ;
 
-llamada : ID '(' parametros ')' ';' {} 
+llamada : ID '(' parametros ')' ';' {}
+	| ID '(' ')' ';' {}
         ;
 
-parametros : {}
-           | ID {}
+parametros : ID {}
            | ID ',' parametros {}
            ;
 
@@ -106,4 +110,26 @@ incr_decr : UP {}
           ;
 
 %%
+
+AnalizadorLexico lex;
+
+ public Parser(AnalizadorLexico lex)
+{
+  this.lex = lex;
+
+
+}
+
+int yylex(){
+
+	yylval=new ParserVal(lex.yylval);
+	return lex.getToken();
+
+}
+
+void yyerror(String a){
+
+
+}
+
 

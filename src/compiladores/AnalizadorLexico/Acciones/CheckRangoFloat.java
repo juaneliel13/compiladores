@@ -38,6 +38,7 @@ public class CheckRangoFloat extends AccionSemantica {
             lexico.tablaDeSimbolos.put(String.valueOf(flotante),aux);
         }
         //leer el valor y checkear rango
+        lexico.yylval=String.valueOf(flotante);
         lexico.token = 12;
         lexico.indice--;
         buffer = "";
