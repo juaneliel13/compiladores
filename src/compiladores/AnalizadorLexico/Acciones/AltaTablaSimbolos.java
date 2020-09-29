@@ -25,7 +25,7 @@ public class AltaTablaSimbolos extends AccionSemantica {
         }
 
         lexico.token = Parser.ID;
-        lexico.yylval.sval = buffer;
+        lexico.yylval = buffer;
         lexico.indice--;
         buffer = "";
     }

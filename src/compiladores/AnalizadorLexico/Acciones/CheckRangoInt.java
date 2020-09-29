@@ -39,7 +39,7 @@ public class CheckRangoInt extends AccionSemantica {
 
         }
         //leer el valor y checkear rango
-        lexico.yylval.sval = String.valueOf(entero);
+        lexico.yylval= String.valueOf(entero);
         lexico.token = Parser.CTE_INT;
         buffer = "";
     }

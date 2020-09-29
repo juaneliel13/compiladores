@@ -33,7 +33,7 @@ public class CheckCadena extends AccionSemantica {
             aux.put("Tipo", "STRING");
             lexico.tablaDeSimbolos.put(buffer, aux);
         }
-        lexico.yylval.sval = buffer;
+        lexico.yylval= buffer;
         lexico.token = Parser.CADENA;
         buffer = "";
     }

@@ -20,6 +20,7 @@ public class CheckPalabraReservada extends AccionSemantica {
         }
         lexico.indice--;
         buffer = "";
+        lexico.yylval=null;
     }
 
 }

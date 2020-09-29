@@ -17,7 +17,8 @@ public class AnalizadorLexico {
     MatrizDeTransicion matrizDeTransicion;
     public Map<String, Integer> palabrasReservadas;
     public HashMap<String, HashMap<String, Object>> tablaDeSimbolos;
-    public ParserVal yylval;
+    public String yylval;
+
 
 
     public AnalizadorLexico(String fuente) {
@@ -25,12 +26,13 @@ public class AnalizadorLexico {
         this.linea = 1;
         this.matrizDeTransicion = new MatrizDeTransicion(17, 26);
         this.tablaDeSimbolos = new HashMap<String, HashMap<String, Object>>();
-        this.yylval = new ParserVal();
+
         cargarPalabrasReservadas();
         cargarMatrizDeTransicion();
     }
 
     public Integer getToken() {
+
 
         token = -1;
         estado = 0;

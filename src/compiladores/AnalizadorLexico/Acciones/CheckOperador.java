@@ -53,5 +53,6 @@ public class CheckOperador extends AccionSemantica {
         }
         System.out.println("Se encontro el operador \"" + buffer + simbolo + "\" en la linea " + lexico.linea);
         buffer = "";
+        //lexico.yylval.sval=null;
     }
 }

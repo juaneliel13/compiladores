@@ -407,9 +407,8 @@ public Parser(AnalizadorLexico lex)
 
 int yylex()
 {
-    int aux = lex.getToken();
-    this.yylval = lex.yylval;
-    System.out.println("en yylex: " + lex.yylval.sval);
+	int aux= lex.getToken();
+	this.yylval = new ParserVal(lex.yylval);
 	return aux;
 }
 
@@ -420,7 +419,7 @@ void yyerror(String a)
 }
 
 
-//#line 350 "Parser.java"
+//#line 351 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -588,11 +587,11 @@ case 3:
 break;
 case 4:
 //#line 20 "gramatica.y"
-{ System.out.println("una wea");}
+{System.out.println("Se encontró una sentencia declarativa"); }
 break;
 case 5:
 //#line 21 "gramatica.y"
-{}
+{System.out.println("Se encontró una sentencia ejecutable"); }
 break;
 case 6:
 //#line 24 "gramatica.y"
@@ -624,7 +623,7 @@ case 12:
 break;
 case 13:
 //#line 39 "gramatica.y"
-{}
+{System.out.println("procedimiento " + val_peek(9).sval);}
 break;
 case 14:
 //#line 40 "gramatica.y"
@@ -688,7 +687,7 @@ case 28:
 break;
 case 29:
 //#line 67 "gramatica.y"
-{System.out.println("una wea divisoria entre "  + val_peek(2).sval + " / " + val_peek(1).sval);}
+{System.out.println("una wea divisoria entre "  + val_peek(2).sval + " / " + val_peek(0).sval);}
 break;
 case 30:
 //#line 68 "gramatica.y"
@@ -718,7 +717,7 @@ break;
 case 35:
 //#line 80 "gramatica.y"
 {
-       			int i = -(int) Integer.parseInt(val_peek(1).sval);
+       			int i = -(int) Integer.parseInt(val_peek(0).sval);
 			if (!lex.tablaDeSimbolos.containsKey(String.valueOf(i))) {
                                     HashMap<String, Object> aux = new HashMap<String, Object>();
                                     aux.put("Tipo", "INT");
@@ -752,7 +751,7 @@ case 36:
 break;
 case 37:
 //#line 111 "gramatica.y"
-{}
+{System.out.println(val_peek(6).sval+" "+val_peek(4).sval); }
 break;
 case 38:
 //#line 112 "gramatica.y"
@@ -809,10 +808,10 @@ break;
 case 52:
 //#line 138 "gramatica.y"
 {
-			String id_for = val_peek(12).sval;
-			String id_comp = val_peek(10).sval;
-			System.out.println("$2: " + val_peek(12).sval);
-			System.out.println("$4: " + val_peek(10).sval);
+			String id_for = val_peek(11).sval;
+			String id_comp = val_peek(7).sval;
+			System.out.println("$3: " + val_peek(11).sval);
+			System.out.println("$7: " + val_peek(7).sval);
 			if(!id_for.equals(id_comp)) {
 				System.out.println("Error en la linea " + lex.linea + ": Error for(detallar mas adelante).");
 			}
@@ -826,7 +825,7 @@ case 54:
 //#line 150 "gramatica.y"
 {}
 break;
-//#line 751 "Parser.java"
+//#line 752 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
