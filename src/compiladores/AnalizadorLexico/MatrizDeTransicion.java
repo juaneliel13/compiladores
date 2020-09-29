@@ -170,6 +170,7 @@ public class MatrizDeTransicion {
     }
 
     public AccionSemantica accionSemantica(Integer estado, char simbolo) {
+        //System.out.println("estado: " + estado + " simbolo: \'" + simbolo + "\' convertir(simbolo): " + convertir(simbolo));
         return matriz[estado][convertir(simbolo)].getAS();
     }
 

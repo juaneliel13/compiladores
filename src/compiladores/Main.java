@@ -16,9 +16,8 @@ public class Main {
             e.printStackTrace();
         }
         AnalizadorLexico lexico = new AnalizadorLexico(data);
-        for(int i = 0; i<12+6+2; i++){
-            lexico.getToken();
-        }
+        Parser parser = new Parser(lexico);
+        System.out.println(parser.yyparse());
         System.out.println(lexico.tablaDeSimbolos.toString());
     }
 }

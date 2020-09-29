@@ -2,9 +2,9 @@ package compiladores.AnalizadorLexico;
 
 import compiladores.AnalizadorLexico.Acciones.*;
 import compiladores.Parser;
+import compiladores.ParserVal;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class AnalizadorLexico {
@@ -15,16 +15,17 @@ public class AnalizadorLexico {
     public int indice;
     public int linea;
     MatrizDeTransicion matrizDeTransicion;
-    public Map<String,Integer> palabrasReservadas;
-    public HashMap<String,HashMap<String,Object>> tablaDeSimbolos;
-    public String yylval;
+    public Map<String, Integer> palabrasReservadas;
+    public HashMap<String, HashMap<String, Object>> tablaDeSimbolos;
+    public ParserVal yylval;
 
 
     public AnalizadorLexico(String fuente) {
         this.fuente = fuente;
         this.linea = 1;
         this.matrizDeTransicion = new MatrizDeTransicion(17, 26);
-        tablaDeSimbolos=new HashMap<String,HashMap<String,Object>>();
+        this.tablaDeSimbolos = new HashMap<String, HashMap<String, Object>>();
+        this.yylval = new ParserVal();
         cargarPalabrasReservadas();
         cargarMatrizDeTransicion();
     }
@@ -45,7 +46,7 @@ public class AnalizadorLexico {
         }
 
         //Mandamos un espacio mas para que termine de identificar el ultimo token.
-        if(indice == fuente.length()){
+        if (indice == fuente.length() && estado != Integer.MAX_VALUE) {
             as = matrizDeTransicion.accionSemantica(estado, ' ');
             if (as != null)
                 as.accion(' ');
@@ -54,30 +55,29 @@ public class AnalizadorLexico {
         }
 
         //Esto quiere decir que ya leeimos todooo
-        if(indice > fuente.length()){
-            token = 1000;
+        if (indice > fuente.length()) {
+            token = 0;
         }
-
         return token;
     }
 
     private void cargarPalabrasReservadas() {
         palabrasReservadas = new HashMap<String, Integer>();
-        palabrasReservadas.put("IF",256);
-        palabrasReservadas.put("THEN",257);
-        palabrasReservadas.put("ELSE",258);
-        palabrasReservadas.put("END_IF",259);
-        palabrasReservadas.put("OUT",260);
-        palabrasReservadas.put("FUNC",261);
-        palabrasReservadas.put("RETURN",262);
-        palabrasReservadas.put("INTEGER",263);
-        palabrasReservadas.put("FLOAT",264);
-        palabrasReservadas.put("FOR",265);
-        palabrasReservadas.put("PROC",266);
-        palabrasReservadas.put("NI",267);
-        palabrasReservadas.put("VAR",268);
-        palabrasReservadas.put("UP",269);
-        palabrasReservadas.put("DOWN",270);
+        palabrasReservadas.put("IF", (int) Parser.IF);
+        palabrasReservadas.put("THEN", (int) Parser.THEN);
+        palabrasReservadas.put("ELSE", (int) Parser.ELSE);
+        palabrasReservadas.put("END_IF", (int) Parser.END_INF);
+        palabrasReservadas.put("OUT", (int) Parser.OUT);
+        palabrasReservadas.put("FUNC", (int) Parser.FUNC);
+        palabrasReservadas.put("RETURN", (int) Parser.RETURN);
+        palabrasReservadas.put("INTEGER", (int) Parser.INTEGER);
+        palabrasReservadas.put("FLOAT", (int) Parser.FLOAT);
+        palabrasReservadas.put("FOR", (int) Parser.FOR);
+        palabrasReservadas.put("PROC", (int) Parser.PROC);
+        palabrasReservadas.put("NI", (int) Parser.NI);
+        palabrasReservadas.put("VAR", (int) Parser.VAR);
+        palabrasReservadas.put("UP", (int) Parser.UP);
+        palabrasReservadas.put("DOWN", (int) Parser.DOWN);
     }
 
     private void cargarMatrizDeTransicion() {
@@ -103,13 +103,13 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(0, 5, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(0, 6, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(0, 7, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(0, 8, 8, null);
-        matrizDeTransicion.agregarTransicion(0,9,9,null);
+        matrizDeTransicion.agregarTransicion(0, 8, Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(0, 9, 9, null);
         matrizDeTransicion.agregarTransicion(0, 10, 13, inicBuffer);
         matrizDeTransicion.agregarTransicion(0, 11, 12, inicBuffer);
         matrizDeTransicion.agregarTransicion(0, 12, 11, inicBuffer);
         matrizDeTransicion.agregarTransicion(0, 13, 14, inicBuffer);
-        matrizDeTransicion.agregarTransicion(0,14,0,null);//error);
+        matrizDeTransicion.agregarTransicion(0, 14, 0, null);//error);
         matrizDeTransicion.agregarTransicion(0, 15, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(0, 16, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(0, 17, Integer.MAX_VALUE, checkOperador);
@@ -549,7 +549,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(16, 19, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 20, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 21, 16, añadirBuffer);
-        matrizDeTransicion.agregarTransicion(16,22,16,saltoLineaCadena);
+        matrizDeTransicion.agregarTransicion(16, 22, 16, saltoLineaCadena);
         matrizDeTransicion.agregarTransicion(16, 23, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 24, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 25, Integer.MAX_VALUE, checkCadena);

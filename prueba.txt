@@ -1,18 +1,5 @@
-'una cadena re piol
-ita'
-algoooooooalgooooooo_____
-12.666f-3
-aca
-a = -32768_i
-ultimo
-IF
-THEN
-ELSE
-END_IF
-OUT
-FUNC
-RETURN
-FOR
-INTEGER
-FLOAT
-Algo
+a=-3.0;
+a=-3.0;
+a=-3.0;
+a=-3.0;
+a=-3.0;
