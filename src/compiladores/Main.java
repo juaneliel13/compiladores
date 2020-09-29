@@ -17,7 +17,7 @@ public class Main {
         }
         AnalizadorLexico lexico = new AnalizadorLexico(data);
         Parser parser = new Parser(lexico);
-        System.out.println(parser.yyparse());
+        System.out.println("RETURN DEL YYPARSE: " + parser.yyparse());
         System.out.println(lexico.tablaDeSimbolos.toString());
     }
 }

@@ -135,7 +135,15 @@ parametros : ID {}
            | ID ',' parametros {}
            ;
 
-iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {}
+iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {
+			String id_for = $2.sval;
+			String id_comp = $4.sval;
+			System.out.println("$2: " + $2.sval);
+			System.out.println("$4: " + $4.sval);
+			if(!id_for.equals(id_comp)) {
+				System.out.println("Error en la linea " + lex.linea + ": Error for(detallar mas adelante).");
+			}
+		}
           ;
 
 incr_decr : UP {}

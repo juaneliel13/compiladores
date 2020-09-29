@@ -396,7 +396,7 @@ final static String yyrule[] = {
 "incr_decr : DOWN",
 };
 
-//#line 146 "gramatica.y"
+//#line 154 "gramatica.y"
 
 AnalizadorLexico lex;
 
@@ -407,8 +407,10 @@ public Parser(AnalizadorLexico lex)
 
 int yylex()
 {
-	this.yylval = lex.yylval;
-	return lex.getToken();
+    int aux = lex.getToken();
+    this.yylval = lex.yylval;
+    System.out.println("en yylex: " + lex.yylval.sval);
+	return aux;
 }
 
 void yyerror(String a)
@@ -806,17 +808,25 @@ case 51:
 break;
 case 52:
 //#line 138 "gramatica.y"
-{}
+{
+			String id_for = val_peek(12).sval;
+			String id_comp = val_peek(10).sval;
+			System.out.println("$2: " + val_peek(12).sval);
+			System.out.println("$4: " + val_peek(10).sval);
+			if(!id_for.equals(id_comp)) {
+				System.out.println("Error en la linea " + lex.linea + ": Error for(detallar mas adelante).");
+			}
+		}
 break;
 case 53:
-//#line 141 "gramatica.y"
+//#line 149 "gramatica.y"
 {}
 break;
 case 54:
-//#line 142 "gramatica.y"
+//#line 150 "gramatica.y"
 {}
 break;
-//#line 743 "Parser.java"
+//#line 751 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
