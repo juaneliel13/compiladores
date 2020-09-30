@@ -121,7 +121,8 @@ comparador : '<' {}
            ;
 
 bloque_ejecutables : ejecutable {}
-                   | '{' ejecutable bloque_ejecutables '}'
+		   | '{' ejecutable '}' {}
+                   | '{' ejecutable bloque_ejecutables '}' {}
                    ;
 
 salida : OUT '(' CADENA ')' ';' {}
