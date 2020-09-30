@@ -1,8 +1,0 @@
-/% 
-( ) { [ ) }
-
-gg
-algo
-xddd
-%/
-'una cadena re piolita'
