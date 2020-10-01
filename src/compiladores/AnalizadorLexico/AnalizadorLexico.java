@@ -68,7 +68,7 @@ public class AnalizadorLexico {
         palabrasReservadas.put("IF", (int) Parser.IF);
         palabrasReservadas.put("THEN", (int) Parser.THEN);
         palabrasReservadas.put("ELSE", (int) Parser.ELSE);
-        palabrasReservadas.put("END_IF", (int) Parser.END_INF);
+        palabrasReservadas.put("END_IF", (int) Parser.END_IF);
         palabrasReservadas.put("OUT", (int) Parser.OUT);
         palabrasReservadas.put("FUNC", (int) Parser.FUNC);
         palabrasReservadas.put("RETURN", (int) Parser.RETURN);

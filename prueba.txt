@@ -1,5 +1,2 @@
-/% hola
-
-
-%/
-hola=3/2;
+IF (a<b) THEN a=b;
+c=d;
