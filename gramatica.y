@@ -13,17 +13,17 @@ import java.util.HashMap;
 programa : conjunto_sentencias {}
          ;
 
-conjunto_sentencias : sentencia
-                    | sentencia  conjunto_sentencias {}
-                    | error ';' {System.out.println("Error en la linea " +lex.linea + ": Sentencia mal escrita."+ $1.sval);}
+conjunto_sentencias : sentencia ';' {}
+                    | sentencia ';' conjunto_sentencias {}
+                    | sentencia {System.out.println("Error en la linea " +lex.linea + ": Se esperaba ;.");}
+                    | sentencia conjunto_sentencias {System.out.println("Error en la linea " +lex.linea + ": Se esperaba ;.");}
+                    | error ';' {System.out.println("Error en la linea " +lex.linea + ": Sentencia mal escrita.");}
                     ;
 
 
 sentencia : declarativa {System.out.println("Se encontró una sentencia declarativa"); }
           | ejecutable {System.out.println("Se encontró una sentencia ejecutable"); }
-
-
-          ;
+	  ;
 
 declarativa : dec_variable {}
             | dec_procedimiento {}
@@ -55,13 +55,10 @@ parametro: ID {}
 	   | VAR VAR ID {System.out.println("Error en la linea " +lex.linea + ": Se encontró VAR VAR en lugar de VAR.");}
 	   ;
 
-ejecutable : asignacion ';' {}
-           | asignacion {System.out.println("Error en la linea " +lex.linea + ": Se esperaba ;.");}
+ejecutable : asignacion {}
            | seleccion {}
-           | salida ';' {}
-           | salida {System.out.println("Error en la linea " +lex.linea + ": Se esperaba ;.");}
-           | llamada ';'{}
-           | llamada {System.out.println("Error en la linea " +lex.linea + ": Se esperaba ;.");}
+           | salida {}
+           | llamada{}
            | iteracion {}
            ;
 
@@ -122,7 +119,7 @@ seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_then END_IF {System.
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {System.out.println("una wea if");}
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then bloque_ejecutables_else END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ELSE"); }
           | IF '(' condicion_if THEN bloque_ejecutables_then END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de la condición"); }
-         // | IF '(' condicion_if ')' THEN bloque_ejecutables_then {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
+          //| IF '(' condicion_if ')' THEN bloque_ejecutables_then {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
           | IF '(' condicion_if THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de la condición"); }
        //   | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
           ;
@@ -145,9 +142,9 @@ bloque_ejecutables_then:bloque_ejecutables {}
 bloque_ejecutables_else:bloque_ejecutables{}
 		     ;
 
-bloque_ejecutables : ejecutable {}
-		   | '{' ejecutable  '}' {}
-                   | '{' ejecutable bloque_ejecutables '}' {}
+bloque_ejecutables : ejecutable ';' {}
+		   | '{' ejecutable ';' '}' {}
+                   | '{' ejecutable ';' bloque_ejecutables '}' {}
                    ;
 
 salida : OUT '(' CADENA ')' {}
@@ -187,7 +184,7 @@ AnalizadorLexico lex;
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
-	yydebug=true;
+	//yydebug=true;
 }
 
 int yylex()
