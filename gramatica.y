@@ -19,6 +19,8 @@ conjunto_sentencias : sentencia {}
 
 sentencia : declarativa {System.out.println("Se encontró una sentencia declarativa"); }
           | ejecutable {System.out.println("Se encontró una sentencia ejecutable"); }
+          | error ';' {System.out.println("Error en la linea " +lex.linea + ": Sentencia mal escrita.");}
+
           ;
 
 declarativa : dec_variable {}
@@ -26,6 +28,7 @@ declarativa : dec_variable {}
             ;
 
 dec_variable : tipo lista_variables ';' {}
+	     | tipo lista_variables '=' expresion ';' {System.out.println("Error en la linea " +lex.linea + ": Asignacion en la declaración.");}
              ;
 
 tipo : INTEGER {}
@@ -47,6 +50,7 @@ lista_parametros :parametro {}
 
 parametro: ID {}
 	   | VAR ID {}
+	   | VAR VAR ID {System.out.println("Error en la linea " +lex.linea + ": Se encontró VAR VAR en lugar de VAR.");}
 	   ;
 
 ejecutable : asignacion {}
@@ -57,16 +61,23 @@ ejecutable : asignacion {}
            ;
 
 asignacion : ID '=' expresion ';' {}
+	   | ID COMP expresion ';' {System.out.println("Error en la linea " +lex.linea + ": Se encontró == en lugar de =.");}
            ;
 
 expresion : expresion '+' termino {}
           | expresion '-' termino {}
           | termino {System.out.println("una wea termino");}
-          ;
+          | expresion '+' '+' termino {System.out.println("Error en la linea " +lex.linea + ": Dos operadores + juntos.");}
+         // | expresion '-' '-' termino {System.out.println("Error en la linea " +lex.linea + ": Dos operadores - juntos.");}
+	 // | expresion termino {System.out.println("Error en la linea " +lex.linea + ": Se esperaba un operador.");}
+	  ;
 
 termino : termino '/' factor {System.out.println("una wea divisoria entre "  + $1.sval + " / " + $3.sval);}
         | termino '*' factor {System.out.println("una wea multiplicatoria");}
         | factor {System.out.println("una wea factor");}
+        | termino '/' '/' factor {System.out.println("Error en la linea " +lex.linea + ": Dos operadores / juntos.");}
+        | termino '*' '*' factor {System.out.println("Error en la linea " +lex.linea + ": Dos operadores * juntos.");}
+       // | termino factor {System.out.println("Error en la linea " +lex.linea + ": Se esperaba un operador.");}
         ;
 
 factor : ID {System.out.println("una wea identificatoria");}
@@ -92,7 +103,7 @@ factor : ID {System.out.println("una wea identificatoria");}
                         	lex.tablaDeSimbolos.remove(String.valueOf(-i));
 
        		     }
-       | '-' CTE_FLOAT {
+      | '-' CTE_FLOAT {
 			float f = -(float) Float.parseFloat($1.sval);
 			if (!lex.tablaDeSimbolos.containsKey(String.valueOf(f))) {
 				    HashMap<String, Object> aux = new HashMap<String, Object>();
@@ -110,6 +121,10 @@ factor : ID {System.out.println("una wea identificatoria");}
 
 seleccion : IF '(' expresion comparador expresion ')' THEN bloque_ejecutables END_INF {System.out.println($3.sval+" "+$5.sval); }
           | IF '(' expresion comparador expresion ')' THEN bloque_ejecutables ELSE bloque_ejecutables END_INF {System.out.println("una wea if");}
+          | IF '(' expresion comparador expresion THEN bloque_ejecutables END_INF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de la condición"); }
+          //| IF '(' expresion comparador expresion ')' THEN bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
+          | IF '(' expresion comparador expresion THEN bloque_ejecutables ELSE bloque_ejecutables END_INF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de la condición"); }
+          //| IF '(' expresion comparador expresion ')' THEN bloque_ejecutables ELSE bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
           ;
 
 comparador : '<' {}
@@ -130,11 +145,12 @@ salida : OUT '(' CADENA ')' ';' {}
 
 llamada : ID '(' parametros ')' ';' {}
 	| ID '(' ')' ';' {}
+	| ID '(' parametros ';' {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de los parametros");}
         ;
 
 parametros : ID {}
-           | ID ',' parametros {}
-           ;
+           | ID ',' ID {}
+           | ID ',' ID ',' ID {}
 
 iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {
 			String id_for = $3.sval;
@@ -145,6 +161,9 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 				System.out.println("Error en la linea " + lex.linea + ": Error for(detallar mas adelante).");
 			}
 		}
+	  | FOR '(' ID '=' CTE_INT ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ; pero se recibio "+ $6.sval );}
+          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ; pero se recibio "+ $10.sval );}
+          | FOR '(' ID '=' CTE_INT ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ": Se esperaban ; en la sentencia FOR" );}
           ;
 
 incr_decr : UP {}

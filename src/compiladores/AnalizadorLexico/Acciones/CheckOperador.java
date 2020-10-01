@@ -45,7 +45,12 @@ public class CheckOperador extends AccionSemantica {
                         lexico.token = '=';
                         lexico.indice--;
                     }
+
                     break;
+
+                case "/":
+                        lexico.token=buffer.charAt(0);
+                        lexico.indice--;
                 default:
 
                     break;

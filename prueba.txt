@@ -1,1 +1,5 @@
-IF (1_i<2_i) THEN a=b; END_IF
+/% hola
+
+
+%/
+hola=3/2;
