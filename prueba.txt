@@ -1,2 +1,2 @@
-IF (a<b) THEN d=a;
+IF (a<b) THEN d=a;;
 a=b;

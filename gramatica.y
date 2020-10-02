@@ -119,7 +119,7 @@ seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_then END_IF {System.
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {System.out.println("una wea if");}
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then bloque_ejecutables_else END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ELSE"); }
           | IF '(' condicion_if THEN bloque_ejecutables_then END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de la condición"); }
-          //| IF '(' condicion_if ')' THEN bloque_ejecutables_then {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
+        //  | IF '(' condicion_if ')' THEN bloque_ejecutables_then {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
           | IF '(' condicion_if THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba ) luego de la condición"); }
        //   | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
           ;
