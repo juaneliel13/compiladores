@@ -35,7 +35,7 @@ public class CheckOperador extends AccionSemantica {
                     if (simbolo == '=') {
                         lexico.token = Parser.DISTINTO;
                     } else {
-                        //error xd
+                        //TODO: hay que incluir el tema del error
                     }
                     break;
                 case "=":

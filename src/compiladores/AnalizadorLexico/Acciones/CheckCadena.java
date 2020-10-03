@@ -14,7 +14,7 @@ public class CheckCadena extends AccionSemantica {
     @Override
     public void accion(char simbolo) {
         //acomodar la wea
-        buffer = buffer.replace("'", "");
+        buffer += "'";
         String cadenaSinSalto = buffer.replace("\r", "").replace("\n", "");
         boolean error = false;
         if (!cadenaSinSalto.equals(buffer)) {
@@ -25,7 +25,7 @@ public class CheckCadena extends AccionSemantica {
         if (error) {
             System.out.println("Error en la linea " + lexico.linea + ": salto de linea en la cadena");
         } else {
-            System.out.println("Se encontro la cadena \'" + buffer + "\' en la linea " + lexico.linea);
+            System.out.println("Se encontro la cadena " + buffer + " en la linea " + lexico.linea);
         }
 
         if (!lexico.tablaDeSimbolos.containsKey(buffer)) {

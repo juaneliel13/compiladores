@@ -27,7 +27,13 @@ public class CheckRangoFloat extends AccionSemantica {
         }
 
         if (flotante > 3.40282347e+38f || (flotante < 1.17549435e-38f && flotante != 0.0f) || error) {
-            System.out.println("Error en la linea " + lexico.linea + ": Float fuera de rango");
+            if(!buffer.equals(".")) {
+                System.out.println("Error en la linea " + lexico.linea + ": Float fuera de rango");
+            } else {
+                System.out.println("Error en la linea " + lexico.linea + ": '.' sin sentido");
+                lexico.estado=0;
+                return;
+            }
             error = true;
             flotante = (float) 0.0; //error
         }
@@ -39,7 +45,7 @@ public class CheckRangoFloat extends AccionSemantica {
             aux.put("Contador",1);
             lexico.tablaDeSimbolos.put(String.valueOf(flotante), aux);
         } else {
-            float aux = (float) lexico.tablaDeSimbolos.get(String.valueOf(flotante)).get("Contador");
+            int aux = (int) lexico.tablaDeSimbolos.get(String.valueOf(flotante)).get("Contador");
             aux++;
             lexico.tablaDeSimbolos.get(String.valueOf(flotante)).put("Contador",aux);
         }

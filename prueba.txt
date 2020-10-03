@@ -1,2 +1,20 @@
-IF (a<b) THEN d=a;;
-a=b;
+2.0
+'2.0'
+. indentificador
+.9
+9.0f-1
+ho?la -> hola
+hola
+hla
+0
+2_í
+aa
+a
+a
+a
+a
+a
+a
+a
+a
+ai
