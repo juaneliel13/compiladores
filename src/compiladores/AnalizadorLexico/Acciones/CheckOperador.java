@@ -18,6 +18,7 @@ public class CheckOperador extends AccionSemantica {
                 case "<":
                     if (simbolo == '=') {
                         lexico.token = Parser.MENOR_IGUAL;
+                        buffer += simbolo;
                     } else {
                         lexico.token = '<';
                         lexico.indice--;
@@ -26,21 +27,25 @@ public class CheckOperador extends AccionSemantica {
                 case ">":
                     if (simbolo == '=') {
                         lexico.token = Parser.MAYOR_IGUAL;
+                        buffer += simbolo;
                     } else {
                         lexico.token = '>';
                         lexico.indice--;
                     }
                     break;
                 case "!":
-                    if (simbolo == '=') {
-                        lexico.token = Parser.DISTINTO;
-                    } else {
-                        //TODO: hay que incluir el tema del error
+                    lexico.token = Parser.DISTINTO;
+                    if (simbolo == '=')
+                        buffer += simbolo;
+                    else {
+                        lexico.error = true;
+                        System.out.println();
                     }
                     break;
                 case "=":
                     if (simbolo == '=') {
                         lexico.token = Parser.COMP;
+                        buffer += simbolo;
                     } else {
                         lexico.token = '=';
                         lexico.indice--;
@@ -49,15 +54,15 @@ public class CheckOperador extends AccionSemantica {
                     break;
 
                 case "/":
-                        lexico.token=buffer.charAt(0);
-                        lexico.indice--;
+                    lexico.token = buffer.charAt(0);
+                    lexico.indice--;
                 default:
 
                     break;
             }
         }
-        System.out.println("Se encontro el operador \"" + buffer + simbolo + "\" en la linea " + lexico.linea);
+        System.out.println("Se encontro el operador \"" + buffer + "\" en la linea " + lexico.linea);
         buffer = "";
-        //lexico.yylval.sval=null;
+        lexico.yylval = null;
     }
 }

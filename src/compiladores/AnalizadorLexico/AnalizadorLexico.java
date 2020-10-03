@@ -14,6 +14,7 @@ public class AnalizadorLexico {
     public int estado;
     public int indice;
     public int linea;
+    public boolean error;
     MatrizDeTransicion matrizDeTransicion;
     public Map<String, Integer> palabrasReservadas;
     public HashMap<String, HashMap<String, Object>> tablaDeSimbolos;
@@ -24,6 +25,7 @@ public class AnalizadorLexico {
     public AnalizadorLexico(String fuente) {
         this.fuente = fuente;
         this.linea = 1;
+        this.error = false;
         this.matrizDeTransicion = new MatrizDeTransicion(17, 26);
         this.tablaDeSimbolos = new HashMap<String, HashMap<String, Object>>();
 
@@ -377,7 +379,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(9, 23, 9, null);
         matrizDeTransicion.agregarTransicion(9, 24, 9, null);
         matrizDeTransicion.agregarTransicion(9, 25, 9, null);
-        matrizDeTransicion.agregarTransicion(9, 26, 9, errorSimboloNoReconocido); //error chirimbolo
+        matrizDeTransicion.agregarTransicion(9, 26, 9, null); //error chirimbolo
         //FILA: 10
         matrizDeTransicion.agregarTransicion(10, 0, 9, null);
         matrizDeTransicion.agregarTransicion(10, 1, 9, null);
@@ -405,7 +407,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(10, 23, 9, null);
         matrizDeTransicion.agregarTransicion(10, 24, 9, null);
         matrizDeTransicion.agregarTransicion(10, 25, 9, null);
-        matrizDeTransicion.agregarTransicion(10, 26, 9, errorSimboloNoReconocido); //error chirimbolo
+        matrizDeTransicion.agregarTransicion(10, 26, 9, null); //error chirimbolo
         //FILA: 11
         matrizDeTransicion.agregarTransicion(11, 0, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(11, 1, Integer.MAX_VALUE, checkOperador);
