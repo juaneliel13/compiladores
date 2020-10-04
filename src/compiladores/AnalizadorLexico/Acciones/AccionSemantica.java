@@ -8,6 +8,7 @@ public abstract class AccionSemantica {
 
     public AccionSemantica(AnalizadorLexico lexico) {
         this.lexico = lexico;
+        buffer="";
     }
 
     public abstract void accion(char simbolo);

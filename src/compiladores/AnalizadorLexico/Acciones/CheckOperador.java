@@ -40,7 +40,6 @@ public class CheckOperador extends AccionSemantica {
                         buffer += simbolo;
                     else {
                         lexico.error = true;
-                        System.out.println();
                     }
                     break;
                 case "=":

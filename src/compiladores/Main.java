@@ -16,10 +16,10 @@ public class Main {
             e.printStackTrace();
         }
         AnalizadorLexico lexico = new AnalizadorLexico(data);
-        /*for(int i=-1; i!=0;i=lexico.getToken()){
+      /*  for(int i=-1; i!=0;i=lexico.getToken()){
 
         }*/
-        Parser parser = new Parser(lexico);
+       Parser parser = new Parser(lexico);
         System.out.println("RETURN DEL YYPARSE: " + parser.yyparse());
         System.out.println(lexico.tablaDeSimbolos.toString());
     }

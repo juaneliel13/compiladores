@@ -43,9 +43,9 @@ public class AnalizadorLexico {
         while (indice < fuente.length() && estado != Integer.MAX_VALUE) {
             simbolo = fuente.charAt(indice);
             as = matrizDeTransicion.accionSemantica(estado, simbolo);
+            estado = matrizDeTransicion.siguienteEstado(estado, simbolo);
             if (as != null)
                 as.accion(simbolo);
-            estado = matrizDeTransicion.siguienteEstado(estado, simbolo);
             indice++;
         }
 

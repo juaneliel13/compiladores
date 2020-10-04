@@ -29,6 +29,7 @@ public class CheckRangoFloat extends AccionSemantica {
             } else {
                 System.out.println("Error en la linea " + lexico.linea + ": Simbolo inesperado '.'");
                 lexico.estado = 0;
+                lexico.indice--;
                 return;
             }
             lexico.error = true;
