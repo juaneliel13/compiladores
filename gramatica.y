@@ -4,7 +4,7 @@ import compiladores.AnalizadorLexico.AnalizadorLexico;
 import java.util.HashMap;
 %}
 
-%token IF THEN ELSE END_IF FUNC OUT RETURN INTEGER FLOAT FOR PROC NI VAR UP DOWN ID CTE_INT CTE_FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL COMP DISTINTO FIN_PROGRAMA END 0
+%token IF THEN ELSE END_IF FUNC OUT RETURN INTEGER FLOAT FOR PROC NI VAR UP DOWN ID CTE_INT CTE_FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL COMP DISTINTO CARACTER_INVALIDO END 0
 %start programa
 
 %%
@@ -136,14 +136,15 @@ seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_then END_IF {System.
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else error  {System.out.println("Error en la linea " + lex.linea + ": Se esperaba END_IF");}
           | IF '(' condicion_if ')' bloque_ejecutables_then END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba THEN");}
           | IF '(' condicion_if ')' bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {System.out.println("Error en la linea " + lex.linea + ": Se esperaba THEN");}
+          | IF '(' condicion_if ')' THEN  END_IF {System.out.println("Error en la linea " + lex.linea + ": No se encontraron sentencias ejecutables.");}
           ;
 
 condicion_if:expresion comparador expresion {}
-            | expresion error expresion{}
-            | error comparador expresion{}
-            | expresion comparador error {} //TODO:MOSTRAR MENSAJE DE ERROR
+            | expresion error ')' {System.out.println("Error en la linea " + lex.linea + ":ERRR.");}
+            | error comparador expresion{System.out.println("Error en la linea " + lex.linea + ":ERReR.");}
+            | expresion comparador error {{System.out.println("Error en la linea " + lex.linea + ":ERReR2.");}} //TODO:MOSTRAR MENSAJE DE ERROR
 	    ;
-
+//TODO: FUNCIONANDO MAL CONDICION_IF
 
 comparador : '<' {}
            | '>' {}
@@ -194,6 +195,7 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
           | FOR '(' ID '=' CTE_INT ';' incr_decr CTE_INT ')' bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ":  Falta condicion en la sentencia FOR.");}
           | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ')' bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ":  Falta incremento en la sentencia FOR.");}
           | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT bloque_ejecutables {System.out.println("Error en la linea " + lex.linea + ":  Se esperaba \")\" en la sentencia FOR.");}
+          | FOR error bloque_ejecutables{System.out.println("Error en la linea " + lex.linea + ": Sentencia FOR mal escrita.");}
           ;
 incr_decr : UP {}
           | DOWN {}
