@@ -40,6 +40,7 @@ public class CheckOperador extends AccionSemantica {
                         buffer += simbolo;
                     else {
                         lexico.error = true;
+                        System.out.println("Error en la linea " + lexico.linea + ": Se esperaba \"!=\" y se encontró \"!\" .");
                     }
                     break;
                 case "=":

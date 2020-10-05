@@ -5,8 +5,8 @@ import compiladores.Parser;
 
 import java.util.HashMap;
 
-public class AltaTablaSimbolos extends AccionSemantica {
-    public AltaTablaSimbolos(AnalizadorLexico lexico) {
+public class AltaIdentificador extends AccionSemantica {
+    public AltaIdentificador(AnalizadorLexico lexico) {
         super(lexico);
     }
 

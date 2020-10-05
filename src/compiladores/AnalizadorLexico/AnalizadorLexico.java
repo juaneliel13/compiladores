@@ -2,7 +2,6 @@ package compiladores.AnalizadorLexico;
 
 import compiladores.AnalizadorLexico.Acciones.*;
 import compiladores.Parser;
-import compiladores.ParserVal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +90,7 @@ public class AnalizadorLexico {
         AccionSemantica añadirBuffer = new AñadirBuffer(this);
         AccionSemantica saltoLinea = new SaltoLinea(this);
         AccionSemantica checkOperador = new CheckOperador(this);
-        AccionSemantica altaTablaSimb = new AltaTablaSimbolos(this);
+        AccionSemantica altaIdentificador = new AltaIdentificador(this);
         AccionSemantica checkRangoInt = new CheckRangoInt(this);
         AccionSemantica checkRangoFloat = new CheckRangoFloat(this);
         AccionSemantica checkCadena = new CheckCadena(this);
@@ -127,34 +126,34 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(0, 23, 0, null);
         matrizDeTransicion.agregarTransicion(0, 24, 0, null);
         matrizDeTransicion.agregarTransicion(0, 25, 16, inicBuffer);
-        matrizDeTransicion.agregarTransicion(0, 26, 0, errorSimboloNoReconocido); //error consumir token e ignorar
+        matrizDeTransicion.agregarTransicion(0, 26, 0, errorSimboloNoReconocido);
         //FILA: 1
         matrizDeTransicion.agregarTransicion(1, 0, 1, añadirBuffer);
         matrizDeTransicion.agregarTransicion(1, 1, 1, añadirBuffer);
         matrizDeTransicion.agregarTransicion(1, 2, 1, añadirBuffer);
         matrizDeTransicion.agregarTransicion(1, 3, 1, añadirBuffer);
-        matrizDeTransicion.agregarTransicion(1, 4, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 5, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 6, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 7, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 8, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 9, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 10, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 11, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 12, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 13, Integer.MAX_VALUE, altaTablaSimb);
+        matrizDeTransicion.agregarTransicion(1, 4, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 5, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 6, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 7, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 8, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 9, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 10, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 11, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 12, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 13, Integer.MAX_VALUE, altaIdentificador);
         matrizDeTransicion.agregarTransicion(1, 14, 1, añadirBuffer);
-        matrizDeTransicion.agregarTransicion(1, 15, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 16, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 17, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 18, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 19, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 20, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 21, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 22, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 23, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 24, Integer.MAX_VALUE, altaTablaSimb);
-        matrizDeTransicion.agregarTransicion(1, 25, Integer.MAX_VALUE, altaTablaSimb);
+        matrizDeTransicion.agregarTransicion(1, 15, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 16, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 17, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 18, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 19, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 20, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 21, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 22, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 23, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 24, Integer.MAX_VALUE, altaIdentificador);
+        matrizDeTransicion.agregarTransicion(1, 25, Integer.MAX_VALUE, altaIdentificador);
         matrizDeTransicion.agregarTransicion(1, 26, 1, errorSimboloNoReconocido); //chirimbolo
         //FILA: 2
         matrizDeTransicion.agregarTransicion(2, 0, 2, añadirBuffer);
@@ -183,11 +182,11 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(2,23,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(2,24,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(2,25,Integer.MAX_VALUE,errorEntero);
-        matrizDeTransicion.agregarTransicion(3, 26,Integer.MAX_VALUE,errorEntero); //chirimbolo
+        matrizDeTransicion.agregarTransicion(3, 26,Integer.MAX_VALUE,errorEntero);
         //FILA: 3
         matrizDeTransicion.agregarTransicion(3,0,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(3,1,Integer.MAX_VALUE,errorEntero);
-        matrizDeTransicion.agregarTransicion(3, 2, Integer.MAX_VALUE, checkRangoInt);
+        matrizDeTransicion.agregarTransicion(3, 2, Integer.MAX_VALUE,checkRangoInt);
         matrizDeTransicion.agregarTransicion(3,3,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(3,4,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(3,5,Integer.MAX_VALUE,errorEntero);
@@ -211,7 +210,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(3,23,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(3,24,Integer.MAX_VALUE,errorEntero);
         matrizDeTransicion.agregarTransicion(3,25,Integer.MAX_VALUE,errorEntero);
-        matrizDeTransicion.agregarTransicion(3, 26, Integer.MAX_VALUE, errorEntero); //chirimbolo
+        matrizDeTransicion.agregarTransicion(3, 26, Integer.MAX_VALUE, errorEntero);
         //FILA: 4
         matrizDeTransicion.agregarTransicion(4, 0, 4, añadirBuffer);
         matrizDeTransicion.agregarTransicion(4, 1, Integer.MAX_VALUE, checkRangoFloat);
@@ -239,7 +238,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(4, 23, Integer.MAX_VALUE, checkRangoFloat);
         matrizDeTransicion.agregarTransicion(4, 24, Integer.MAX_VALUE, checkRangoFloat);
         matrizDeTransicion.agregarTransicion(4, 25, Integer.MAX_VALUE, checkRangoFloat);
-        matrizDeTransicion.agregarTransicion(4, 26, Integer.MAX_VALUE, checkRangoFloat); //chirimbolo
+        matrizDeTransicion.agregarTransicion(4, 26, Integer.MAX_VALUE, checkRangoFloat);
         //FILA: 5
         matrizDeTransicion.agregarTransicion(5,0,Integer.MAX_VALUE,errorFloat);
         matrizDeTransicion.agregarTransicion(5,1,Integer.MAX_VALUE,errorFloat);
@@ -379,7 +378,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(9, 23, 9, null);
         matrizDeTransicion.agregarTransicion(9, 24, 9, null);
         matrizDeTransicion.agregarTransicion(9, 25, 9, null);
-        matrizDeTransicion.agregarTransicion(9, 26, 9, null); //error chirimbolo
+        matrizDeTransicion.agregarTransicion(9, 26, 9, null);
         //FILA: 10
         matrizDeTransicion.agregarTransicion(10, 0, 9, null);
         matrizDeTransicion.agregarTransicion(10, 1, 9, null);
@@ -407,7 +406,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(10, 23, 9, null);
         matrizDeTransicion.agregarTransicion(10, 24, 9, null);
         matrizDeTransicion.agregarTransicion(10, 25, 9, null);
-        matrizDeTransicion.agregarTransicion(10, 26, 9, null); //error chirimbolo
+        matrizDeTransicion.agregarTransicion(10, 26, 9, null);
         //FILA: 11
         matrizDeTransicion.agregarTransicion(11, 0, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(11, 1, Integer.MAX_VALUE, checkOperador);
@@ -435,7 +434,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(11, 23, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(11, 24, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(11, 25, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(11, 26, Integer.MAX_VALUE, checkOperador); //chirimbolo
+        matrizDeTransicion.agregarTransicion(11, 26, Integer.MAX_VALUE, checkOperador);
         //FILA: 12
         matrizDeTransicion.agregarTransicion(12, 0, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(12, 1, Integer.MAX_VALUE, checkOperador);
@@ -463,7 +462,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(12, 23, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(12, 24, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(12, 25, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(12, 26, Integer.MAX_VALUE, checkOperador); //chirimbolo
+        matrizDeTransicion.agregarTransicion(12, 26, Integer.MAX_VALUE, checkOperador);
         //FILA: 13
         matrizDeTransicion.agregarTransicion(13,0,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,1,Integer.MAX_VALUE, checkOperador);
@@ -478,7 +477,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(13,10,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,11,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,12,Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(13, 13, Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(13,13, Integer.MAX_VALUE,checkOperador);
         matrizDeTransicion.agregarTransicion(13,14,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,15,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,16,Integer.MAX_VALUE, checkOperador);
@@ -491,7 +490,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(13,23,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,24,Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(13,25,Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(13, 26, Integer.MAX_VALUE, checkOperador); //chirimbolo
+        matrizDeTransicion.agregarTransicion(13,26, Integer.MAX_VALUE,checkOperador);
         //FILA: 14
         matrizDeTransicion.agregarTransicion(14, 0, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(14, 1, Integer.MAX_VALUE, checkOperador);
@@ -503,23 +502,23 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(14, 7, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(14, 8, Integer.MAX_VALUE, checkOperador);
         matrizDeTransicion.agregarTransicion(14, 9, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 10, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 11, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 12, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 13, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 14, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 15, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 16, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 17, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 18, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 19, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 20, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 21, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 22, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 23, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 24, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 25, Integer.MAX_VALUE, checkOperador);
-        matrizDeTransicion.agregarTransicion(14, 26, Integer.MAX_VALUE, checkOperador); //chirimbolo
+        matrizDeTransicion.agregarTransicion(14, 10,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 11,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 12,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 13,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 14,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 15,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 16,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 17,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 18,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 19,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 20,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 21,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 22,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 23,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 24,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 25,Integer.MAX_VALUE, checkOperador);
+        matrizDeTransicion.agregarTransicion(14, 26,Integer.MAX_VALUE, checkOperador);
         //FILA: 15
         matrizDeTransicion.agregarTransicion(15, 0, Integer.MAX_VALUE, checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 1, 15, añadirBuffer);
@@ -531,10 +530,10 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(15, 7, Integer.MAX_VALUE, checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 8, Integer.MAX_VALUE, checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 9, Integer.MAX_VALUE, checkPalabraReservada);
-        matrizDeTransicion.agregarTransicion(15, 10, Integer.MAX_VALUE, checkPalabraReservada);
-        matrizDeTransicion.agregarTransicion(15, 11, Integer.MAX_VALUE, checkPalabraReservada);
-        matrizDeTransicion.agregarTransicion(15, 12, Integer.MAX_VALUE, checkPalabraReservada);
-        matrizDeTransicion.agregarTransicion(15, 13, Integer.MAX_VALUE, checkPalabraReservada);
+        matrizDeTransicion.agregarTransicion(15,10, Integer.MAX_VALUE,checkPalabraReservada);
+        matrizDeTransicion.agregarTransicion(15, 11,Integer.MAX_VALUE,checkPalabraReservada);
+        matrizDeTransicion.agregarTransicion(15, 12,Integer.MAX_VALUE,checkPalabraReservada);
+        matrizDeTransicion.agregarTransicion(15, 13,Integer.MAX_VALUE,checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 14, 15, añadirBuffer);
         matrizDeTransicion.agregarTransicion(15, 15, Integer.MAX_VALUE, checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 16, Integer.MAX_VALUE, checkPalabraReservada);
@@ -547,7 +546,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(15, 23, Integer.MAX_VALUE, checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 24, Integer.MAX_VALUE, checkPalabraReservada);
         matrizDeTransicion.agregarTransicion(15, 25, Integer.MAX_VALUE, checkPalabraReservada);
-        matrizDeTransicion.agregarTransicion(15, 26, 15, null); //error chirimbolo
+        matrizDeTransicion.agregarTransicion(15, 26, 15, null);
         //FILA: 16
         matrizDeTransicion.agregarTransicion(16, 0, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 1, 16, añadirBuffer);
@@ -575,7 +574,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(16, 23, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 24, 16, añadirBuffer);
         matrizDeTransicion.agregarTransicion(16, 25, Integer.MAX_VALUE, checkCadena);
-        matrizDeTransicion.agregarTransicion(16, 26, 16, errorSimboloNoReconocido); //chirimbolo
+        matrizDeTransicion.agregarTransicion(16, 26, 16, errorSimboloNoReconocido);
     }
 
 }
