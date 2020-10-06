@@ -1,1 +1,0 @@
-PROC hola(INTEGER a) NI=3_i {a=b;}

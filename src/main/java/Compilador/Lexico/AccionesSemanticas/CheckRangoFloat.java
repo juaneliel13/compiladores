@@ -25,9 +25,9 @@ public class CheckRangoFloat extends AccionSemantica {
         }
         if (flotante > 3.40282347e+38f || (flotante < 1.17549435e-38f && flotante != 0.0f) || error) {
             if (!buffer.equals(".")) {
-                System.out.println("Error en la linea " + lexico.linea + ": Float fuera de rango");
+                System.out.println("Error en la linea " + lexico.linea + ": Float fuera de rango.");
             } else {
-                System.out.println("Error en la linea " + lexico.linea + ": Simbolo inesperado '.'");
+                System.out.println("Error en la linea " + lexico.linea + ": Simbolo inesperado '.' .");
                 lexico.estado = 0;
                 lexico.indice--;
                 return;

@@ -70,12 +70,12 @@ parametro: tipo ID {}
            ;
 
 ejecutable : asignacion ';'{System.out.println("Se encontró una sentencia de asignación."); }
-           | asignacion {System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\"' .");}
+           | asignacion {System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\" .");}
            | seleccion {System.out.println("Se encontró una sentencia de selección."); }
            | salida ';' {System.out.println("Se encontró una sentencia de salida."); }
            | salida {System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\" .");}
            | llamada ';' {System.out.println("Se encontró una sentencia de llamada."); }
-           | llamada {System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\"'.");}
+           | llamada {System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\".");}
            | iteracion {System.out.println("Se encontró una sentencia de control."); }
            ;
 

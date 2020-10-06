@@ -14,10 +14,10 @@ public class AltaIdentificador extends AccionSemantica {
     public void accion(char simbolo) {
         //se carga en algun lado
         if (buffer.length() > 20) {
-            System.out.println("Warning en la linea " + lexico.linea + ": indentificador \"" + buffer + "\" truncado");
+            System.out.println("Warning en la linea " + lexico.linea + ": indentificador \"" + buffer + "\" truncado.");
             buffer = buffer.substring(0, 20);
         }
-        System.out.println("Se encontro el identificador \"" + buffer + "\" en la linea " + lexico.linea);
+        System.out.println("Se encontro el identificador \"" + buffer + "\" en la linea " + lexico.linea + ".");
         if (!lexico.tablaDeSimbolos.containsKey(buffer)) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
             aux.put("Tipo", "IDENTIFICADOR");

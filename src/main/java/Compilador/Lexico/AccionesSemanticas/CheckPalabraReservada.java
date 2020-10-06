@@ -11,12 +11,12 @@ public class CheckPalabraReservada extends AccionSemantica {
     public void accion(char simbolo) {
 
         if (lexico.palabrasReservadas.containsKey(buffer)) {
-            System.out.println("Se encontro la palabra reservada " + buffer + " en la linea " + lexico.linea);
+            System.out.println("Se encontro la palabra reservada " + buffer + " en la linea " + lexico.linea + ".");
             lexico.token = lexico.palabrasReservadas.get(buffer);
         } else {
-            System.out.println("Error en la linea " + lexico.linea + ": Palabra reservada \"" + buffer + "\" no encontrada o mal escrita");
+            System.out.println("Error en la linea " + lexico.linea + ": Palabra reservada \"" + buffer + "\" no encontrada o mal escrita.");
             lexico.token = 900;//Palabra reservada no encontrada
-            //TODO: que hacer en este caso?
+
         }
         lexico.indice--;
         buffer = "";

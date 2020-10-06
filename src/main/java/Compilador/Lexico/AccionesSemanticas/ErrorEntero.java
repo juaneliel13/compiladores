@@ -10,7 +10,7 @@ public class ErrorEntero extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        System.out.println("Error en la linea " + lexico.linea + ": Entero mal escrito");
+        System.out.println("Error en la linea " + lexico.linea + ": Entero mal escrito.");
         lexico.yylval = null;
         lexico.error = true;
         lexico.token = Parser.CTE_INT;

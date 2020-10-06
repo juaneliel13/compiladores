@@ -962,7 +962,7 @@ case 40:
 break;
 case 41:
 //#line 73 "./resources/gramatica.y"
-{System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\"' .");}
+{System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\" .");}
 break;
 case 42:
 //#line 74 "./resources/gramatica.y"
@@ -982,7 +982,7 @@ case 45:
 break;
 case 46:
 //#line 78 "./resources/gramatica.y"
-{System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\"'.");}
+{System.out.println("Error en la linea " +lex.linea + ": Se esperaba \";\".");}
 break;
 case 47:
 //#line 79 "./resources/gramatica.y"

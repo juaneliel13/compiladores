@@ -5,7 +5,8 @@ import Compilador.Utilidad.Tupla;
 
 public class MatrizDeTransicion {
 
-    private Tupla<Integer,AccionSemantica> matriz[][]; //= new Tupla [17][26];
+    private Tupla<Integer, AccionSemantica>[][] matriz;
+    public  final int EOF = 27;
 
     public MatrizDeTransicion(int estados, int simbolos) {
         this.matriz = new Tupla[estados][simbolos];
@@ -139,10 +140,16 @@ public class MatrizDeTransicion {
     public Integer siguienteEstado(Integer estado, char simbolo) {
         return matriz[estado][convertir(simbolo)].getFirst();
     }
+    public Integer siguienteEstado(Integer estado, int simbolo) {
+        return matriz[estado][simbolo].getFirst();
+    }
 
     public AccionSemantica accionSemantica(Integer estado, char simbolo) {
-        //System.out.println("estado: " + estado + " simbolo: \'" + simbolo + "\' convertir(simbolo): " + convertir(simbolo));
-        return matriz[estado][convertir(simbolo)].getSecond();
+      return matriz[estado][convertir(simbolo)].getSecond();
+    }
+
+    public AccionSemantica accionSemantica(Integer estado, int simbolo) {
+        return matriz[estado][simbolo].getSecond();
     }
 
 }

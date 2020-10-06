@@ -13,7 +13,7 @@ public class CheckOperador extends AccionSemantica {
         //Si el buffer es "" estamos en estado 0 sino en alguno de los operadores de mas de un caracter
         if (buffer.equals("")) {
             lexico.token = simbolo;
-            buffer+=simbolo;
+            buffer += simbolo;
         } else {
             switch (buffer) {
                 case "<":
@@ -62,7 +62,7 @@ public class CheckOperador extends AccionSemantica {
                     break;
             }
         }
-        System.out.println("Se encontro el operador \"" + buffer + "\" en la linea " + lexico.linea);
+        System.out.println("Se encontro el operador \"" + buffer + "\" en la linea " + lexico.linea+ " .");
         buffer = "";
         lexico.yylval = null;
     }

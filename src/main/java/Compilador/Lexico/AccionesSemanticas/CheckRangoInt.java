@@ -20,11 +20,11 @@ public class CheckRangoInt extends AccionSemantica {
             error = true;
         }
         if (error || entero > (int) Math.pow(2, 15)) {
-            System.out.println("Error en la linea " + lexico.linea + ": Entero fuera de rango");
+            System.out.println("Error en la linea " + lexico.linea + ": Entero fuera de rango.");
             lexico.yylval = null;
             lexico.error = true;
         } else {
-            System.out.println("Se encontro el entero " + buffer + "i");
+            System.out.println("Se encontro el entero " + buffer + "i" + ".");
             //Agregamos o actualizamos segun corresponda
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(entero))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();

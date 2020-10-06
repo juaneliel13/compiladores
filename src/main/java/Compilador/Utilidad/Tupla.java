@@ -1,6 +1,6 @@
 package Compilador.Utilidad;
 
-public class Tupla<t1,t2> {
+public class Tupla<t1, t2> {
     private t1 first;
     private t2 second;
 
@@ -13,12 +13,12 @@ public class Tupla<t1,t2> {
         return first;
     }
 
-    public t2 getSecond() {
-        return second;
-    }
-
     public void setFirst(t1 first) {
         this.first = first;
+    }
+
+    public t2 getSecond() {
+        return second;
     }
 
     public void setSecond(t2 second) {
