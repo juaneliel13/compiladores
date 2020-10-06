@@ -1,29 +1,27 @@
 package Compilador.Utilidad;
 
-import Compilador.Lexico.AccionesSemanticas.AccionSemantica;
+public class Tupla<t1,t2> {
+    private t1 first;
+    private t2 second;
 
-public class Tupla {
-    private Integer estado;
-    private AccionSemantica AS;
-
-    public Tupla(Integer estado, AccionSemantica AS) {
-        this.estado = estado;
-        this.AS = AS;
+    public Tupla(t1 first, t2 second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public Integer getEstado() {
-        return estado;
+    public t1 getFirst() {
+        return first;
     }
 
-    public AccionSemantica getAS() {
-        return AS;
+    public t2 getSecond() {
+        return second;
     }
 
-    public void setEstado(Integer estado) {
-        this.estado = estado;
+    public void setFirst(t1 first) {
+        this.first = first;
     }
 
-    public void setAS(AccionSemantica AS) {
-        this.AS = AS;
+    public void setSecond(t2 second) {
+        this.second = second;
     }
 }
