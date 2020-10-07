@@ -84,7 +84,7 @@ public class Logger {
     }
 
     public void dumpEvents() {
-        events.sort(new SorterByFirst());
+        //events.sort(new SorterByFirst());
         FileWriter myFile = null;
         try {
             myFile = new FileWriter(filename + "-events.txt");

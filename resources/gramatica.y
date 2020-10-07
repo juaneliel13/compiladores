@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 programa : conjunto_sentencias {}
 	 | END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias");}
-	 | error END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias");}
+	 | error END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias validas");}
          ;
 
 conjunto_sentencias : sentencia {}
@@ -174,15 +174,20 @@ comparador : '<' {}
            | DISTINTO {}
            ;
 
-bloque_ejecutables_then:bloque_ejecutables {}
+bloque_ejecutables_then:ejecutable{}
+		       | '{'bloque_ejecutables'}' {}
 		       ;
 
-bloque_ejecutables_else:bloque_ejecutables{}
-		     ;
+bloque_ejecutables_else:ejecutable{}
+		       | '{'bloque_ejecutables'}' {}
+		       ;
 
-bloque_ejecutables : ejecutable  {}
-		   | '{' ejecutable '}' {}
-                   | '{' ejecutable  bloque_ejecutables '}' {}
+bloque_ejecutables_for:ejecutable{}
+		       | '{'bloque_ejecutables'}' {}
+		       ;
+
+bloque_ejecutables : ejecutable {}
+                   | ejecutable bloque_ejecutables  {}
                    ;
 
 salida : OUT '(' CADENA ')' {}
@@ -203,23 +208,21 @@ parametros : ID {}
            | ID  ID ',' ID {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
            ;
 
-iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {
+iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {
 			String id_for = $3.sval;
 			String id_comp = $7.sval;
-			System.out.println("$3: " + $3.sval);
-			System.out.println("$7: " + $7.sval);
 			if(!id_for.equals(id_comp)) {
 				Logger.getInstance().addError(lex.linea,"La variable de inicialización no es igual a la de condición");
 			}
 		}
-	  | FOR '(' ID '=' CTE_INT ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $6.sval);}
-          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $10.sval);}
-          | FOR '(' ID '=' CTE_INT ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Se esperaban \";\" en la sentencia FOR");}
-          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' CTE_INT ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Se esperaba UP o DOWN en la sentencia FOR");}
-          | FOR '(' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Falta inicialización en la sentencia FOR");}
-          | FOR '(' ID '=' CTE_INT ';' incr_decr CTE_INT ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Falta condicion en la sentencia FOR");}
-          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ')' bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Falta incremento en la sentencia FOR");}
-          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT bloque_ejecutables {Logger.getInstance().addError(lex.linea,"Se esperaba \")\" en la sentencia FOR");}
+	  | FOR '(' ID '=' CTE_INT ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $6.sval);}
+          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $10.sval);}
+          | FOR '(' ID '=' CTE_INT ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaban \";\" en la sentencia FOR");}
+          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaba UP o DOWN en la sentencia FOR");}
+          | FOR '(' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Falta inicialización en la sentencia FOR");}
+          | FOR '(' ID '=' CTE_INT ';' incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Falta condicion en la sentencia FOR");}
+          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Falta incremento en la sentencia FOR");}
+          | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaba \")\" en la sentencia FOR");}
           | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' declarativa {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del FOR");}
           ;
 
@@ -234,6 +237,7 @@ AnalizadorLexico lex;
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
+	yydebug=true;
 }
 
 int yylex()
