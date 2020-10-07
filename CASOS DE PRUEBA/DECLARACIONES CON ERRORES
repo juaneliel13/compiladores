@@ -1,0 +1,14 @@
+INTEGER a=3_i;
+FLOAT b;
+
+PROC c(a1,VAR FLOAT) {
+
+    IF(a<3_i+2_i)THEN
+    	OUT('es menor');
+    ELSE
+    	OUT('es mayor');
+    END_IF	
+
+}
+
+/% Deberia dar 4 errores, asignacion en la declaracion de a, falta NI=CTE_INT en la declaracion de c, el primer parametro formal no tiene tipo y el segundo parametro formal no tiene identificador.%/

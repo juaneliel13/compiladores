@@ -1,0 +1,16 @@
+IF(a<b)THEN
+  IF(a==0_i) THEN{
+  	c=1_i;
+  	a=-5_i;
+  	d=.2f+1;
+  }	
+  ELSE
+  	OUT('entro al else');
+  	c=0_i;
+  END_IF
+ELSE{
+  funcion_a(parametro1);
+  c=3_i;
+  d=3.6f+3;
+  }
+END_IF

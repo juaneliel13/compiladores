@@ -1,0 +1,3 @@
+IF(a<b)THEN
+  c=3_i;
+END_IF

@@ -40,6 +40,7 @@ public class CheckOperador extends AccionSemantica {
                     if (simbolo == '=')
                         buffer += simbolo;
                     else {
+                        lexico.indice--;
                         lexico.error = true;
                         Logger.getInstance().addError(lexico.linea,"Se esperaba \"!=\" y se encontró \"!\"");
                     }

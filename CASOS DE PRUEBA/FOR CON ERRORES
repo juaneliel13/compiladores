@@ -1,0 +1,30 @@
+FOR(i=0_i i<10_i;UP 1_i){
+    a=b+2_i/3_i;
+} 
+/%Falta ; entre la inicializacion y la condicion %/
+
+FOR(i=0_i;i<10_i; 1_i){
+    a=b+2_i/3_i;
+}
+/%Falta la palabra reservada UP o DOWN %/
+
+FOR(i=0_i i<10_i UP 1_i){
+    a=b+2_i/3_i;
+}
+/% Faltan los ; %/
+
+FOR(i<10_i; UP 1_i){
+    a=b+2_i/3_i;
+}
+/% Falta la inicializacion %/
+
+FOR(i=0_i; UP 1_i){
+    a=b+2_i/3_i;
+}
+/% Falta la condicion %/
+
+FOR(i=0_i;i<10_i){
+    a=b+2_i/3_i;
+}
+/% Falta el incremento %/
+

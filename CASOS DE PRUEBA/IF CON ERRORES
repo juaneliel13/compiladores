@@ -1,0 +1,22 @@
+IF(a<)THEN
+  c=3_i;
+END_IF
+/% Condicion mal escrita %/
+
+IF(<b)THEN
+  c=3_i;
+END_IF
+/% Condicion mal escrita %/
+
+IF(a<b)
+  c=3_i;
+END_IF
+/% Falta la palabra reservada THEN %/
+
+IF(a<b)THEN
+  c=3_i;
+/% Falta la palabra reservada END_IF %/  
+
+
+  
+

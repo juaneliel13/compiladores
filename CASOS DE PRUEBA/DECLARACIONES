@@ -6,6 +6,7 @@ PROC(INTEGER a1,VAR FLOAT b1) NI=2_i {
     IF(a<3_i+2_i)THEN
     	OUT('es menor');
     ELSE
-    	OUT('es mayor');	
+    	OUT('es mayor');
+    END_IF	
 
 }

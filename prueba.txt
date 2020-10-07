@@ -1,5 +1,1 @@
-FOR(i=0_i;i<10_i;UP 1_i)
-    FOR(j=20_i;j>10_i;DOWN 1_i){
-	    a=b+2_i/3_i;
-	    c=c*1_i;
-   }
+a(b,c d);

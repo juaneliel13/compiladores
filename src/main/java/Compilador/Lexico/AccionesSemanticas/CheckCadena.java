@@ -18,7 +18,7 @@ public class CheckCadena extends AccionSemantica {
         if (simbolo == '\r' || simbolo == '\n') {
             if (simbolo == '\r')
                 lexico.indice++;
-            Logger.getInstance().addError(lexico.linea,"Salto de linea en la cadena.");
+            Logger.getInstance().addError(lexico.linea,"Salto de linea en la cadena");
             lexico.error = true;
         } else {
             Logger.getInstance().addEvent(lexico.linea,"Se encontro la cadena " + buffer);
