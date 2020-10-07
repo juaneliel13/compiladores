@@ -2,6 +2,7 @@ package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Sintactico.Parser;
+import Compilador.Utilidad.Logger;
 
 import java.util.HashMap;
 
@@ -25,9 +26,10 @@ public class CheckRangoFloat extends AccionSemantica {
         }
         if (flotante > 3.40282347e+38f || (flotante < 1.17549435e-38f && flotante != 0.0f) || error) {
             if (!buffer.equals(".")) {
-                System.out.println("Error en la linea " + lexico.linea + ": Float fuera de rango.");
+                Logger.getInstance().addError(lexico.linea, "Float fuera de rango");
+
             } else {
-                System.out.println("Error en la linea " + lexico.linea + ": Simbolo inesperado '.' .");
+                Logger.getInstance().addError(lexico.linea, "Simbolo inesperado '.'");
                 lexico.estado = 0;
                 lexico.indice--;
                 return;
@@ -35,7 +37,7 @@ public class CheckRangoFloat extends AccionSemantica {
             lexico.error = true;
             lexico.yylval = null;
         } else {
-            System.out.println("Se encontro el float " + buffer.replace('e', 'f'));
+            Logger.getInstance().addEvent(lexico.linea, "Se encontro el float " + buffer.replace('e', 'f'));
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(flotante))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
                 aux.put("Tipo", "FLOAT");

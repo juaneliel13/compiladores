@@ -2,6 +2,7 @@ package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Sintactico.Parser;
+import Compilador.Utilidad.Logger;
 
 public class CheckOperador extends AccionSemantica {
     public CheckOperador(AnalizadorLexico lexico) {
@@ -40,7 +41,7 @@ public class CheckOperador extends AccionSemantica {
                         buffer += simbolo;
                     else {
                         lexico.error = true;
-                        System.out.println("Error en la linea " + lexico.linea + ": Se esperaba \"!=\" y se encontró \"!\" .");
+                        Logger.getInstance().addError(lexico.linea,"Se esperaba \"!=\" y se encontró \"!\"");
                     }
                     break;
                 case "=":
@@ -62,7 +63,7 @@ public class CheckOperador extends AccionSemantica {
                     break;
             }
         }
-        System.out.println("Se encontro el operador \"" + buffer + "\" en la linea " + lexico.linea+ " .");
+        Logger.getInstance().addEvent(lexico.linea,"Se encontro el operador \"" + buffer + "\"");
         buffer = "";
         lexico.yylval = null;
     }

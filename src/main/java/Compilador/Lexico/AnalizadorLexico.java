@@ -90,7 +90,7 @@ public class AnalizadorLexico {
         AccionSemantica saltoLinea = new SaltoLinea(this);
         AccionSemantica checkOperador = new CheckOperador(this);
         AccionSemantica altaIdentificador = new AltaIdentificador(this);
-        AccionSemantica checkRangoInt = new CheckRangoInt(this);
+        AccionSemantica checkRangoInt = new CheckRangoEntero(this);
         AccionSemantica checkRangoFloat = new CheckRangoFloat(this);
         AccionSemantica checkCadena = new CheckCadena(this);
         AccionSemantica checkPalabraReservada = new CheckPalabraReservada(this);
@@ -185,7 +185,7 @@ public class AnalizadorLexico {
         matrizDeTransicion.agregarTransicion(2, 24, Integer.MAX_VALUE, errorEntero);
         matrizDeTransicion.agregarTransicion(2, 25, Integer.MAX_VALUE, errorEntero);
         matrizDeTransicion.agregarTransicion(2, 26, Integer.MAX_VALUE, errorEntero);
-        matrizDeTransicion.agregarTransicion(2, 27,Integer.MAX_VALUE,errorEntero);
+        matrizDeTransicion.agregarTransicion(2, 27, Integer.MAX_VALUE, errorEntero);
         //FILA: 3
         matrizDeTransicion.agregarTransicion(3, 0, Integer.MAX_VALUE, errorEntero);
         matrizDeTransicion.agregarTransicion(3, 1, Integer.MAX_VALUE, errorEntero);

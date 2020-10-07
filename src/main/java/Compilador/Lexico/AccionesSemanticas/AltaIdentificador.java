@@ -2,6 +2,7 @@ package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Sintactico.Parser;
+import Compilador.Utilidad.Logger;
 
 import java.util.HashMap;
 
@@ -14,10 +15,10 @@ public class AltaIdentificador extends AccionSemantica {
     public void accion(char simbolo) {
         //se carga en algun lado
         if (buffer.length() > 20) {
-            System.out.println("Warning en la linea " + lexico.linea + ": indentificador \"" + buffer + "\" truncado.");
+            Logger.getInstance().addWarning(lexico.linea,"Indentificador \"" + buffer + "\" truncado");
             buffer = buffer.substring(0, 20);
         }
-        System.out.println("Se encontro el identificador \"" + buffer + "\" en la linea " + lexico.linea + ".");
+        Logger.getInstance().addEvent(lexico.linea,"Se encontro el identificador \"" + buffer + "\"");
         if (!lexico.tablaDeSimbolos.containsKey(buffer)) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
             aux.put("Tipo", "IDENTIFICADOR");

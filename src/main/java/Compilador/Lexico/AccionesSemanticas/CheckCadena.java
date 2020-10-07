@@ -2,6 +2,7 @@ package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Sintactico.Parser;
+import Compilador.Utilidad.Logger;
 
 import java.util.HashMap;
 
@@ -17,10 +18,10 @@ public class CheckCadena extends AccionSemantica {
         if (simbolo == '\r' || simbolo == '\n') {
             if (simbolo == '\r')
                 lexico.indice++;
-            System.out.println("Error en la linea " + lexico.linea + ": salto de linea en la cadena.");
+            Logger.getInstance().addError(lexico.linea,"Salto de linea en la cadena.");
             lexico.error = true;
         } else {
-            System.out.println("Se encontro la cadena " + buffer + " en la linea " + lexico.linea + ".");
+            Logger.getInstance().addEvent(lexico.linea,"Se encontro la cadena " + buffer);
         }
 
         if (!lexico.tablaDeSimbolos.containsKey(buffer)) {
