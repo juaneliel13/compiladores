@@ -237,7 +237,6 @@ AnalizadorLexico lex;
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
-	yydebug=true;
 }
 
 int yylex()

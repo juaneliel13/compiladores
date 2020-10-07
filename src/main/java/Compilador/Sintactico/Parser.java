@@ -634,7 +634,6 @@ AnalizadorLexico lex;
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
-	yydebug=true;
 }
 
 int yylex()
@@ -653,7 +652,7 @@ void yyerror(String a)
 public int yyparse_publico() {
 	return yyparse();
 }
-//#line 585 "Parser.java"
+//#line 584 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1331,7 +1330,7 @@ case 120:
 //#line 230 "./resources/gramatica.y"
 {}
 break;
-//#line 1258 "Parser.java"
+//#line 1257 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
