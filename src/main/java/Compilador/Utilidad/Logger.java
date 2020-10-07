@@ -59,7 +59,7 @@ public class Logger {
         errors.sort(new SorterByFirst());
         FileWriter myFile = null;
         try {
-            myFile = new FileWriter(filename + "-errores.txt");
+            myFile = new FileWriter(path + filename + "-errores.txt");
             for (Tupla t : errors) {
                 myFile.write("Error en la linea " + t.getFirst() + ": " + t.getSecond() + ".\n");
             }
@@ -73,7 +73,7 @@ public class Logger {
         warnings.sort(new SorterByFirst());
         FileWriter myFile = null;
         try {
-            myFile = new FileWriter(filename + "-warnings.txt");
+            myFile = new FileWriter(path + filename + "-warnings.txt");
             for (Tupla t : warnings) {
                 myFile.write("Warning en la linea " + t.getFirst() + ": " + t.getSecond() + ".\n");
             }
@@ -84,10 +84,10 @@ public class Logger {
     }
 
     public void dumpEvents() {
-        //events.sort(new SorterByFirst());
+        events.sort(new SorterByFirst());
         FileWriter myFile = null;
         try {
-            myFile = new FileWriter(filename + "-events.txt");
+            myFile = new FileWriter(path + filename + "-events.txt");
             for (Tupla t : events) {
                 myFile.write("Evento en la linea " + t.getFirst() + ": " + t.getSecond() + ".\n");
             }
