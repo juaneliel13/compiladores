@@ -16,7 +16,7 @@
 
 
 
-//#line 2 "./resources/gramatica.y"
+//#line 2 "./gramatica.y"
 package Compilador.Sintactico;
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Utilidad.Logger;
@@ -627,7 +627,7 @@ final static String yyrule[] = {
 "incr_decr : DOWN",
 };
 
-//#line 234 "./resources/gramatica.y"
+//#line 234 "./gramatica.y"
 
 AnalizadorLexico lex;
 
@@ -807,239 +807,239 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
-//#line 14 "./resources/gramatica.y"
+//#line 14 "./gramatica.y"
 {}
 break;
 case 2:
-//#line 15 "./resources/gramatica.y"
+//#line 15 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Sin sentencias");}
 break;
 case 3:
-//#line 16 "./resources/gramatica.y"
+//#line 16 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Sin sentencias validas");}
 break;
 case 4:
-//#line 19 "./resources/gramatica.y"
+//#line 19 "./gramatica.y"
 {}
 break;
 case 5:
-//#line 20 "./resources/gramatica.y"
+//#line 20 "./gramatica.y"
 {}
 break;
 case 6:
-//#line 24 "./resources/gramatica.y"
+//#line 24 "./gramatica.y"
 {}
 break;
 case 7:
-//#line 25 "./resources/gramatica.y"
+//#line 25 "./gramatica.y"
 { }
 break;
 case 8:
-//#line 26 "./resources/gramatica.y"
+//#line 26 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Sentencia mal escrita");}
 break;
 case 9:
-//#line 29 "./resources/gramatica.y"
+//#line 29 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia declarativa de variable");}
 break;
 case 10:
-//#line 30 "./resources/gramatica.y"
+//#line 30 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia declarativa de procedimiento");}
 break;
 case 11:
-//#line 31 "./resources/gramatica.y"
+//#line 31 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \";\"");}
 break;
 case 12:
-//#line 34 "./resources/gramatica.y"
+//#line 34 "./gramatica.y"
 {}
 break;
 case 13:
-//#line 35 "./resources/gramatica.y"
+//#line 35 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Asignacion en la declaración");}
 break;
 case 14:
-//#line 36 "./resources/gramatica.y"
+//#line 36 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba un tipo");}
 break;
 case 15:
-//#line 37 "./resources/gramatica.y"
+//#line 37 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Tipo no valido");}
 break;
 case 16:
-//#line 38 "./resources/gramatica.y"
+//#line 38 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba un identificador");}
 break;
 case 17:
-//#line 40 "./resources/gramatica.y"
+//#line 40 "./gramatica.y"
 {}
 break;
 case 18:
-//#line 41 "./resources/gramatica.y"
+//#line 41 "./gramatica.y"
 {}
 break;
 case 19:
-//#line 44 "./resources/gramatica.y"
+//#line 44 "./gramatica.y"
 {}
 break;
 case 20:
-//#line 45 "./resources/gramatica.y"
+//#line 45 "./gramatica.y"
 {}
 break;
 case 21:
-//#line 48 "./resources/gramatica.y"
+//#line 48 "./gramatica.y"
 {}
 break;
 case 22:
-//#line 49 "./resources/gramatica.y"
+//#line 49 "./gramatica.y"
 {}
 break;
 case 23:
-//#line 50 "./resources/gramatica.y"
+//#line 50 "./gramatica.y"
 { Logger.getInstance().addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");}
 break;
 case 24:
-//#line 51 "./resources/gramatica.y"
+//#line 51 "./gramatica.y"
 { Logger.getInstance().addError(lex.linea,"Se esperaba \"{\"");}
 break;
 case 25:
-//#line 52 "./resources/gramatica.y"
+//#line 52 "./gramatica.y"
 { Logger.getInstance().addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");}
 break;
 case 26:
-//#line 53 "./resources/gramatica.y"
+//#line 53 "./gramatica.y"
 { Logger.getInstance().addError(lex.linea,"Se esperaba una sentencia");}
 break;
 case 27:
-//#line 54 "./resources/gramatica.y"
+//#line 54 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba una sentencia");}
 break;
 case 28:
-//#line 57 "./resources/gramatica.y"
+//#line 57 "./gramatica.y"
 {}
 break;
 case 29:
-//#line 58 "./resources/gramatica.y"
+//#line 58 "./gramatica.y"
 {}
 break;
 case 30:
-//#line 59 "./resources/gramatica.y"
+//#line 59 "./gramatica.y"
 {}
 break;
 case 31:
-//#line 60 "./resources/gramatica.y"
+//#line 60 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 32:
-//#line 61 "./resources/gramatica.y"
+//#line 61 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 33:
-//#line 62 "./resources/gramatica.y"
+//#line 62 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 34:
-//#line 63 "./resources/gramatica.y"
+//#line 63 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 35:
-//#line 66 "./resources/gramatica.y"
+//#line 66 "./gramatica.y"
 {}
 break;
 case 36:
-//#line 67 "./resources/gramatica.y"
+//#line 67 "./gramatica.y"
 {}
 break;
 case 37:
-//#line 68 "./resources/gramatica.y"
+//#line 68 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba tipo");}
 break;
 case 38:
-//#line 69 "./resources/gramatica.y"
+//#line 69 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba tipo");}
 break;
 case 39:
-//#line 70 "./resources/gramatica.y"
+//#line 70 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba identificador");}
 break;
 case 40:
-//#line 73 "./resources/gramatica.y"
+//#line 73 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia de asignación");}
 break;
 case 41:
-//#line 74 "./resources/gramatica.y"
+//#line 74 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \";\"");}
 break;
 case 42:
-//#line 75 "./resources/gramatica.y"
+//#line 75 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia de seleccion"); }
 break;
 case 43:
-//#line 76 "./resources/gramatica.y"
+//#line 76 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia de salida");}
 break;
 case 44:
-//#line 77 "./resources/gramatica.y"
+//#line 77 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \";\"");}
 break;
 case 45:
-//#line 78 "./resources/gramatica.y"
+//#line 78 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia de llamada"); }
 break;
 case 46:
-//#line 79 "./resources/gramatica.y"
+//#line 79 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \";\"");}
 break;
 case 47:
-//#line 80 "./resources/gramatica.y"
+//#line 80 "./gramatica.y"
 {Logger.getInstance().addEvent(lex.linea,"Se encontró una sentencia de control"); }
 break;
 case 48:
-//#line 83 "./resources/gramatica.y"
+//#line 83 "./gramatica.y"
 {}
 break;
 case 49:
-//#line 84 "./resources/gramatica.y"
+//#line 84 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se encontró == en lugar de =");}
 break;
 case 50:
-//#line 85 "./resources/gramatica.y"
+//#line 85 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Asignacion mal escrita");}
 break;
 case 51:
-//#line 86 "./resources/gramatica.y"
+//#line 86 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Asignacion mal escrita");}
 break;
 case 52:
-//#line 89 "./resources/gramatica.y"
+//#line 89 "./gramatica.y"
 {}
 break;
 case 53:
-//#line 90 "./resources/gramatica.y"
+//#line 90 "./gramatica.y"
 {}
 break;
 case 54:
-//#line 91 "./resources/gramatica.y"
+//#line 91 "./gramatica.y"
 {}
 break;
 case 55:
-//#line 94 "./resources/gramatica.y"
+//#line 94 "./gramatica.y"
 {}
 break;
 case 56:
-//#line 95 "./resources/gramatica.y"
+//#line 95 "./gramatica.y"
 {}
 break;
 case 57:
-//#line 96 "./resources/gramatica.y"
+//#line 96 "./gramatica.y"
 {}
 break;
 case 58:
-//#line 99 "./resources/gramatica.y"
+//#line 99 "./gramatica.y"
 {}
 break;
 case 59:
-//#line 100 "./resources/gramatica.y"
+//#line 100 "./gramatica.y"
 {
        			if (val_peek(0).sval!=null){
 				int i = (int) Integer.parseInt(val_peek(0).sval);
@@ -1051,11 +1051,11 @@ case 59:
 		 }
 break;
 case 60:
-//#line 109 "./resources/gramatica.y"
+//#line 109 "./gramatica.y"
 {}
 break;
 case 61:
-//#line 110 "./resources/gramatica.y"
+//#line 110 "./gramatica.y"
 {
        			if(val_peek(0).sval!=null){
 				int i = -(int) Integer.parseInt(val_peek(0).sval);
@@ -1074,7 +1074,7 @@ case 61:
        		     }
 break;
 case 62:
-//#line 126 "./resources/gramatica.y"
+//#line 126 "./gramatica.y"
 {
       			if(val_peek(0).sval!=null){
 				float f = -(float) Float.parseFloat(val_peek(0).sval);
@@ -1093,191 +1093,191 @@ case 62:
        		       }
 break;
 case 63:
-//#line 144 "./resources/gramatica.y"
+//#line 144 "./gramatica.y"
 {}
 break;
 case 64:
-//#line 145 "./resources/gramatica.y"
+//#line 145 "./gramatica.y"
 {}
 break;
 case 65:
-//#line 146 "./resources/gramatica.y"
+//#line 146 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba ELSE");}
 break;
 case 66:
-//#line 147 "./resources/gramatica.y"
+//#line 147 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \")\" luego de la condición"); }
 break;
 case 67:
-//#line 148 "./resources/gramatica.y"
+//#line 148 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba END_IF");}
 break;
 case 68:
-//#line 149 "./resources/gramatica.y"
+//#line 149 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \")\" luego de la condición"); }
 break;
 case 69:
-//#line 150 "./resources/gramatica.y"
+//#line 150 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba END_IF");}
 break;
 case 70:
-//#line 151 "./resources/gramatica.y"
+//#line 151 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba THEN");}
 break;
 case 71:
-//#line 152 "./resources/gramatica.y"
+//#line 152 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba THEN");}
 break;
 case 72:
-//#line 153 "./resources/gramatica.y"
+//#line 153 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"No se encontraron sentencias ejecutables");}
 break;
 case 73:
-//#line 154 "./resources/gramatica.y"
+//#line 154 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del IF");}
 break;
 case 74:
-//#line 155 "./resources/gramatica.y"
+//#line 155 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del ELSE");}
 break;
 case 75:
-//#line 156 "./resources/gramatica.y"
+//#line 156 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del IF");}
 break;
 case 76:
-//#line 157 "./resources/gramatica.y"
+//#line 157 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del IF");}
 break;
 case 77:
-//#line 158 "./resources/gramatica.y"
+//#line 158 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
 break;
 case 78:
-//#line 159 "./resources/gramatica.y"
+//#line 159 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
 break;
 case 79:
-//#line 162 "./resources/gramatica.y"
+//#line 162 "./gramatica.y"
 {}
 break;
 case 80:
-//#line 163 "./resources/gramatica.y"
+//#line 163 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
 break;
 case 81:
-//#line 164 "./resources/gramatica.y"
+//#line 164 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
 break;
 case 82:
-//#line 165 "./resources/gramatica.y"
+//#line 165 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
 break;
 case 83:
-//#line 169 "./resources/gramatica.y"
+//#line 169 "./gramatica.y"
 {}
 break;
 case 84:
-//#line 170 "./resources/gramatica.y"
+//#line 170 "./gramatica.y"
 {}
 break;
 case 85:
-//#line 171 "./resources/gramatica.y"
+//#line 171 "./gramatica.y"
 {}
 break;
 case 86:
-//#line 172 "./resources/gramatica.y"
+//#line 172 "./gramatica.y"
 {}
 break;
 case 87:
-//#line 173 "./resources/gramatica.y"
+//#line 173 "./gramatica.y"
 {}
 break;
 case 88:
-//#line 174 "./resources/gramatica.y"
+//#line 174 "./gramatica.y"
 {}
 break;
 case 89:
-//#line 177 "./resources/gramatica.y"
+//#line 177 "./gramatica.y"
 {}
 break;
 case 90:
-//#line 178 "./resources/gramatica.y"
+//#line 178 "./gramatica.y"
 {}
 break;
 case 91:
-//#line 181 "./resources/gramatica.y"
+//#line 181 "./gramatica.y"
 {}
 break;
 case 92:
-//#line 182 "./resources/gramatica.y"
+//#line 182 "./gramatica.y"
 {}
 break;
 case 93:
-//#line 185 "./resources/gramatica.y"
+//#line 185 "./gramatica.y"
 {}
 break;
 case 94:
-//#line 186 "./resources/gramatica.y"
+//#line 186 "./gramatica.y"
 {}
 break;
 case 95:
-//#line 189 "./resources/gramatica.y"
+//#line 189 "./gramatica.y"
 {}
 break;
 case 96:
-//#line 190 "./resources/gramatica.y"
+//#line 190 "./gramatica.y"
 {}
 break;
 case 97:
-//#line 193 "./resources/gramatica.y"
+//#line 193 "./gramatica.y"
 {}
 break;
 case 98:
-//#line 194 "./resources/gramatica.y"
+//#line 194 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba una cadena");}
 break;
 case 99:
-//#line 195 "./resources/gramatica.y"
+//#line 195 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Sentencia OUT mal escrita");}
 break;
 case 100:
-//#line 198 "./resources/gramatica.y"
+//#line 198 "./gramatica.y"
 {}
 break;
 case 101:
-//#line 199 "./resources/gramatica.y"
+//#line 199 "./gramatica.y"
 {}
 break;
 case 102:
-//#line 202 "./resources/gramatica.y"
+//#line 202 "./gramatica.y"
 {}
 break;
 case 103:
-//#line 203 "./resources/gramatica.y"
+//#line 203 "./gramatica.y"
 {}
 break;
 case 104:
-//#line 204 "./resources/gramatica.y"
+//#line 204 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 105:
-//#line 205 "./resources/gramatica.y"
+//#line 205 "./gramatica.y"
 {}
 break;
 case 106:
-//#line 206 "./resources/gramatica.y"
+//#line 206 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 107:
-//#line 207 "./resources/gramatica.y"
+//#line 207 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 108:
-//#line 208 "./resources/gramatica.y"
+//#line 208 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 109:
-//#line 211 "./resources/gramatica.y"
+//#line 211 "./gramatica.y"
 {
 			String id_for = val_peek(11).sval;
 			String id_comp = val_peek(7).sval;
@@ -1287,47 +1287,47 @@ case 109:
 		}
 break;
 case 110:
-//#line 218 "./resources/gramatica.y"
+//#line 218 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ val_peek(7).sval);}
 break;
 case 111:
-//#line 219 "./resources/gramatica.y"
+//#line 219 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ val_peek(3).sval);}
 break;
 case 112:
-//#line 220 "./resources/gramatica.y"
+//#line 220 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaban \";\" en la sentencia FOR");}
 break;
 case 113:
-//#line 221 "./resources/gramatica.y"
+//#line 221 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba UP o DOWN en la sentencia FOR");}
 break;
 case 114:
-//#line 222 "./resources/gramatica.y"
+//#line 222 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Falta inicialización en la sentencia FOR");}
 break;
 case 115:
-//#line 223 "./resources/gramatica.y"
+//#line 223 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Falta condicion en la sentencia FOR");}
 break;
 case 116:
-//#line 224 "./resources/gramatica.y"
+//#line 224 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Falta incremento en la sentencia FOR");}
 break;
 case 117:
-//#line 225 "./resources/gramatica.y"
+//#line 225 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"Se esperaba \")\" en la sentencia FOR");}
 break;
 case 118:
-//#line 226 "./resources/gramatica.y"
+//#line 226 "./gramatica.y"
 {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del FOR");}
 break;
 case 119:
-//#line 229 "./resources/gramatica.y"
+//#line 229 "./gramatica.y"
 {}
 break;
 case 120:
-//#line 230 "./resources/gramatica.y"
+//#line 230 "./gramatica.y"
 {}
 break;
 //#line 1257 "Parser.java"
