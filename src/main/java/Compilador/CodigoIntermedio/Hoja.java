@@ -1,12 +1,16 @@
 package Compilador.CodigoIntermedio;
 
-public class Hoja extends Nodo {
+public class Hoja extends ConTipo {
 
     public String ref; //referencia a la tabla de simbolos
 
-    public Hoja(String tipo, Nodo izquierdo, Nodo derecho, String ref) {
-        super(tipo, izquierdo, derecho);
+    public Hoja(String ref) {
+        super(null, null);
         this.ref = ref;
+    }
+
+    public Hoja(){
+        super();
     }
 
     @Override

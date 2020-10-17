@@ -3,6 +3,10 @@ package Compilador.Sintactico;
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Utilidad.Logger;
 import java.util.HashMap;
+import Compilador.CodigoIntermedio.*;
+
+
+
 %}
 
 %token IF THEN ELSE END_IF FUNC OUT RETURN INTEGER FLOAT FOR PROC NI VAR UP DOWN ID CTE_INT CTE_FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL COMP DISTINTO CARACTER_INVALIDO END 0
@@ -11,18 +15,18 @@ import java.util.HashMap;
 
 
 
-programa : conjunto_sentencias {}
+programa : conjunto_sentencias { raiz = (Nodo)$1.obj; }
 	 | END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias");}
 	 | error END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias validas");}
          ;
 
-conjunto_sentencias : sentencia {}
-                    | sentencia  conjunto_sentencias {}
+conjunto_sentencias : sentencia { $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));}
+                    | sentencia  conjunto_sentencias { $$ = new ParserVal(new Bloque((Nodo)$1.obj,(Nodo)$2.obj));}
                     ;
 
 
-sentencia : declarativa {}
-          | ejecutable { }
+sentencia : declarativa { }
+          | ejecutable { $$ = $1; }
           | error ';'{Logger.getInstance().addError(lex.linea,"Sentencia mal escrita");}
 	  ;
 
@@ -70,7 +74,9 @@ parametro: tipo ID {}
 	   | VAR tipo error {Logger.getInstance().addError(lex.linea,"Se esperaba identificador");}
            ;
 
-ejecutable : asignacion ';'{Logger.getInstance().addEvent(lex.linea,"Se encontr처 una sentencia de asignaci처n");}
+ejecutable : asignacion ';'{ Logger.getInstance().addEvent(lex.linea,"Se encontr처 una sentencia de asignaci처n");
+			     $$ = $1;
+			   }
            | asignacion {Logger.getInstance().addError(lex.linea,"Se esperaba \";\"");}
            | seleccion {Logger.getInstance().addEvent(lex.linea,"Se encontr처 una sentencia de seleccion"); }
            | salida ';' {Logger.getInstance().addEvent(lex.linea,"Se encontr처 una sentencia de salida");}
@@ -80,33 +86,51 @@ ejecutable : asignacion ';'{Logger.getInstance().addEvent(lex.linea,"Se encontr�
            | iteracion {Logger.getInstance().addEvent(lex.linea,"Se encontr처 una sentencia de control"); }
            ;
 
-asignacion : ID '=' expresion  {}
+asignacion : ID '=' expresion  {
+				 System.out.println("" + $1.obj);
+				 $1.obj = new Hoja($1.sval);
+				 $$ = new ParserVal(new Asignacion((Nodo)$1.obj,(Nodo)$3.obj));
+
+			       }
 	   | ID COMP expresion  {Logger.getInstance().addError(lex.linea,"Se encontr처 == en lugar de =");}
            | error '=' expresion {Logger.getInstance().addError(lex.linea,"Asignacion mal escrita");}
 	   | ID '=' error {Logger.getInstance().addError(lex.linea,"Asignacion mal escrita");}
            ;
 
-expresion : expresion '+' termino {}
-          | expresion '-' termino {}
-          | termino {}
+expresion : expresion '+' termino {
+    				    $$ = new ParserVal(new Suma((Nodo)$1.obj,(Nodo)$3.obj));
+    				  }
+          | expresion '-' termino {
+          			    $$ = new ParserVal(new Resta((Nodo)$1.obj,(Nodo)$3.obj));
+          			  }
+          | termino {
+          	      $$ = $1;
+          	    }
           ;
 
-termino : termino '/' factor {}
-        | termino '*' factor {}
-        | factor {}
+termino : termino '/' factor {
+			       $$ = new ParserVal(new Division((Nodo)$1.obj,(Nodo)$3.obj));
+			     }
+        | termino '*' factor {
+        		       $$ = new ParserVal(new Multiplicacion((Nodo)$1.obj,(Nodo)$3.obj));
+        		     }
+        | factor {
+                   $$ = $1;
+                 }
         ;
 
-factor : ID {}
+factor : ID { $$ = new ParserVal(new Hoja($1.sval));}
        | CTE_INT {
        			if ($1.sval!=null){
 				int i = (int) Integer.parseInt($1.sval);
 				if ( i > (int) Math.pow(2, 15) - 1) {
 					Logger.getInstance().addError(lex.linea,"Constante entera fuera de rango");
-
+				} else {
+					$$ = new ParserVal(new Hoja($1.sval));
 				}
 			}
 		 }
-       | CTE_FLOAT {}
+       | CTE_FLOAT { $$ = new ParserVal(new Hoja($1.sval)); }
        | '-' CTE_INT {
        			if($2.sval!=null){
 				int i = -(int) Integer.parseInt($2.sval);
@@ -116,11 +140,8 @@ factor : ID {}
 					    lex.tablaDeSimbolos.put(String.valueOf(i), aux);
 					}
 				int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-i)).get("Contador");
-				aux--;
-				if(aux != 0)
-					lex.tablaDeSimbolos.get(String.valueOf(-i)).put("Contador",aux);
-				else
-					lex.tablaDeSimbolos.remove(String.valueOf(-i));
+				lex.tablaDeSimbolos.get(String.valueOf(-i)).put("Contador",aux-1);
+				$$ = new ParserVal(new Hoja($1.sval));
 			}
        		     }
       | '-' CTE_FLOAT {
@@ -132,11 +153,8 @@ factor : ID {}
 					    lex.tablaDeSimbolos.put(String.valueOf(f), aux);
 				}
 				int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-f)).get("Contador");
-				aux--;
-				if(aux != 0)
-					lex.tablaDeSimbolos.get(String.valueOf(-f)).put("Contador",aux);
-				else
-					lex.tablaDeSimbolos.remove(String.valueOf(-f));
+				lex.tablaDeSimbolos.get(String.valueOf(-f)).put("Contador",aux-1);
+				$$ = new ParserVal(new Hoja($1.sval));
 			}
        		       }
        		       ;
@@ -233,6 +251,8 @@ incr_decr : UP {}
 %%
 
 AnalizadorLexico lex;
+public Nodo raiz = null;
+
 
 public Parser(AnalizadorLexico lex)
 {
@@ -255,3 +275,4 @@ void yyerror(String a)
 public int yyparse_publico() {
 	return yyparse();
 }
+

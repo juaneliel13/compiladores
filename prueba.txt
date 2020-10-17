@@ -1,0 +1,2 @@
+/%INTEGER carlos_pero_no_copiado;%/
+carlos_pero_no_copiados = 5_i;
