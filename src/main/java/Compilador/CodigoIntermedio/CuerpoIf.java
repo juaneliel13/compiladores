@@ -1,8 +1,8 @@
 package Compilador.CodigoIntermedio;
 
-public class If extends Nodo {
+public class CuerpoIf extends Nodo {
 
-    public If(Nodo izquierdo, Nodo derecho) {
+    public CuerpoIf(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);
     }
 

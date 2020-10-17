@@ -1,2 +1,5 @@
-/%INTEGER carlos_pero_no_copiado;%/
-carlos_pero_no_copiados = 5_i + 8_i * pepito/ carlitos_bulant - 1_i;
+IF ( 5_i * 8_i + c < 3_i / 8_i ) THEN
+    a = 3_i;
+ELSE
+    a = 3_i;
+END_IF
