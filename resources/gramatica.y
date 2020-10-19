@@ -4,7 +4,7 @@ import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Utilidad.Logger;
 import java.util.HashMap;
 import Compilador.CodigoIntermedio.*;
-
+import java.util.ArrayList;
 
 
 %}
@@ -35,7 +35,14 @@ declarativa : dec_variable ';'{Logger.getInstance().addEvent(lex.linea,"Se encon
             | dec_variable {Logger.getInstance().addError(lex.linea,"Se esperaba \";\"");}
             ;
 
-dec_variable : tipo lista_variables  {}
+dec_variable : tipo lista_variables  {
+		for (String id : (ArrayList<String>)($2.obj)){
+                	HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(id);
+                	aux.put("Uso","variable");
+ 		    	lex.tablaDeSimbolos.put(id+ambito,aux);
+
+                  }
+	     }
 	     | tipo lista_variables '=' expresion {Logger.getInstance().addError(lex.linea,"Asignacion en la declaración");}
              | lista_variables  {Logger.getInstance().addError(lex.linea,"Se esperaba un tipo");}
              | error lista_variables  {Logger.getInstance().addError(lex.linea,"Tipo no valido");}
@@ -45,17 +52,43 @@ tipo : INTEGER {}
      | FLOAT {}
      ;
 
-lista_variables : ID {}
-                | ID ',' lista_variables {}
+lista_variables : ID {
+			ArrayList<String> aux=new ArrayList<String>();
+			aux.add($1.sval);
+			$$=new ParserVal(aux);
+		}
+                | ID ',' lista_variables {
+                	ArrayList<String> aux = (ArrayList<String>)($3.obj);
+                	aux.add($1.sval);
+                	$$=$3;
+                }
 		;
 
-dec_procedimiento : PROC ID '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {}
-                  | PROC ID '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {}
-                  | PROC ID '(' lista_parametros ')' '{' conjunto_sentencias '}' { Logger.getInstance().addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");}
-                  | PROC ID '(' lista_parametros ')' NI '=' CTE_INT conjunto_sentencias '}' { Logger.getInstance().addError(lex.linea,"Se esperaba \"{\"");}
-                  | PROC ID '(' ')' '{' conjunto_sentencias '}' { Logger.getInstance().addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");}
-                  | PROC ID '(' lista_parametros ')' NI '=' CTE_INT '{'  '}'{ Logger.getInstance().addError(lex.linea,"Se esperaba una sentencia");}
-		  | PROC ID '(' ')' NI '=' CTE_INT '{'  '}'{Logger.getInstance().addError(lex.linea,"Se esperaba una sentencia");}
+encabezado_proc:PROC ID{HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
+			aux.put("Uso","procedimiento");
+                        lex.tablaDeSimbolos.put($2.sval+ambito,aux);
+			ambito+="@"+$2.sval;
+			}
+
+dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
+		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+		   }
+                  | encabezado_proc '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {ambito=ambito.substring(0,ambito.lastIndexOf("@"));}
+                  | encabezado_proc '(' lista_parametros ')' '{' conjunto_sentencias '}' { Logger.getInstance().addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
+                  									   ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+                  									 }
+                  | encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT conjunto_sentencias '}' { Logger.getInstance().addError(lex.linea,"Se esperaba \"{\"");
+                  										      ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+                  										    }
+                  | encabezado_proc '(' ')' '{' conjunto_sentencias '}' { Logger.getInstance().addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
+                  							 ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+                  							}
+                  | encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{'  '}'{ Logger.getInstance().addError(lex.linea,"Se esperaba una sentencia");
+                  								      ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+                  								    }
+		  | encabezado_proc '(' ')' NI '=' CTE_INT '{'  '}'{Logger.getInstance().addError(lex.linea,"Se esperaba una sentencia");
+		  						    ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+		  						   }
                   ;
 
 lista_parametros :parametro {}
@@ -299,11 +332,14 @@ incr_decr : UP {
 
 AnalizadorLexico lex;
 public Nodo raiz = null;
-
+String ambito;
+ArrayList<String> listaVariables;
 
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
+	ambito="@main";
+	listaVariables = new ArrayList<String>();
 }
 
 int yylex()
@@ -322,4 +358,5 @@ void yyerror(String a)
 public int yyparse_publico() {
 	return yyparse();
 }
+
 
