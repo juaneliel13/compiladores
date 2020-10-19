@@ -1,9 +1,9 @@
 package Compilador.CodigoIntermedio;
 
-public class For extends Nodo {
+public class Else extends Nodo {
 
-    public For(Nodo izquierdo, Nodo derecho) {
-        super(izquierdo, derecho);
+    public Else(Nodo nodo) {
+        super(nodo, null);
     }
 
     @Override

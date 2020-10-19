@@ -37,4 +37,8 @@ public abstract class Nodo {
             el_retorno += tabs + "\tnull\n";
         return el_retorno;
     }
+
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

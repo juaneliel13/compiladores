@@ -1,8 +1,8 @@
 package Compilador.CodigoIntermedio;
 
-public class For extends Nodo {
+public class CuerpoFor extends Nodo {
 
-    public For(Nodo izquierdo, Nodo derecho) {
+    public CuerpoFor(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);
     }
 

@@ -159,8 +159,14 @@ factor : ID { $$ = new ParserVal(new Hoja($1.sval));}
        		       }
        		       ;
 
-seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_then END_IF {}
-          | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {}
+seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_then END_IF {
+									  CuerpoIf aux = new CuerpoIf((Nodo)$6.obj,null);
+									  $$ = new ParserVal(new If((Nodo)$3.obj, aux));
+ 									}
+          | IF '(' condicion_if ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {
+          											       CuerpoIf aux = new CuerpoIf((Nodo)$6.obj,(Nodo)$8.obj);
+												       $$ = new ParserVal(new If((Nodo)$3.obj, aux));
+          											     }
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then bloque_ejecutables_else END_IF {Logger.getInstance().addError(lex.linea,"Se esperaba ELSE");}
           | IF '(' condicion_if THEN bloque_ejecutables_then END_IF {Logger.getInstance().addError(lex.linea,"Se esperaba \")\" luego de la condición"); }
           | IF '(' condicion_if ')' THEN bloque_ejecutables_then error {Logger.getInstance().addError(lex.linea,"Se esperaba END_IF");}
@@ -177,31 +183,48 @@ seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_then END_IF {}
           | IF '(' error ')' THEN bloque_ejecutables_then ELSE bloque_ejecutables_else END_IF {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
           ;
 
-condicion_if:expresion comparador expresion {}
+condicion_if:expresion comparador expresion {
+					      Nodo aux = (Nodo)$2.obj;
+					      aux.izquierdo = (Nodo)$1.obj;
+					      aux.derecho = (Nodo)$3.obj;
+					      $$ = $2;
+					    }
             | expresion error {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
             | comparador expresion {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
             | expresion comparador {Logger.getInstance().addError(lex.linea,"Condicion mal escrita");}
 	    ;
 
 
-comparador : '<' {}
-           | '>' {}
-           | COMP {}
-           | MAYOR_IGUAL {}
-           | MENOR_IGUAL {}
-           | DISTINTO {}
+comparador : '<' { $$ = new ParserVal(new Menor(null,null));}
+           | '>' { $$ = new ParserVal(new Mayor(null,null));}
+           | COMP { $$ = new ParserVal(new Igual(null,null));}
+           | MAYOR_IGUAL { $$ = new ParserVal(new MayorIgual(null,null));}
+           | MENOR_IGUAL { $$ = new ParserVal(new MenorIgual(null,null));}
+           | DISTINTO { $$ = new ParserVal(new Distinto(null,null));}
            ;
 
-bloque_ejecutables_then:ejecutable{}
-		       | '{'bloque_ejecutables'}' {}
+bloque_ejecutables_then:ejecutable{
+				    $$ = new ParserVal(new Then((Nodo)$1.obj));
+				  }
+		       | '{'bloque_ejecutables'}' {
+		       				    $$ = new ParserVal(new Then((Nodo)$1.obj));
+		       				  }
 		       ;
 
-bloque_ejecutables_else:ejecutable{}
-		       | '{'bloque_ejecutables'}' {}
+bloque_ejecutables_else:ejecutable{
+				    $$ = new ParserVal(new Else((Nodo)$1.obj));
+				  }
+		       | '{'bloque_ejecutables'}' {
+		       				    $$ = new ParserVal(new Else((Nodo)$1.obj));
+		       				  }
 		       ;
 
-bloque_ejecutables_for:ejecutable{}
-		       | '{'bloque_ejecutables'}' {}
+bloque_ejecutables_for:ejecutable{
+				   $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
+				 }
+		       | '{'bloque_ejecutables'}' {
+		       				    $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
+		       				  }
 		       ;
 
 bloque_ejecutables : ejecutable {}
@@ -232,6 +255,26 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 			if(!id_for.equals(id_comp)) {
 				Logger.getInstance().addError(lex.linea,"La variable de inicialización no es igual a la de condición");
 			}
+			//Creando la parte de la inicializacion de codigo
+			Asignacion inicializacion = new Asignacion(new Hoja($3.sval),new Hoja($5.sval));
+
+			//Creando la parte del incremento
+			Nodo incremento = (Nodo)$11.obj;
+			incremento.izquierdo = new Hoja($3.sval);
+			incremento.derecho = new Hoja($12.sval);
+			Asignacion asig = new Asignacion(new Hoja($3.sval),incremento);
+
+			//Creando la parte de la condicion
+			Nodo comp = (Nodo) $8.obj;
+			comp.izquierdo = new Hoja($7.sval);
+			comp.derecho = (Nodo) $9.obj;
+
+			//Agregandolo
+			CuerpoFor cuerpoFor = new CuerpoFor((Nodo)$14.obj,asig);
+			For forsito = new For(comp,cuerpoFor);
+			Bloque bloque = new Bloque(inicializacion,forsito);
+			$$ = new ParserVal(bloque);
+
 		}
 	  | FOR '(' ID '=' CTE_INT ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $6.sval);}
           | FOR '(' ID '=' CTE_INT ';' ID comparador expresion incr_decr CTE_INT ')' bloque_ejecutables_for {Logger.getInstance().addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $10.sval);}
@@ -244,8 +287,12 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
           | FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' declarativa {Logger.getInstance().addError(lex.linea,"No se permite declaraciones dentro del FOR");}
           ;
 
-incr_decr : UP {}
-          | DOWN {}
+incr_decr : UP {
+		$$ = new ParserVal(new Suma(null,null));
+	       }
+          | DOWN {
+          	   $$ = new ParserVal(new Resta(null,null));
+	 	 }
           ;
 
 %%
