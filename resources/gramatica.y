@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 
 programa : conjunto_sentencias { raiz = (Nodo)$1.obj; }
-	 | END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias");}
-	 | error END  {Logger.getInstance().addEvent(lex.linea,"Sin sentencias validas");}
+	 | END  {Logger.getInstance().addError(lex.linea,"Sin sentencias");}
+	 | error END  {Logger.getInstance().addError(lex.linea,"Sin sentencias validas");}
          ;
 
 conjunto_sentencias : sentencia { $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));}

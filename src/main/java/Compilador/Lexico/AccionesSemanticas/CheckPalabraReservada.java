@@ -16,7 +16,7 @@ public class CheckPalabraReservada extends AccionSemantica {
             lexico.token = lexico.palabrasReservadas.get(buffer);
         } else {
             Logger.getInstance().addError(lexico.linea,"Palabra reservada \"" + buffer + "\" no encontrada o mal escrita");
-            lexico.token = 900;//Palabra reservada no encontrada
+            lexico.estado=0;// Vuelve al estado inicial
 
         }
         lexico.indice--;

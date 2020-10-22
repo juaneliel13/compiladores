@@ -1,6 +1,1 @@
-INTEGER a;
-PROC hola() NI = 3_i { INTEGER b;
-PROC funcion() NI = 3_i { INTEGER b;}
-}
-
-INTEGER b;
+HOLA

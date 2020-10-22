@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 public class App {
     public static void main(String[] args) {
-        boolean imprime = false;
+        boolean imprime = true;
         if (args.length != 0) {
             String fileName;
             fileName = args[0];
@@ -28,7 +28,7 @@ public class App {
             Parser parser = new Parser(lexico);
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
             System.out.println(lexico.tablaDeSimbolos.toString());
-            System.out.println(parser.raiz.imprimision());
+//            System.out.println(parser.raiz.imprimision());
             if (imprime) {
                 logger.dumpErrors();
                 logger.dumpEvents();

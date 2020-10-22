@@ -832,11 +832,11 @@ case 1:
 break;
 case 2:
 //#line 19 "./resources/gramatica.y"
-{Logger.getInstance().addEvent(lex.linea,"Sin sentencias");}
+{Logger.getInstance().addError(lex.linea,"Sin sentencias");}
 break;
 case 3:
 //#line 20 "./resources/gramatica.y"
-{Logger.getInstance().addEvent(lex.linea,"Sin sentencias validas");}
+{Logger.getInstance().addError(lex.linea,"Sin sentencias validas");}
 break;
 case 4:
 //#line 23 "./resources/gramatica.y"
