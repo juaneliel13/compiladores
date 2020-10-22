@@ -10,7 +10,7 @@ public class ConTipo extends Nodo {
         super(izquierdo, derecho);
     }
 
-    public ConTipo(){
+    public ConTipo() {
         super();
     }
 

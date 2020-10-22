@@ -3,7 +3,7 @@ package Compilador.CodigoIntermedio;
 public class Then extends Nodo {
 
     public Then(Nodo nodo) {
-        super(nodo,null);
+        super(nodo, null);
     }
 
     @Override

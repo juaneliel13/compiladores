@@ -10,18 +10,9 @@ import java.util.List;
 
 public class Logger {
 
-    class SorterByFirst implements Comparator<Tupla<Integer, String>> {
-
-        @Override
-        public int compare(Tupla<Integer, String> t1, Tupla<Integer, String> t2) {
-            return t1.getFirst() - t2.getFirst();
-        }
-    }
-
     static Logger instance;
     static String path;
     static String filename;
-
     List<Tupla<Integer, String>> errors;
     List<Tupla<Integer, String>> warnings;
     List<Tupla<Integer, String>> events;
@@ -38,9 +29,9 @@ public class Logger {
         return instance;
     }
 
-    public static void setFilename(String filename) {
-        Logger.filename = filename.substring(filename.lastIndexOf(File.separator) + 1).split("\\.")[0];
-        Logger.path = filename.substring(0, filename.lastIndexOf(File.separator) + 1);
+    public static void setFilename(File file) {
+        Logger.filename = file.getName().split("\\.")[0];
+        Logger.path = file.getAbsoluteFile().getParent() + File.separator;
     }
 
     public void addError(int line, String msg) {
@@ -94,6 +85,14 @@ public class Logger {
             myFile.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    class SorterByFirst implements Comparator<Tupla<Integer, String>> {
+
+        @Override
+        public int compare(Tupla<Integer, String> t1, Tupla<Integer, String> t2) {
+            return t1.getFirst() - t2.getFirst();
         }
     }
 

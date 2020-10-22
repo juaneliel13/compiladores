@@ -9,7 +9,7 @@ public class Hoja extends ConTipo {
         this.ref = ref;
     }
 
-    public Hoja(){
+    public Hoja() {
         super();
     }
 

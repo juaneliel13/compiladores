@@ -10,7 +10,7 @@ public class ErrorSimboloNoReconocido extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        Logger.getInstance().addError(lexico.linea,"Se encontro un simbolo desconocido '" + simbolo + "'");
+        Logger.getInstance().addError(lexico.linea, "Se encontro un simbolo desconocido '" + simbolo + "'");
         lexico.error = true;
     }
 }

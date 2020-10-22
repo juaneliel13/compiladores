@@ -15,10 +15,10 @@ public class AltaIdentificador extends AccionSemantica {
     public void accion(char simbolo) {
         //se carga en algun lado
         if (buffer.length() > 20) {
-            Logger.getInstance().addWarning(lexico.linea,"Indentificador \"" + buffer + "\" truncado");
+            Logger.getInstance().addWarning(lexico.linea, "Indentificador \"" + buffer + "\" truncado");
             buffer = buffer.substring(0, 20);
         }
-        Logger.getInstance().addEvent(lexico.linea,"Se encontro el identificador \"" + buffer + "\"");
+        Logger.getInstance().addEvent(lexico.linea, "Se encontro el identificador \"" + buffer + "\"");
         if (!lexico.tablaDeSimbolos.containsKey(buffer)) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
             aux.put("Tipo", "IDENTIFICADOR");

@@ -2,7 +2,7 @@ package Compilador.CodigoIntermedio;
 
 public class Asignacion extends ConTipo {
 
-    public Asignacion(Nodo izquierdo, Nodo derecho){
+    public Asignacion(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);
     }
 

@@ -42,7 +42,7 @@ public class CheckOperador extends AccionSemantica {
                     else {
                         lexico.indice--;
                         lexico.error = true;
-                        Logger.getInstance().addError(lexico.linea,"Se esperaba \"!=\" y se encontró \"!\"");
+                        Logger.getInstance().addError(lexico.linea, "Se esperaba \"!=\" y se encontró \"!\"");
                     }
                     break;
                 case "=":
@@ -64,7 +64,7 @@ public class CheckOperador extends AccionSemantica {
                     break;
             }
         }
-        Logger.getInstance().addEvent(lexico.linea,"Se encontro el operador \"" + buffer + "\"");
+        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + buffer + "\"");
         buffer = "";
         lexico.yylval = null;
     }

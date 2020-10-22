@@ -11,7 +11,7 @@ public class ErrorEntero extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        Logger.getInstance().addError(lexico.linea,"Entero mal escrito");
+        Logger.getInstance().addError(lexico.linea, "Entero mal escrito");
         lexico.yylval = null;
         lexico.error = true;
         lexico.token = Parser.CTE_INT;
