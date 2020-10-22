@@ -16,16 +16,17 @@ public class CheckRangoFloat extends AccionSemantica {
         //leer el valor y checkear rango
         float flotante = 0.0f;
         boolean error = false;
-        if (buffer.contains("f")) {
-            buffer = buffer.replace('f', 'e');
+        String buffer_aux = this.buffer.toString();
+        if (buffer_aux.contains("f")) {
+            buffer_aux = buffer_aux.replace('f', 'e');
         }
         try {
-            flotante = Float.parseFloat(buffer);
+            flotante = Float.parseFloat(buffer_aux);
         } catch (Exception e) {
             error = true;
         }
         if (flotante > 3.40282347e+38f || (flotante < 1.17549435e-38f && flotante != 0.0f) || error) {
-            if (!buffer.equals(".")) {
+            if (!buffer_aux.equals(".")) {
                 Logger.getInstance().addError(lexico.linea, "Float fuera de rango");
 
             } else {
@@ -37,7 +38,7 @@ public class CheckRangoFloat extends AccionSemantica {
             lexico.error = true;
             lexico.yylval = null;
         } else {
-            Logger.getInstance().addEvent(lexico.linea, "Se encontro el float " + buffer.replace('e', 'f'));
+            Logger.getInstance().addEvent(lexico.linea, "Se encontro el float " + buffer_aux.replace('e', 'f'));
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(flotante))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
                 aux.put("Tipo", "FLOAT");
@@ -52,6 +53,6 @@ public class CheckRangoFloat extends AccionSemantica {
         }
         lexico.token = Parser.CTE_FLOAT;
         lexico.indice--;
-        buffer = "";
+        this.buffer.setLength(0);
     }
 }

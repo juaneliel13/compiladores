@@ -13,24 +13,25 @@ public class CheckCadena extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        //acomodar la wea
-        buffer += "'";
+
+        this.buffer.append("'");
+        String buffer_aux = this.buffer.toString();
         if (simbolo == '\r' || simbolo == '\n') {
             if (simbolo == '\r')
                 lexico.indice++;
             Logger.getInstance().addError(lexico.linea, "Salto de linea en la cadena");
             lexico.error = true;
         } else {
-            Logger.getInstance().addEvent(lexico.linea, "Se encontro la cadena " + buffer);
+            Logger.getInstance().addEvent(lexico.linea, "Se encontro la cadena " + buffer_aux);
         }
 
-        if (!lexico.tablaDeSimbolos.containsKey(buffer)) {
+        if (!lexico.tablaDeSimbolos.containsKey(buffer_aux)) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
             aux.put("Tipo", "STRING");
-            lexico.tablaDeSimbolos.put(buffer, aux);
+            lexico.tablaDeSimbolos.put(buffer_aux, aux);
         }
-        lexico.yylval = buffer;
+        lexico.yylval = buffer_aux;
         lexico.token = Parser.CADENA;
-        buffer = "";
+        this.buffer.setLength(0);
     }
 }

@@ -13,10 +13,11 @@ public class CheckRangoEntero extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
+        String buffer_aux = this.buffer.toString();
         int entero = (int) Math.pow(2, 15);
         boolean error = false;
         try {
-            entero = Integer.parseInt(buffer.split("_")[0]);
+            entero = Integer.parseInt(buffer_aux.split("_")[0]);
         } catch (NumberFormatException e) {
             error = true;
         }
@@ -25,7 +26,7 @@ public class CheckRangoEntero extends AccionSemantica {
             lexico.yylval = null;
             lexico.error = true;
         } else {
-            Logger.getInstance().addEvent(lexico.linea, "Se encontro el entero " + buffer + "i");
+            Logger.getInstance().addEvent(lexico.linea, "Se encontro el entero " + buffer_aux + "i");
             //Agregamos o actualizamos segun corresponda
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(entero))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
@@ -40,6 +41,6 @@ public class CheckRangoEntero extends AccionSemantica {
             lexico.yylval = String.valueOf(entero);
         }
         lexico.token = Parser.CTE_INT;
-        buffer = "";
+        this.buffer.setLength(0);
     }
 }

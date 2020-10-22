@@ -14,13 +14,13 @@ public class CheckOperador extends AccionSemantica {
         //Si el buffer es "" estamos en estado 0 sino en alguno de los operadores de mas de un caracter
         if (buffer.equals("")) {
             lexico.token = simbolo;
-            buffer += simbolo;
+            buffer.append(simbolo);
         } else {
-            switch (buffer) {
+            switch (buffer.toString()) {
                 case "<":
                     if (simbolo == '=') {
                         lexico.token = Parser.MENOR_IGUAL;
-                        buffer += simbolo;
+                        buffer.append(simbolo);
                     } else {
                         lexico.token = '<';
                         lexico.indice--;
@@ -29,7 +29,7 @@ public class CheckOperador extends AccionSemantica {
                 case ">":
                     if (simbolo == '=') {
                         lexico.token = Parser.MAYOR_IGUAL;
-                        buffer += simbolo;
+                        buffer.append(simbolo);
                     } else {
                         lexico.token = '>';
                         lexico.indice--;
@@ -38,7 +38,7 @@ public class CheckOperador extends AccionSemantica {
                 case "!":
                     lexico.token = Parser.DISTINTO;
                     if (simbolo == '=')
-                        buffer += simbolo;
+                        buffer.append(simbolo);
                     else {
                         lexico.indice--;
                         lexico.error = true;
@@ -48,7 +48,7 @@ public class CheckOperador extends AccionSemantica {
                 case "=":
                     if (simbolo == '=') {
                         lexico.token = Parser.COMP;
-                        buffer += simbolo;
+                        buffer.append(simbolo);
                     } else {
                         lexico.token = '=';
                         lexico.indice--;
@@ -64,8 +64,8 @@ public class CheckOperador extends AccionSemantica {
                     break;
             }
         }
-        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + buffer + "\"");
-        buffer = "";
+        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + buffer.toString() + "\"");
+        buffer.setLength(0);
         lexico.yylval = null;
     }
 }

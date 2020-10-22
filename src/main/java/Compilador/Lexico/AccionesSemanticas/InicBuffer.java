@@ -9,6 +9,7 @@ public class InicBuffer extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        buffer = "" + simbolo;
+        buffer.setLength(0);
+        buffer.append(simbolo);
     }
 }

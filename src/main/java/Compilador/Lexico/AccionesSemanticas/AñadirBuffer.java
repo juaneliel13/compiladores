@@ -9,6 +9,6 @@ public class AñadirBuffer extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-        buffer = buffer + simbolo;
+        buffer.append(simbolo);
     }
 }

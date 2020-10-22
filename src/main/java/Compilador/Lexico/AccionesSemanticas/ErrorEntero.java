@@ -16,6 +16,6 @@ public class ErrorEntero extends AccionSemantica {
         lexico.error = true;
         lexico.token = Parser.CTE_INT;
         lexico.indice--;
-        buffer = "";
+        buffer.setLength(0);
     }
 }

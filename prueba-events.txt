@@ -1,0 +1,4 @@
+Evento en la linea 1: Se encontro el identificador "a".
+Evento en la linea 1: Se encontro el operador "=".
+Evento en la linea 1: Se encontro el identificador "b".
+Evento en la linea 1: Se encontro el operador "".

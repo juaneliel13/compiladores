@@ -120,7 +120,6 @@ ejecutable : asignacion ';'{ Logger.getInstance().addEvent(lex.linea,"Se encontr
            ;
 
 asignacion : ID '=' expresion  {
-				 System.out.println("" + $1.obj);
 				 $1.obj = new Hoja($1.sval);
 				 $$ = new ParserVal(new Asignacion((Nodo)$1.obj,(Nodo)$3.obj));
 
