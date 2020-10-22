@@ -94,7 +94,6 @@ public class AnalizadorLexico {
         AccionSemantica checkRangoFloat = new CheckRangoFloat(this);
         AccionSemantica checkCadena = new CheckCadena(this);
         AccionSemantica checkPalabraReservada = new CheckPalabraReservada(this);
-        AccionSemantica saltoLineaCadena = new SaltoLineaCadena(this);
         AccionSemantica errorEntero = new ErrorEntero(this);
         AccionSemantica errorFloat = new ErrorFloat(this);
         AccionSemantica errorSimboloNoReconocido = new ErrorSimboloNoReconocido(this);
