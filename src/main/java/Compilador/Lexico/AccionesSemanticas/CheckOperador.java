@@ -12,15 +12,16 @@ public class CheckOperador extends AccionSemantica {
     @Override
     public void accion(char simbolo) {
         //Si el buffer es "" estamos en estado 0 sino en alguno de los operadores de mas de un caracter
-        if (buffer.equals("")) {
+        String buffer_aux=buffer.toString();
+        if (buffer_aux.equals("")) {
             lexico.token = simbolo;
-            buffer.append(simbolo);
+            this.buffer.append(simbolo);
         } else {
-            switch (buffer.toString()) {
+            switch (buffer_aux) {
                 case "<":
                     if (simbolo == '=') {
                         lexico.token = Parser.MENOR_IGUAL;
-                        buffer.append(simbolo);
+                        this.buffer.append(simbolo);
                     } else {
                         lexico.token = '<';
                         lexico.indice--;
@@ -29,7 +30,7 @@ public class CheckOperador extends AccionSemantica {
                 case ">":
                     if (simbolo == '=') {
                         lexico.token = Parser.MAYOR_IGUAL;
-                        buffer.append(simbolo);
+                        this.buffer.append(simbolo);
                     } else {
                         lexico.token = '>';
                         lexico.indice--;
@@ -38,7 +39,7 @@ public class CheckOperador extends AccionSemantica {
                 case "!":
                     lexico.token = Parser.DISTINTO;
                     if (simbolo == '=')
-                        buffer.append(simbolo);
+                        this.buffer.append(simbolo);
                     else {
                         lexico.indice--;
                         lexico.error = true;
@@ -48,7 +49,7 @@ public class CheckOperador extends AccionSemantica {
                 case "=":
                     if (simbolo == '=') {
                         lexico.token = Parser.COMP;
-                        buffer.append(simbolo);
+                        this.buffer.append(simbolo);
                     } else {
                         lexico.token = '=';
                         lexico.indice--;
@@ -57,15 +58,16 @@ public class CheckOperador extends AccionSemantica {
                     break;
 
                 case "/":
-                    lexico.token = buffer.charAt(0);
+                    lexico.token = this.buffer.charAt(0);
                     lexico.indice--;
                 default:
 
                     break;
             }
         }
-        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + buffer.toString() + "\"");
-        buffer.setLength(0);
+        buffer_aux=buffer.toString();
+        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + this.buffer+ "\"");
+        this.buffer.setLength(0);
         lexico.yylval = null;
     }
 }

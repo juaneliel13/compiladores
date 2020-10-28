@@ -98,6 +98,7 @@ lista_parametros :parametro {}
                  | parametro   parametro  parametro  {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
                  | parametro ','  parametro  parametro  {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
                  | parametro   parametro ',' parametro  {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
+                 | parametro ',' parametro ',' parametro error {Logger.getInstance().addError(lex.linea,"Se esperaban como maximo 3 parametros");}
                  ;
 
 parametro: tipo ID {}
@@ -153,6 +154,7 @@ termino : termino '/' factor {
 
 factor : ID { $$ = new ParserVal(new Hoja($1.sval));}
        | CTE_INT {
+
        			if ($1.sval!=null){
 				int i = (int) Integer.parseInt($1.sval);
 				if ( i > (int) Math.pow(2, 15) - 1) {
@@ -177,7 +179,9 @@ factor : ID { $$ = new ParserVal(new Hoja($1.sval));}
 			}
        		     }
       | '-' CTE_FLOAT {
+
       			if($2.sval!=null){
+
 				float f = -(float) Float.parseFloat($2.sval);
 				if (!lex.tablaDeSimbolos.containsKey(String.valueOf(f))) {
 					    HashMap<String, Object> aux = new HashMap<String, Object>();
@@ -279,6 +283,7 @@ parametros : ID {}
            | ID  ID  ID {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
            | ID ',' ID  ID {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
            | ID  ID ',' ID {Logger.getInstance().addError(lex.linea,"Se esperaba \",\"");}
+           | ID ',' ID ',' ID error {Logger.getInstance().addError(lex.linea,"Se esperaban como maximo 3 parametros");}
            ;
 
 iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {

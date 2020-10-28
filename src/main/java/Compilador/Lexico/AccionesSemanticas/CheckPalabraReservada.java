@@ -10,12 +10,12 @@ public class CheckPalabraReservada extends AccionSemantica {
 
     @Override
     public void accion(char simbolo) {
-
-        if (lexico.palabrasReservadas.containsKey(buffer)) {
-            Logger.getInstance().addEvent(lexico.linea, "Se encontro la palabra reservada " + buffer);
-            lexico.token = lexico.palabrasReservadas.get(buffer);
+        String buffer_aux=buffer.toString();
+        if (lexico.palabrasReservadas.containsKey(buffer_aux)) {
+            Logger.getInstance().addEvent(lexico.linea, "Se encontro la palabra reservada " + buffer_aux);
+            lexico.token = lexico.palabrasReservadas.get(buffer_aux);
         } else {
-            Logger.getInstance().addError(lexico.linea, "Palabra reservada \"" + buffer + "\" no encontrada o mal escrita");
+            Logger.getInstance().addError(lexico.linea, "Palabra reservada \"" + buffer_aux + "\" no encontrada o mal escrita");
             lexico.estado = 0;// Vuelve al estado inicial
 
         }

@@ -23,7 +23,7 @@ public class App {
             }
             AnalizadorLexico lexico = new AnalizadorLexico(data);
             /*for(int i=-1; i!=0;i=lexico.getToken()){
-
+                System.out.println(i);
             }*/
             Parser parser = new Parser(lexico);
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());

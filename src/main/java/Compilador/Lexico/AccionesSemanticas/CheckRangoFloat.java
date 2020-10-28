@@ -26,6 +26,7 @@ public class CheckRangoFloat extends AccionSemantica {
             error = true;
         }
         if (flotante > 3.40282347e+38f || (flotante < 1.17549435e-38f && flotante != 0.0f) || error) {
+            //SE CHECKEA QUE NO SEA UN "." SOLO YA QUE EL AUTOMATA ADMITE EL "." SOLO
             if (!buffer_aux.equals(".")) {
                 Logger.getInstance().addError(lexico.linea, "Float fuera de rango");
 
