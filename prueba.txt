@@ -1,1 +1,1 @@
-a(a,b,a);
+INTEGER a,b,c;

@@ -268,6 +268,11 @@ bloque_ejecutables : ejecutable {}
                    ;
 
 salida : OUT '(' CADENA ')' {}
+       | OUT '(' ID ')' {}
+       | OUT '(' CTE_INT ')' {}
+       | OUT '(' '-' CTE_INT ')' {}
+       | OUT '(' CTE_FLOAT ')' {}
+       | OUT '(' '-' CTE_FLOAT ')' {}
        | OUT '(' ')' {Logger.getInstance().addError(lex.linea,"Se esperaba una cadena");}
        | OUT error {Logger.getInstance().addError(lex.linea,"Sentencia OUT mal escrita");}
        ;
