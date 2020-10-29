@@ -18,4 +18,4 @@ log/
 target/
 
 # Agregados por nosotros
-testsPrograms/
+/testsPrograms/
