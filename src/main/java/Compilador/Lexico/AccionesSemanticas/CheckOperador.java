@@ -12,12 +12,11 @@ public class CheckOperador extends AccionSemantica {
     @Override
     public void accion(char simbolo) {
         //Si el buffer es "" estamos en estado 0 sino en alguno de los operadores de mas de un caracter
-        String buffer_aux=buffer.toString();
-        if (buffer_aux.equals("")) {
+        if (this.buffer.toString().equals("")) {
             lexico.token = simbolo;
             this.buffer.append(simbolo);
         } else {
-            switch (buffer_aux) {
+            switch (this.buffer.toString()) {
                 case "<":
                     if (simbolo == '=') {
                         lexico.token = Parser.MENOR_IGUAL;
@@ -65,8 +64,7 @@ public class CheckOperador extends AccionSemantica {
                     break;
             }
         }
-        buffer_aux=buffer.toString();
-        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + this.buffer+ "\"");
+        Logger.getInstance().addEvent(lexico.linea, "Se encontro el operador \"" + this.buffer + "\"");
         this.buffer.setLength(0);
         lexico.yylval = null;
     }
