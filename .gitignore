@@ -14,8 +14,8 @@
 .DS_Store
  
 # Maven
-log/
-target/
+/log/
+/target/
 
 # Agregados por nosotros
 /testsPrograms/
