@@ -17,7 +17,7 @@ public class App {
             Logger logger = Logger.getInstance();
             Logger.setFilename(file);
             try {
-                data = new String(Files.readAllBytes(Paths.get(file.getName())));
+                data = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
