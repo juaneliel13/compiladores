@@ -239,29 +239,27 @@ comparador : '<' { $$ = new ParserVal(new Menor(null,null));}
            | DISTINTO { $$ = new ParserVal(new Distinto(null,null));}
            ;
 
-bloque_ejecutables_then:ejecutable{
-				    $$ = new ParserVal(new Then((Nodo)$1.obj));
-				  }
-		       | '{'bloque_ejecutables'}' {
+bloque_ejecutables_then:bloque_ejecutables_llaves {
 		       				    $$ = new ParserVal(new Then((Nodo)$1.obj));
-		       				  }
+		       				}
 		       ;
 
-bloque_ejecutables_else:ejecutable{
-				    $$ = new ParserVal(new Else((Nodo)$1.obj));
-				  }
-		       | '{'bloque_ejecutables'}' {
+bloque_ejecutables_else:bloque_ejecutables_llaves {
 		       				    $$ = new ParserVal(new Else((Nodo)$1.obj));
 		       				  }
 		       ;
 
-bloque_ejecutables_for:ejecutable{
-				   $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
-				 }
-		       | '{'bloque_ejecutables'}' {
+bloque_ejecutables_for:bloque_ejecutables_llaves {
 		       				    $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
 		       				  }
 		       ;
+
+bloque_ejecutables_llaves: '{' bloque_ejecutables '}' {}
+			 | '{' '}' {}
+			 //| bloque_ejecutables '}' {}
+			 | ejecutable {}
+			 ;
+
 
 bloque_ejecutables : ejecutable {}
                    | ejecutable bloque_ejecutables  {}
