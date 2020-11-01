@@ -37,9 +37,20 @@ declarativa : dec_variable ';'{logger.addEvent(lex.linea,"Se encontró una sente
 
 dec_variable : tipo lista_variables  {
 		for (String id : (ArrayList<String>)($2.obj)){
-                	HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(id);
-                	aux.put("Uso","variable");
- 		    	lex.tablaDeSimbolos.put(id+ambito,aux);
+			if(lex.tablaDeSimbolos.containsKey(id+ambito)){
+				HashMap<String, Object> var = lex.tablaDeSimbolos.get(id+ambito);
+				String uso = (String)var.get("Uso");
+				if(uso.equals("variable")){
+					logger.addError(lex.linea,"Variable "+id+ " redeclarada");
+					error=true;
+				}
+
+ 		    	}
+ 		    	else{
+ 		    		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(id);
+                                aux.put("Uso","variable");
+                                lex.tablaDeSimbolos.put(id+ambito,aux);
+                        }
 
                   }
 	     }
@@ -68,6 +79,7 @@ encabezado_proc:PROC ID{HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($
 			aux.put("Uso","procedimiento");
                         lex.tablaDeSimbolos.put($2.sval+ambito,aux);
 			ambito+="@"+$2.sval;
+			$$=$2;
 			}
 
 dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
@@ -101,7 +113,11 @@ lista_parametros :parametro {}
                  | parametro ',' parametro ',' parametro error {logger.addError(lex.linea,"Se esperaban como maximo 3 parametros");}
                  ;
 
-parametro: tipo ID {}
+parametro: tipo ID {
+		    HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
+		    aux.put("Uso","variable");
+                    lex.tablaDeSimbolos.put($2.sval+ambito,aux);
+	   }
 	   | VAR tipo ID {};
 	   | VAR ID {logger.addError(lex.linea,"Se esperaba tipo");}
 	   | ID {logger.addError(lex.linea,"Se esperaba tipo");}
@@ -342,7 +358,7 @@ public Nodo raiz = null;
 String ambito;
 ArrayList<String> listaVariables;
 Logger logger = Logger.getInstance();
-
+boolean error = false;
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
