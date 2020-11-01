@@ -41,9 +41,10 @@ dec_variable : tipo lista_variables  {
 				HashMap<String, Object> var = lex.tablaDeSimbolos.get(id+ambito);
 				String uso = (String)var.get("Uso");
 				if(uso.equals("variable")){
-					logger.addError(lex.linea,"Variable "+id+ " redeclarada");
-					error=true;
+					logger.addError(lex.linea,"Variable \""+ id + "\" redeclarada");
 				}
+				else
+					logger.addError(lex.linea,"Identificador \""+ id + "\" en uso.");
 
  		    	}
  		    	else{
@@ -75,11 +76,23 @@ lista_variables : ID {
                 }
 		;
 
-encabezado_proc:PROC ID{HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
-			aux.put("Uso","procedimiento");
-                        lex.tablaDeSimbolos.put($2.sval+ambito,aux);
-			ambito+="@"+$2.sval;
-			$$=$2;
+encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
+                        	HashMap<String, Object> var = lex.tablaDeSimbolos.get($2.sval+ambito);
+                        	String uso = (String)var.get("Uso");
+                        	if(uso.equals("procedimiento")){
+                        		logger.addError(lex.linea,"Procedimiento \""+ $2.sval + "\" redeclarado");
+                        	}
+                        	else
+                                	logger.addError(lex.linea,"Identificador \""+ id + "\" en uso.");
+
+                        }
+			else{
+				HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
+				aux.put("Uso","procedimiento");
+				lex.tablaDeSimbolos.put($2.sval+ambito,aux);
+				ambito+="@"+$2.sval;
+				$$=$2;
+			}
 			}
 
 dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
@@ -136,9 +149,14 @@ ejecutable : asignacion ';'{ logger.addEvent(lex.linea,"Se encontró una sentenc
            | iteracion {logger.addEvent(lex.linea,"Se encontró una sentencia de control"); }
            ;
 
-asignacion : ID '=' expresion  {
-				 $1.obj = new Hoja($1.sval);
-				 $$ = new ParserVal(new Asignacion((Nodo)$1.obj,(Nodo)$3.obj));
+asignacion : ID '=' expresion  { String var =getIdentificador($1.sval);
+				if(var==null){
+                                	logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
+                                }
+				else{
+					$1.obj = new Hoja(var);
+					$$ = new ParserVal(new Asignacion((Nodo)$1.obj,(Nodo)$3.obj));
+				 }
 
 			       }
 	   | ID COMP expresion  {logger.addError(lex.linea,"Se encontró == en lugar de =");}
@@ -168,7 +186,13 @@ termino : termino '/' factor {
                  }
         ;
 
-factor : ID { $$ = new ParserVal(new Hoja($1.sval));}
+factor : ID {	String var = getIdentificador($1.sval);
+		if(var==null){
+			logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
+		}
+		else
+			$$ = new ParserVal(new Hoja(var));
+	}
        | CTE_INT {
 
        			if ($1.sval!=null){
@@ -291,14 +315,75 @@ salida : OUT '(' CADENA ')' {}
        | OUT error {logger.addError(lex.linea,"Sentencia OUT mal escrita");}
        ;
 
-llamada : ID '(' parametros ')'  {}
-	| ID '(' ')'  {}
+llamada : ID '(' parametros ')'  {
+				String proc = getIdentificador($1.sval);
+				if(proc==null){
+					logger.addError(lex.linea,"Procedimiento \""+ $1.sval+ "\" no declarado" );
+				}
+				else{
+					String a;
+
+					//codigo de generacion de codigo intermedio
+				}
+	}
+	| ID '(' ')'  {
+			String proc = getIdentificador($1.sval);
+			if(proc==null){
+				logger.addError(lex.linea,"Procedimiento \""+ $1.sval+ "\" no declarado" );
+			}
+			else{
+				String a;
+
+				//codigo de generacion de codigo intermedio
+			}
+	}
 	;
 
-parametros : ID {}
-           | ID ',' ID {}
+parametros : ID {
+		String var = getIdentificador($1.sval);
+		if(var==null){
+			logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
+		}
+		else{
+			String a;
+
+			//codigo de generacion de codigo intermedio
+		}
+		}
+           | ID ',' ID {
+           		ArrayList<String> ids=new ArrayList<String>();
+           		ids.add($1.sval);
+           		ids.add($3.sval);
+           		for (String sval: ids){
+           			String var = getIdentificador(sval);
+				if(var==null){
+					logger.addError(lex.linea,"Variable \""+ sval+ "\" no declarada" );
+				}
+				else{
+					String a;
+					//codigo de generacion de codigo intermedio
+				}
+           		}
+
+
+           }
            | ID  ID {logger.addError(lex.linea,"Se esperaba \",\"");}
-           | ID ',' ID ',' ID {}
+           | ID ',' ID ',' ID {
+				ArrayList<String> ids=new ArrayList<String>();
+				ids.add($1.sval);
+				ids.add($3.sval);
+				ids.add($5.sval);
+				for (String sval: ids){
+					String var = getIdentificador(sval);
+					if(var==null){
+						logger.addError(lex.linea,"Variable \""+ sval+ "\" no declarada" );
+					}
+					else{
+						String a;
+						//codigo de generacion de codigo intermedio
+					}
+				}
+           }
            | ID  ID  ID {logger.addError(lex.linea,"Se esperaba \",\"");}
            | ID ',' ID  ID {logger.addError(lex.linea,"Se esperaba \",\"");}
            | ID  ID ',' ID {logger.addError(lex.linea,"Se esperaba \",\"");}
@@ -308,28 +393,34 @@ parametros : ID {}
 iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {
 			String id_for = $3.sval;
 			String id_comp = $7.sval;
-			if(!id_for.equals(id_comp)) {
-				logger.addError(lex.linea,"La variable de inicialización no es igual a la de condición");
+			String var = getIdentificador(id_for);
+			if(var==null){
+				logger.addError(lex.linea,"Variable \""+ id_for+ "\" no declarada" );
 			}
-			//Creando la parte de la inicializacion de codigo
-			Asignacion inicializacion = new Asignacion(new Hoja($3.sval),new Hoja($5.sval));
+			else{
+                        	if(!id_for.equals(id_comp)) {
+					logger.addError(lex.linea,"La variable de inicialización no es igual a la de condición");
+				}
+				//Creando la parte de la inicializacion de codigo
+				Asignacion inicializacion = new Asignacion(new Hoja($3.sval),new Hoja($5.sval));
 
-			//Creando la parte del incremento
-			Nodo incremento = (Nodo)$11.obj;
-			incremento.izquierdo = new Hoja($3.sval);
-			incremento.derecho = new Hoja($12.sval);
-			Asignacion asig = new Asignacion(new Hoja($3.sval),incremento);
+				//Creando la parte del incremento
+				Nodo incremento = (Nodo)$11.obj;
+				incremento.izquierdo = new Hoja($3.sval);
+				incremento.derecho = new Hoja($12.sval);
+				Asignacion asig = new Asignacion(new Hoja($3.sval),incremento);
 
-			//Creando la parte de la condicion
-			Nodo comp = (Nodo) $8.obj;
-			comp.izquierdo = new Hoja($7.sval);
-			comp.derecho = (Nodo) $9.obj;
+				//Creando la parte de la condicion
+				Nodo comp = (Nodo) $8.obj;
+				comp.izquierdo = new Hoja($7.sval);
+				comp.derecho = (Nodo) $9.obj;
 
-			//Agregandolo
-			CuerpoFor cuerpoFor = new CuerpoFor((Nodo)$14.obj,asig);
-			For forsito = new For(comp,cuerpoFor);
-			Bloque bloque = new Bloque(inicializacion,forsito);
-			$$ = new ParserVal(bloque);
+				//Agregandolo
+				CuerpoFor cuerpoFor = new CuerpoFor((Nodo)$14.obj,asig);
+				For forsito = new For(comp,cuerpoFor);
+				Bloque bloque = new Bloque(inicializacion,forsito);
+				$$ = new ParserVal(bloque);
+			}
 
 		}
 	  | FOR '(' ID '=' CTE_INT ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {logger.addError(lex.linea,"Se esperaba \";\" pero se recibio "+ $6.sval);}
@@ -358,7 +449,7 @@ public Nodo raiz = null;
 String ambito;
 ArrayList<String> listaVariables;
 Logger logger = Logger.getInstance();
-boolean error = false;
+public boolean error = false;
 public Parser(AnalizadorLexico lex)
 {
 	this.lex = lex;
@@ -383,4 +474,17 @@ public int yyparse_publico() {
 	return yyparse();
 }
 
+public String getIdentificador(String sval){
+
+	String id=sval+ambito;
+       	while(!id.equals(sval)){
+	       	if(!lex.tablaDeSimbolos.containsKey(id))
+	       		id=id.substring(0,id.lastIndexOf("@"));
+		else
+	       		break;
+	}
+	if(id.equals(sval))
+		return null;
+	return id;
+}
 

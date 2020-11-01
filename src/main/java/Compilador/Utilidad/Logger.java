@@ -1,6 +1,8 @@
 package Compilador.Utilidad;
 
 
+import Compilador.Sintactico.Parser;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +18,7 @@ public class Logger {
     List<Tupla<Integer, String>> errors;
     List<Tupla<Integer, String>> warnings;
     List<Tupla<Integer, String>> events;
+    static Parser parser;
 
     private Logger() {
         this.errors = new ArrayList<Tupla<Integer, String>>();
@@ -34,8 +37,14 @@ public class Logger {
         Logger.path = file.getAbsoluteFile().getParent() + File.separator;
     }
 
+    public static void setParser(Parser parser){
+        Logger.parser=parser;
+
+    }
+
     public void addError(int line, String msg) {
         this.errors.add(new Tupla<>(line, msg));
+        parser.error=true;
     }
 
     public void addWarning(int line, String msg) {

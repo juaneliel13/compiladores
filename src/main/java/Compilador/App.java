@@ -26,6 +26,7 @@ public class App {
                 System.out.println(i);
             }*/
             Parser parser = new Parser(lexico);
+            Logger.setParser(parser);
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
             System.out.println(lexico.tablaDeSimbolos.toString());
 //            System.out.println(parser.raiz.imprimision());
