@@ -152,7 +152,7 @@ lista_parametros :parametro {}
 parametro: tipo ID {
 		    HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
 		    aux.put("Uso","variable");
-
+		    aux.put("Tipo",(Tipos)$1.obj);
                     lex.tablaDeSimbolos.put($2.sval+ambito,aux);
 	   }
 	   | VAR tipo ID {};
