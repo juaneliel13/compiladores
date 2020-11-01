@@ -50,6 +50,7 @@ dec_variable : tipo lista_variables  {
  		    	else{
  		    		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(id);
                                 aux.put("Uso","variable");
+                                aux.put("Tipo",$1.sval);
                                 lex.tablaDeSimbolos.put(id+ambito,aux);
                         }
 
@@ -83,7 +84,7 @@ encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
                         		logger.addError(lex.linea,"Procedimiento \""+ $2.sval + "\" redeclarado");
                         	}
                         	else
-                                	logger.addError(lex.linea,"Identificador \""+ id + "\" en uso.");
+                                	logger.addError(lex.linea,"Identificador \""+ $2.sval + "\" en uso.");
 
                         }
 			else{

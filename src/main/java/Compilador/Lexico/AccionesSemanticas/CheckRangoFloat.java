@@ -1,6 +1,7 @@
 package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
+import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
 
@@ -42,7 +43,7 @@ public class CheckRangoFloat extends AccionSemantica {
             Logger.getInstance().addEvent(lexico.linea, "Se encontro el float " + buffer_aux.replace('e', 'f'));
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(flotante))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
-                aux.put("Tipo", "FLOAT");
+                aux.put("Tipo", Tipos.FLOAT);
                 aux.put("Contador", 1);
                 lexico.tablaDeSimbolos.put(String.valueOf(flotante), aux);
             } else {

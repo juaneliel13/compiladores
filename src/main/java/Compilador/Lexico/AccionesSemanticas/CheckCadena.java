@@ -1,6 +1,7 @@
 package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
+import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
 
@@ -27,7 +28,7 @@ public class CheckCadena extends AccionSemantica {
 
         if (!lexico.tablaDeSimbolos.containsKey(buffer_aux)) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
-            aux.put("Tipo", "STRING");
+            aux.put("Tipo", Tipos.STRING);
             lexico.tablaDeSimbolos.put(buffer_aux, aux);
         }
         lexico.yylval = buffer_aux;

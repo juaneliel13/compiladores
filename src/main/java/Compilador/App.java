@@ -1,5 +1,6 @@
 package Compilador;
 
+import Compilador.CodigoIntermedio.Nodo;
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
@@ -26,6 +27,7 @@ public class App {
                 System.out.println(i);
             }*/
             Parser parser = new Parser(lexico);
+            Nodo.setLexico(lexico);
             Logger.setParser(parser);
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
             System.out.println(lexico.tablaDeSimbolos.toString());

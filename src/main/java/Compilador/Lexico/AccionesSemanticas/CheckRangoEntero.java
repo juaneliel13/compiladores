@@ -1,6 +1,7 @@
 package Compilador.Lexico.AccionesSemanticas;
 
 import Compilador.Lexico.AnalizadorLexico;
+import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
 
@@ -30,7 +31,7 @@ public class CheckRangoEntero extends AccionSemantica {
             //Agregamos o actualizamos segun corresponda
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(entero))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
-                aux.put("Tipo", "INT");
+                aux.put("Tipo", Tipos.INT);
                 aux.put("Contador", 1);
                 lexico.tablaDeSimbolos.put(String.valueOf(entero), aux);
             } else {

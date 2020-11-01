@@ -1,12 +1,19 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.Lexico.AnalizadorLexico;
+
 public abstract class Nodo {
 
     public Nodo izquierdo = null, derecho = null;
+    public static AnalizadorLexico lex;
 
     public Nodo(Nodo izquierdo, Nodo derecho) {
         this.izquierdo = izquierdo;
         this.derecho = derecho;
+    }
+
+    public static void setLexico(AnalizadorLexico lex){
+        Nodo.lex=lex;
     }
 
     public Nodo() {

@@ -1,5 +1,8 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.Lexico.AnalizadorLexico;
+import Compilador.Lexico.Tipos;
+
 public class Hoja extends ConTipo {
 
     public String ref; //referencia a la tabla de simbolos
@@ -7,6 +10,7 @@ public class Hoja extends ConTipo {
     public Hoja(String ref) {
         super(null, null);
         this.ref = ref;
+        setTipo((Tipos)lex.tablaDeSimbolos.get(ref).get("Tipo"));
     }
 
     public Hoja() {
