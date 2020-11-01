@@ -12,5 +12,6 @@ public abstract class Operador extends ConTipo {
         return null;
     }
 
+    public abstract void updateTipo();
     public abstract String metodoAbstracto();
 }

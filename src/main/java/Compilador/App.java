@@ -31,7 +31,7 @@ public class App {
             Logger.setParser(parser);
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
             System.out.println(lexico.tablaDeSimbolos.toString());
-//            System.out.println(parser.raiz.imprimision());
+            System.out.println(parser.raiz.imprimision());
             if (imprime) {
                 logger.dumpErrors();
                 logger.dumpEvents();

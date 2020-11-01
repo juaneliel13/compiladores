@@ -31,7 +31,7 @@ public class CheckRangoEntero extends AccionSemantica {
             //Agregamos o actualizamos segun corresponda
             if (!lexico.tablaDeSimbolos.containsKey(String.valueOf(entero))) {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
-                aux.put("Tipo", Tipos.INT);
+                aux.put("Tipo", Tipos.INTEGER);
                 aux.put("Contador", 1);
                 lexico.tablaDeSimbolos.put(String.valueOf(entero), aux);
             } else {

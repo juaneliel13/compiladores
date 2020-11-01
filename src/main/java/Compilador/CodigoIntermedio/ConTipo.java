@@ -4,7 +4,7 @@ import Compilador.Lexico.Tipos;
 
 public class ConTipo extends Nodo {
 
-    Tipos tipo;
+    private Tipos tipo;
 
     public ConTipo(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);

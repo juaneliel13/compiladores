@@ -20,7 +20,7 @@ public class AltaIdentificador extends AccionSemantica {
             buffer_aux = buffer_aux.substring(0, 20);
         }
         Logger.getInstance().addEvent(lexico.linea, "Se encontro el identificador \"" + buffer_aux + "\"");
-        if (!lexico.tablaDeSimbolos.containsKey(buffer_aux)) {
+        if (!lexico.tablaDeSimbolos.containsKey(buffer_aux+Parser.ambito)) {
             HashMap<String, Object> aux = new HashMap<String, Object>();
             aux.put("Uso", "IDENTIFICADOR");
             lexico.tablaDeSimbolos.put(buffer_aux, aux);

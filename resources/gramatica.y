@@ -5,6 +5,7 @@ import Compilador.Utilidad.Logger;
 import java.util.HashMap;
 import Compilador.CodigoIntermedio.*;
 import java.util.ArrayList;
+import Compilador.Lexico.Tipos;
 
 
 %}
@@ -15,17 +16,32 @@ import java.util.ArrayList;
 
 
 
-programa : conjunto_sentencias { raiz = (Nodo)$1.obj; }
+programa : conjunto_sentencias {raiz = (Nodo)$1.obj;}
 	 | END  {logger.addError(lex.linea,"Sin sentencias");}
 	 | error END  {logger.addError(lex.linea,"Sin sentencias validas");}
          ;
 
-conjunto_sentencias : sentencia { $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));}
-                    | sentencia  conjunto_sentencias { $$ = new ParserVal(new Bloque((Nodo)$1.obj,(Nodo)$2.obj));}
+conjunto_sentencias : sentencia {
+					try{
+						$$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
+					}
+					catch(Exception e){
+						error=true;
+					}
+				}
+                    | sentencia  conjunto_sentencias { 	if($1.obj!=null && $2.obj!=null)
+                    						$$ = new ParserVal(new Bloque((Nodo)$1.obj,(Nodo)$2.obj));
+                    					else{
+                    						if($2.obj==null)
+                    							$$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
+                    						else
+                    							$$ = new ParserVal(new Bloque((Nodo)$2.obj,null));
+                    					}
+                    				}
                     ;
 
 
-sentencia : declarativa { }
+sentencia : declarativa {$$=new ParserVal(); }
           | ejecutable { $$ = $1; }
           | error ';'{logger.addError(lex.linea,"Sentencia mal escrita");}
 	  ;
@@ -50,19 +66,25 @@ dec_variable : tipo lista_variables  {
  		    	else{
  		    		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(id);
                                 aux.put("Uso","variable");
-                                aux.put("Tipo",$1.sval);
+                                aux.put("Tipo",$1.obj);
                                 lex.tablaDeSimbolos.put(id+ambito,aux);
                         }
 
                   }
 	     }
-	     | tipo lista_variables '=' expresion {logger.addError(lex.linea,"Asignacion en la declaración");}
+	     | tipo lista_variables '=' expresion {	logger.addError(lex.linea,"Asignacion en la declaración");
+
+	     					  }
              | lista_variables  {logger.addError(lex.linea,"Se esperaba un tipo");}
              | error lista_variables  {logger.addError(lex.linea,"Tipo no valido");}
              | tipo error {logger.addError(lex.linea,"Se esperaba un identificador");}
              ;
-tipo : INTEGER {}
-     | FLOAT {}
+tipo : INTEGER {
+		$$=new ParserVal(Tipos.INTEGER);
+		}
+     | FLOAT {
+     		$$=new ParserVal(Tipos.FLOAT);
+     		}
      ;
 
 lista_variables : ID {
@@ -130,6 +152,7 @@ lista_parametros :parametro {}
 parametro: tipo ID {
 		    HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
 		    aux.put("Uso","variable");
+
                     lex.tablaDeSimbolos.put($2.sval+ambito,aux);
 	   }
 	   | VAR tipo ID {};
@@ -156,7 +179,10 @@ asignacion : ID '=' expresion  { String var =getIdentificador($1.sval);
                                 }
 				else{
 					$1.obj = new Hoja(var);
-					$$ = new ParserVal(new Asignacion((Nodo)$1.obj,(Nodo)$3.obj));
+					Asignacion asignacion = new Asignacion((ConTipo)$1.obj,(ConTipo)$3.obj);
+					if(asignacion.getTipo()==null)
+                                        	logger.addError(lex.linea,"Incompatibilidad de tipos en la asignacion");
+                                        $$ = new ParserVal(asignacion);
 				 }
 
 			       }
@@ -166,10 +192,19 @@ asignacion : ID '=' expresion  { String var =getIdentificador($1.sval);
            ;
 
 expresion : expresion '+' termino {
-    				    $$ = new ParserVal(new Suma((Nodo)$1.obj,(Nodo)$3.obj));
+					Suma suma = new Suma((ConTipo)$1.obj,(ConTipo)$3.obj);
+					suma.updateTipo();
+					if(suma.getTipo()==null)
+						logger.addError(lex.linea,"Incompatibilidad de tipos en la suma");
+    				   	$$ = new ParserVal(suma);
+
     				  }
           | expresion '-' termino {
-          			    $$ = new ParserVal(new Resta((Nodo)$1.obj,(Nodo)$3.obj));
+          				Resta resta = new Resta((ConTipo)$1.obj,(ConTipo)$3.obj);
+          				resta.updateTipo();
+          				if(resta.getTipo()==null)
+                                        	logger.addError(lex.linea,"Incompatibilidad de tipos en la resta");
+          			   	$$ = new ParserVal(resta);
           			  }
           | termino {
           	      $$ = $1;
@@ -177,10 +212,18 @@ expresion : expresion '+' termino {
           ;
 
 termino : termino '/' factor {
-			       $$ = new ParserVal(new Division((Nodo)$1.obj,(Nodo)$3.obj));
+				Division division = new Division((ConTipo)$1.obj,(ConTipo)$3.obj);
+				division.updateTipo();
+				if(division.getTipo()==null)
+                                        logger.addError(lex.linea,"Incompatibilidad de tipos en la division");
+                                $$ = new ParserVal(division);
 			     }
         | termino '*' factor {
-        		       $$ = new ParserVal(new Multiplicacion((Nodo)$1.obj,(Nodo)$3.obj));
+        			Multiplicacion multiplicacion = new Multiplicacion((ConTipo)$1.obj,(ConTipo)$3.obj);
+        			multiplicacion.updateTipo();
+        		      	if(multiplicacion.getTipo()==null)
+                                       logger.addError(lex.linea,"Incompatibilidad de tipos en la multiplicacion");
+                                $$ = new ParserVal(multiplicacion);
         		     }
         | factor {
                    $$ = $1;
@@ -256,16 +299,19 @@ seleccion : IF condicion_if_parentesis THEN bloque_ejecutables_then END_IF {
           | IF condicion_if_parentesis THEN declarativa ELSE declarativa END_IF {logger.addError(lex.linea,"No se permite declaraciones dentro del IF");}
           ;
 
-condicion_if_parentesis : '(' condicion_if ')' {  }
+condicion_if_parentesis : '(' condicion_if ')' { $$=$2; }
 			| condicion_if ')' { logger.addError(lex.linea, "Falta parentesis de abertura en la condicion"); }
 			| '(' condicion_if { logger.addError(lex.linea, "Falta parentesis de cierre en la condicion"); }
 			| condicion_if { logger.addError(lex.linea, "Faltan ambos parentesis en la condicion"); }
 			;
 
 condicion_if: expresion comparador expresion{
-					      Nodo aux = (Nodo)$2.obj;
+					      Operador aux = (Operador)$2.obj;
 					      aux.izquierdo = (Nodo)$1.obj;
 					      aux.derecho = (Nodo)$3.obj;
+					      aux.updateTipo();
+					      if(aux.getTipo()==null)
+					      	logger.addError(lex.linea,"Incompatibilidad de tipos en la comparacion");
 					      $$ = $2;
 					    }
             | expresion error {logger.addError(lex.linea,"Condicion mal escrita");}
@@ -403,18 +449,22 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 					logger.addError(lex.linea,"La variable de inicialización no es igual a la de condición");
 				}
 				//Creando la parte de la inicializacion de codigo
-				Asignacion inicializacion = new Asignacion(new Hoja($3.sval),new Hoja($5.sval));
+				Asignacion inicializacion = new Asignacion(new Hoja($3.sval+ambito),new Hoja($5.sval));
 
 				//Creando la parte del incremento
-				Nodo incremento = (Nodo)$11.obj;
-				incremento.izquierdo = new Hoja($3.sval);
+				ConTipo incremento = (ConTipo)$11.obj;
+				incremento.izquierdo = new Hoja($3.sval+ambito);
 				incremento.derecho = new Hoja($12.sval);
-				Asignacion asig = new Asignacion(new Hoja($3.sval),incremento);
+				Asignacion asig = new Asignacion(new Hoja($3.sval+ambito),incremento);
 
 				//Creando la parte de la condicion
-				Nodo comp = (Nodo) $8.obj;
-				comp.izquierdo = new Hoja($7.sval);
+				Operador comp = (Operador) $8.obj;
+				comp.izquierdo = new Hoja($7.sval+ambito);
 				comp.derecho = (Nodo) $9.obj;
+				comp.updateTipo();
+                                if(comp.getTipo()==null)
+                                	logger.addError(lex.linea,"Incompatibilidad de tipos en la comparacion");
+
 
 				//Agregandolo
 				CuerpoFor cuerpoFor = new CuerpoFor((Nodo)$14.obj,asig);
@@ -447,7 +497,7 @@ incr_decr : UP {
 
 AnalizadorLexico lex;
 public Nodo raiz = null;
-String ambito;
+public static String ambito;
 ArrayList<String> listaVariables;
 Logger logger = Logger.getInstance();
 public boolean error = false;
