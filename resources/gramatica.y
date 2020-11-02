@@ -113,15 +113,22 @@ encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
 				HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
 				aux.put("Uso","procedimiento");
 				lex.tablaDeSimbolos.put($2.sval+ambito,aux);
+				$$=new ParserVal($2.sval+ambito);
 				ambito+="@"+$2.sval;
-				$$=$2;
 			}
 			}
 
 dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
 		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+		    	HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
+		    	aux.put("NI",Integer.valueOf($7.sval));
+		    	aux.put("Parametros", $3.obj);
+		    	lex.tablaDeSimbolos.put($1.sval,aux);
+
 		   }
-                  | encabezado_proc '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {ambito=ambito.substring(0,ambito.lastIndexOf("@"));}
+                  | encabezado_proc '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
+                  										ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+                  								       }
                   | encabezado_proc '(' lista_parametros ')' '{' conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
                   									   ambito=ambito.substring(0,ambito.lastIndexOf("@"));
                   									 }
@@ -139,9 +146,24 @@ dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' 
 		  						   }
                   ;
 
-lista_parametros :parametro {}
-                 | parametro  ',' parametro  {}
-                 | parametro  ',' parametro  ',' parametro  {}
+lista_parametros :parametro {
+				ArrayList<Parametro> parametros = new ArrayList<>();
+				parametros.add((Parametro)$1.obj);
+				$$ = new ParserVal(parametros);
+			    }
+                 | parametro  ',' parametro  {
+                 				ArrayList<Parametro> parametros = new ArrayList<>();
+						parametros.add((Parametro)$1.obj);
+						parametros.add((Parametro)$3.obj);
+						$$ = new ParserVal(parametros);
+                			     }
+                 | parametro  ',' parametro  ',' parametro  {
+                 						ArrayList<Parametro> parametros = new ArrayList<>();
+                 						parametros.add((Parametro)$1.obj);
+                 						parametros.add((Parametro)$3.obj);
+                 						parametros.add((Parametro)$5.obj);
+                 						$$ = new ParserVal(parametros);
+                  					    }
                  | parametro  parametro  {logger.addError(lex.linea,"Se esperaba \",\"");}
                  | parametro   parametro  parametro  {logger.addError(lex.linea,"Se esperaba \",\"");}
                  | parametro ','  parametro  parametro  {logger.addError(lex.linea,"Se esperaba \",\"");}
@@ -154,8 +176,11 @@ parametro: tipo ID {
 		    aux.put("Uso","variable");
 		    aux.put("Tipo",(Tipos)$1.obj);
                     lex.tablaDeSimbolos.put($2.sval+ambito,aux);
+                    $$ = new ParserVal(new Parametro($2.sval+ambito,(Tipos)$1.obj,"COPIA"));
 	   }
-	   | VAR tipo ID {};
+	   | VAR tipo ID {
+	   			$$ = new ParserVal(new Parametro($3.sval+ambito,(Tipos)$2.obj,"VAR"));
+	   		 }
 	   | VAR ID {logger.addError(lex.linea,"Se esperaba tipo");}
 	   | ID {logger.addError(lex.linea,"Se esperaba tipo");}
 	   | VAR tipo error {logger.addError(lex.linea,"Se esperaba identificador");}
@@ -380,36 +405,54 @@ llamada : ID '(' parametros ')'  {
 			}
 			else{
 				String a;
+				HashMap<String, Object> aux=lex.tablaDeSimbolos.get(proc);
+				System.out.println(aux);
+				System.out.println(proc);
+				if(aux.get("Uso").equals("procedimiento")){
+					if(!aux.containsKey("Parametros")) {
+						//estaria todo ok
 
-				//codigo de generacion de codigo intermedio
+					} else {
+						logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" lleva parametros" );
+					}
+				}
+				else {
+					logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no es un procedimiento" );
+				}
+
 			}
 	}
 	;
 
 parametros : ID {
+		ArrayList<String> ids=new ArrayList<String>();
 		String var = getIdentificador($1.sval);
 		if(var==null){
 			logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
 		}
 		else{
-			String a;
-
-			//codigo de generacion de codigo intermedio
+			ids.add(var);
+			$$ = new ParserVal(ids);
 		}
 		}
            | ID ',' ID {
            		ArrayList<String> ids=new ArrayList<String>();
            		ids.add($1.sval);
            		ids.add($3.sval);
-           		for (String sval: ids){
-           			String var = getIdentificador(sval);
-				if(var==null){
-					logger.addError(lex.linea,"Variable \""+ sval+ "\" no declarada" );
+           		boolean e = false;
+           		for (int i=0; i<ids.size();i++){
+           			String var = getIdentificador(ids.get(i));
+           			if(var==null){
+					logger.addError(lex.linea,"Variable \"" + ids.get(i) + "\" no declarada" );
+					e = true;
+					break;//ver si se quiere que solo diga el primero que este mal o si dice todo
+				} else {
+					ids.remove(i);
+					ids.add(i,var);
 				}
-				else{
-					String a;
-					//codigo de generacion de codigo intermedio
-				}
+           		}
+           		if(e != true) {
+           			$$ = new ParserVal(ids);
            		}
 
 
@@ -420,15 +463,20 @@ parametros : ID {
 				ids.add($1.sval);
 				ids.add($3.sval);
 				ids.add($5.sval);
-				for (String sval: ids){
-					String var = getIdentificador(sval);
+				boolean e = false;
+				for (int i=0; i<ids.size();i++){
+					String var = getIdentificador(ids.get(i));
 					if(var==null){
-						logger.addError(lex.linea,"Variable \""+ sval+ "\" no declarada" );
+						logger.addError(lex.linea,"Variable \"" + ids.get(i) + "\" no declarada" );
+						e = true;
+						break;//ver si se quiere que solo diga el primero que este mal o si dice todo
+					} else {
+						ids.remove(i);
+						ids.add(i,var);
 					}
-					else{
-						String a;
-						//codigo de generacion de codigo intermedio
-					}
+				}
+				if(e != true) {
+					$$ = new ParserVal(ids);
 				}
            }
            | ID  ID  ID {logger.addError(lex.linea,"Se esperaba \",\"");}
