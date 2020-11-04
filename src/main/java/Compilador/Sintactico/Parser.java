@@ -639,7 +639,7 @@ final static String yyrule[] = {
 "incr_decr : DOWN",
 };
 
-//#line 545 "gramatica.y"
+//#line 583 "gramatica.y"
 
 AnalizadorLexico lex;
 public Nodo raiz = null;
@@ -1481,13 +1481,46 @@ case 106:
 				}
 				else{
 					String a;
+					HashMap<String, Object> aux=lex.tablaDeSimbolos.get(proc);
+					System.out.println(aux);
+					System.out.println(proc);
+					if(aux.get("Uso").equals("procedimiento")){
+						if(aux.containsKey("Parametros")) {
+							/*estaria todo ok*/
+							ArrayList<Parametro> parametros_func = (ArrayList) aux.get("Parametros");
+							ArrayList<String> parametros_llamada = (ArrayList) val_peek(1).obj;
+							System.out.println(parametros_func);
+							System.out.println(parametros_llamada);
+							int i;
+							for ( i = 0; i < parametros_func.size() && i < parametros_llamada.size(); i++) {
+								String parametro_func = getIdentificador(parametros_llamada.get(i));
+								if (parametro_func != null) {
+									/*checkeo si el tipo es igual*/
+									Tipos tipo_func = (Tipos) lex.tablaDeSimbolos.get(parametro_func).get("Tipo");
+									if(tipo_func != parametros_func.get(i).tipo){
+										logger.addError(lex.linea,"Parametro \"" + parametros_llamada.get(i) + "\" de tipo \""
+                                                                                                                        + tipo_func + "\" no coincide con el parametro formal de tipo \"" + parametros_func.get(i).tipo +  "\" en el llamado a \"" + val_peek(3).sval + "\"" );
+									}
+								} else {
+									logger.addError(lex.linea,"Parametro en el procedimiento \"" + parametros_llamada.get(i) + "\" fuera de alcance" );
+								}
+							}
+							if (i >= parametros_func.size() ^ i >= parametros_llamada.size()) {
+								logger.addError(lex.linea, "Llamada a procedimiento con cantidad de parametros erronea" );
+							}
+						} else {
+							logger.addError(lex.linea,"Invocacion invalida, \"" + val_peek(3).sval + "\" no lleva parametros" );
+						}
+					}
+					else {
+						logger.addError(lex.linea,"Invocacion invalida, \"" + val_peek(3).sval + "\" no es un procedimiento" );
+					}
 
-					/*codigo de generacion de codigo intermedio*/
 				}
 	}
 break;
 case 107:
-//#line 401 "gramatica.y"
+//#line 434 "gramatica.y"
 {
 			String proc = getIdentificador(val_peek(2).sval);
 			if(proc==null){
@@ -1514,21 +1547,22 @@ case 107:
 	}
 break;
 case 108:
-//#line 427 "gramatica.y"
+//#line 460 "gramatica.y"
 {
 		ArrayList<String> ids=new ArrayList<String>();
 		String var = getIdentificador(val_peek(0).sval);
 		if(var==null){
-			logger.addError(lex.linea,"Variable \""+ val_peek(0).sval+ "\" no declarada" );
+			logger.addError(lex.linea,"Variable \""+ val_peek(0).sval + "\" no declarada" );
+			yyval = new ParserVal(new ArrayList());
 		}
 		else{
-			ids.add(var);
+			ids.add(val_peek(0).sval);
 			yyval = new ParserVal(ids);
 		}
 		}
 break;
 case 109:
-//#line 438 "gramatica.y"
+//#line 472 "gramatica.y"
 {
            		ArrayList<String> ids=new ArrayList<String>();
            		ids.add(val_peek(2).sval);
@@ -1540,24 +1574,23 @@ case 109:
 					logger.addError(lex.linea,"Variable \"" + ids.get(i) + "\" no declarada" );
 					e = true;
 					break;/*ver si se quiere que solo diga el primero que este mal o si dice todo*/
-				} else {
-					ids.remove(i);
-					ids.add(i,var);
 				}
            		}
            		if(e != true) {
            			yyval = new ParserVal(ids);
+           		} else {
+           			yyval = new ParserVal(new ArrayList());
            		}
 
 
            }
 break;
 case 110:
-//#line 460 "gramatica.y"
+//#line 493 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 111:
-//#line 461 "gramatica.y"
+//#line 494 "gramatica.y"
 {
 				ArrayList<String> ids=new ArrayList<String>();
 				ids.add(val_peek(4).sval);
@@ -1570,34 +1603,39 @@ case 111:
 						logger.addError(lex.linea,"Variable \"" + ids.get(i) + "\" no declarada" );
 						e = true;
 						break;/*ver si se quiere que solo diga el primero que este mal o si dice todo*/
-					} else {
-						ids.remove(i);
-						ids.add(i,var);
 					}
 				}
 				if(e != true) {
 					yyval = new ParserVal(ids);
+				} else {
+					yyval = new ParserVal(new ArrayList());
 				}
            }
 break;
 case 112:
-//#line 482 "gramatica.y"
+//#line 514 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 113:
-//#line 483 "gramatica.y"
+//#line 515 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 114:
-//#line 484 "gramatica.y"
+//#line 516 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 115:
-//#line 485 "gramatica.y"
-{logger.addError(lex.linea,"Se esperaban como maximo 3 parametros");}
+//#line 517 "gramatica.y"
+{logger.addError(lex.linea,"Se esperaban como maximo 3 parametros");
+           				ArrayList<String> aux = new ArrayList<>();
+           				aux.add(val_peek(5).sval);
+           				aux.add(val_peek(3).sval);
+           				aux.add(val_peek(1).sval);
+           				yyval = new ParserVal(aux);
+           }
 break;
 case 116:
-//#line 488 "gramatica.y"
+//#line 526 "gramatica.y"
 {
 			String id_for = val_peek(11).sval;
 			String id_comp = val_peek(7).sval;
@@ -1637,54 +1675,54 @@ case 116:
 		}
 break;
 case 117:
-//#line 525 "gramatica.y"
+//#line 563 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \";\" pero se recibio "+ val_peek(7).sval);}
 break;
 case 118:
-//#line 526 "gramatica.y"
+//#line 564 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \";\" pero se recibio "+ val_peek(3).sval);}
 break;
 case 119:
-//#line 527 "gramatica.y"
+//#line 565 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaban \";\" en la sentencia FOR");}
 break;
 case 120:
-//#line 528 "gramatica.y"
+//#line 566 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba UP o DOWN en la sentencia FOR");}
 break;
 case 121:
-//#line 529 "gramatica.y"
+//#line 567 "gramatica.y"
 {logger.addError(lex.linea,"Falta inicialización en la sentencia FOR");}
 break;
 case 122:
-//#line 530 "gramatica.y"
+//#line 568 "gramatica.y"
 {logger.addError(lex.linea,"Falta condicion en la sentencia FOR");}
 break;
 case 123:
-//#line 531 "gramatica.y"
+//#line 569 "gramatica.y"
 {logger.addError(lex.linea,"Falta incremento en la sentencia FOR");}
 break;
 case 124:
-//#line 532 "gramatica.y"
+//#line 570 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \")\" en la sentencia FOR");}
 break;
 case 125:
-//#line 533 "gramatica.y"
+//#line 571 "gramatica.y"
 {logger.addError(lex.linea,"No se permite declaraciones dentro del FOR");}
 break;
 case 126:
-//#line 536 "gramatica.y"
+//#line 574 "gramatica.y"
 {
 		yyval = new ParserVal(new Suma(null,null));
 	       }
 break;
 case 127:
-//#line 539 "gramatica.y"
+//#line 577 "gramatica.y"
 {
           	   yyval = new ParserVal(new Resta(null,null));
 	 	 }
 break;
-//#line 1611 "Parser.java"
+//#line 1649 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

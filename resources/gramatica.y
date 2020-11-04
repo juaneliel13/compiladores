@@ -394,8 +394,41 @@ llamada : ID '(' parametros ')'  {
 				}
 				else{
 					String a;
+					HashMap<String, Object> aux=lex.tablaDeSimbolos.get(proc);
+					System.out.println(aux);
+					System.out.println(proc);
+					if(aux.get("Uso").equals("procedimiento")){
+						if(aux.containsKey("Parametros")) {
+							//estaria todo ok
+							ArrayList<Parametro> parametros_func = (ArrayList) aux.get("Parametros");
+							ArrayList<String> parametros_llamada = (ArrayList) $3.obj;
+							System.out.println(parametros_func);
+							System.out.println(parametros_llamada);
+							int i;
+							for ( i = 0; i < parametros_func.size() && i < parametros_llamada.size(); i++) {
+								String parametro_func = getIdentificador(parametros_llamada.get(i));
+								if (parametro_func != null) {
+									//checkeo si el tipo es igual
+									Tipos tipo_func = (Tipos) lex.tablaDeSimbolos.get(parametro_func).get("Tipo");
+									if(tipo_func != parametros_func.get(i).tipo){
+										logger.addError(lex.linea,"Parametro \"" + parametros_llamada.get(i) + "\" de tipo \""
+                                                                                                                        + tipo_func + "\" no coincide con el parametro formal de tipo \"" + parametros_func.get(i).tipo +  "\" en el llamado a \"" + $1.sval + "\"" );
+									}
+								} else {
+									logger.addError(lex.linea,"Parametro en el procedimiento \"" + parametros_llamada.get(i) + "\" fuera de alcance" );
+								}
+							}
+							if (i >= parametros_func.size() ^ i >= parametros_llamada.size()) {
+								logger.addError(lex.linea, "Llamada a procedimiento con cantidad de parametros erronea" );
+							}
+						} else {
+							logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no lleva parametros" );
+						}
+					}
+					else {
+						logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no es un procedimiento" );
+					}
 
-					//codigo de generacion de codigo intermedio
 				}
 	}
 	| ID '(' ')'  {
@@ -428,10 +461,11 @@ parametros : ID {
 		ArrayList<String> ids=new ArrayList<String>();
 		String var = getIdentificador($1.sval);
 		if(var==null){
-			logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
+			logger.addError(lex.linea,"Variable \""+ $1.sval + "\" no declarada" );
+			$$ = new ParserVal(new ArrayList());
 		}
 		else{
-			ids.add(var);
+			ids.add($1.sval);
 			$$ = new ParserVal(ids);
 		}
 		}
@@ -446,13 +480,12 @@ parametros : ID {
 					logger.addError(lex.linea,"Variable \"" + ids.get(i) + "\" no declarada" );
 					e = true;
 					break;//ver si se quiere que solo diga el primero que este mal o si dice todo
-				} else {
-					ids.remove(i);
-					ids.add(i,var);
 				}
            		}
            		if(e != true) {
            			$$ = new ParserVal(ids);
+           		} else {
+           			$$ = new ParserVal(new ArrayList());
            		}
 
 
@@ -470,19 +503,24 @@ parametros : ID {
 						logger.addError(lex.linea,"Variable \"" + ids.get(i) + "\" no declarada" );
 						e = true;
 						break;//ver si se quiere que solo diga el primero que este mal o si dice todo
-					} else {
-						ids.remove(i);
-						ids.add(i,var);
 					}
 				}
 				if(e != true) {
 					$$ = new ParserVal(ids);
+				} else {
+					$$ = new ParserVal(new ArrayList());
 				}
            }
            | ID  ID  ID {logger.addError(lex.linea,"Se esperaba \",\"");}
            | ID ',' ID  ID {logger.addError(lex.linea,"Se esperaba \",\"");}
            | ID  ID ',' ID {logger.addError(lex.linea,"Se esperaba \",\"");}
-           | ID ',' ID ',' ID error {logger.addError(lex.linea,"Se esperaban como maximo 3 parametros");}
+           | ID ',' ID ',' ID error {logger.addError(lex.linea,"Se esperaban como maximo 3 parametros");
+           				ArrayList<String> aux = new ArrayList<>();
+           				aux.add($1.sval);
+           				aux.add($3.sval);
+           				aux.add($5.sval);
+           				$$ = new ParserVal(aux);
+           }
            ;
 
 iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE_INT ')' bloque_ejecutables_for {
