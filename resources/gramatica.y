@@ -121,13 +121,16 @@ encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
 dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
 		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
 		    	HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
-		    	aux.put("NI",Integer.valueOf($7.sval));
+		    	aux.put("NI",Integer.parseInt($7.sval));
 		    	aux.put("Parametros", $3.obj);
 		    	lex.tablaDeSimbolos.put($1.sval,aux);
 
 		   }
                   | encabezado_proc '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
                   										ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+												HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
+												aux.put("NI",Integer.parseInt($6.sval));
+												lex.tablaDeSimbolos.put($1.sval,aux);
                   								       }
                   | encabezado_proc '(' lista_parametros ')' '{' conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
                   									   ambito=ambito.substring(0,ambito.lastIndexOf("@"));
@@ -394,10 +397,14 @@ llamada : ID '(' parametros ')'  {
 				}
 				else{
 					String a;
-					HashMap<String, Object> aux=lex.tablaDeSimbolos.get(proc);
-					System.out.println(aux);
-					System.out.println(proc);
+					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);;
 					if(aux.get("Uso").equals("procedimiento")){
+						int ni = (Integer) aux.get("NI");
+						if ( ni <= 0 ) {
+							logger.addError(lex.linea,"Se agotaron los llamados para el procedimiento \""+ $1.sval+ "\"" );
+						} else {
+							aux.put("NI",(Integer)ni-1);
+						}
 						if(aux.containsKey("Parametros")) {
 							//estaria todo ok
 							ArrayList<Parametro> parametros_func = (ArrayList) aux.get("Parametros");
@@ -428,7 +435,7 @@ llamada : ID '(' parametros ')'  {
 					else {
 						logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no es un procedimiento" );
 					}
-
+					lex.tablaDeSimbolos.put(proc,aux);
 				}
 	}
 	| ID '(' ')'  {
@@ -438,10 +445,14 @@ llamada : ID '(' parametros ')'  {
 			}
 			else{
 				String a;
-				HashMap<String, Object> aux=lex.tablaDeSimbolos.get(proc);
-				System.out.println(aux);
-				System.out.println(proc);
+				HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);
 				if(aux.get("Uso").equals("procedimiento")){
+					int ni = (Integer) aux.get("NI");
+					if ( ni <= 0 ) {
+						logger.addError(lex.linea,"Se agotaron los llamados para el procedimiento \""+ $1.sval+ "\"" );
+					} else {
+						aux.put("NI",(Integer)ni-1);
+					}
 					if(!aux.containsKey("Parametros")) {
 						//estaria todo ok
 
@@ -452,7 +463,7 @@ llamada : ID '(' parametros ')'  {
 				else {
 					logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no es un procedimiento" );
 				}
-
+				lex.tablaDeSimbolos.put(proc,aux);
 			}
 	}
 	;
