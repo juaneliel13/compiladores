@@ -36,12 +36,12 @@ public abstract class Nodo {
         el_retorno += tabs + nodo.toString() + '\n';
         if (nodo.izquierdo != null)
             el_retorno += auxiliarito(nodo.izquierdo, tabs + '\t');
-        else
-            el_retorno += tabs + "\tnull\n";
+        /*else
+            el_retorno += tabs + "\tnull\n";*/
         if (nodo.derecho != null)
             el_retorno += auxiliarito(nodo.derecho, tabs + '\t');
-        else
-            el_retorno += tabs + "\tnull\n";
+        /*else
+            el_retorno += tabs + "\tnull\n";*/
         return el_retorno;
     }
 

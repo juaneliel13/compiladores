@@ -10,6 +10,8 @@ public class Hoja extends ConTipo {
     public Hoja(String ref) {
         super(null, null);
         this.ref = ref;
+        System.out.println("referencia "+ref);
+        System.out.println(lex.tablaDeSimbolos);
         setTipo((Tipos)lex.tablaDeSimbolos.get(ref).get("Tipo"));
     }
 

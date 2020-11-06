@@ -41,13 +41,15 @@ conjunto_sentencias : sentencia {
                     ;
 
 
-sentencia : declarativa {$$=new ParserVal(); }
+sentencia : declarativa {$$=$1;}
           | ejecutable { $$ = $1; }
           | error ';'{logger.addError(lex.linea,"Sentencia mal escrita");}
 	  ;
 
-declarativa : dec_variable ';'{logger.addEvent(lex.linea,"Se encontró una sentencia declarativa de variable");}
-            | dec_procedimiento {logger.addEvent(lex.linea,"Se encontró una sentencia declarativa de procedimiento");}
+declarativa : dec_variable ';'{logger.addEvent(lex.linea,"Se encontró una sentencia declarativa de variable");
+				$$=new ParserVal();}
+            | dec_procedimiento {logger.addEvent(lex.linea,"Se encontró una sentencia declarativa de procedimiento");
+            			$$=$1;}
             | dec_variable {logger.addError(lex.linea,"Se esperaba \";\"");}
             ;
 
@@ -124,6 +126,9 @@ dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' 
 		    	aux.put("NI",Integer.parseInt($7.sval));
 		    	aux.put("Parametros", $3.obj);
 		    	lex.tablaDeSimbolos.put($1.sval,aux);
+			DecProc proc = new DecProc((Nodo)$9.obj,null);
+			$$ = new ParserVal(proc);
+
 
 		   }
                   | encabezado_proc '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
@@ -131,6 +136,8 @@ dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' 
 												HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
 												aux.put("NI",Integer.parseInt($6.sval));
 												lex.tablaDeSimbolos.put($1.sval,aux);
+												DecProc proc = new DecProc((Nodo)$8.obj,null);
+                                                                                                $$ = new ParserVal(proc);
                   								       }
                   | encabezado_proc '(' lista_parametros ')' '{' conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
                   									   ambito=ambito.substring(0,ambito.lastIndexOf("@"));
@@ -538,6 +545,7 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 			String id_for = $3.sval;
 			String id_comp = $7.sval;
 			String var = getIdentificador(id_for);
+			String var_comp = getIdentificador(id_comp);
 			if(var==null){
 				logger.addError(lex.linea,"Variable \""+ id_for+ "\" no declarada" );
 			}
@@ -546,17 +554,18 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 					logger.addError(lex.linea,"La variable de inicialización no es igual a la de condición");
 				}
 				//Creando la parte de la inicializacion de codigo
-				Asignacion inicializacion = new Asignacion(new Hoja($3.sval+ambito),new Hoja($5.sval));
+				System.out.println(lex.tablaDeSimbolos);
+				Asignacion inicializacion = new Asignacion(new Hoja(var),new Hoja($5.sval));
 
 				//Creando la parte del incremento
 				ConTipo incremento = (ConTipo)$11.obj;
-				incremento.izquierdo = new Hoja($3.sval+ambito);
+				incremento.izquierdo = new Hoja(var);
 				incremento.derecho = new Hoja($12.sval);
-				Asignacion asig = new Asignacion(new Hoja($3.sval+ambito),incremento);
+				Asignacion asig = new Asignacion(new Hoja(var),incremento);
 
 				//Creando la parte de la condicion
 				Operador comp = (Operador) $8.obj;
-				comp.izquierdo = new Hoja($7.sval+ambito);
+				comp.izquierdo = new Hoja(var_comp);
 				comp.derecho = (Nodo) $9.obj;
 				comp.updateTipo();
                                 if(comp.getTipo()==null)
@@ -635,4 +644,5 @@ public String getIdentificador(String sval){
 		return null;
 	return id;
 }
+
 
