@@ -12,8 +12,8 @@ public abstract class Nodo {
         this.derecho = derecho;
     }
 
-    public static void setLexico(AnalizadorLexico lex){
-        Nodo.lex=lex;
+    public static void setLexico(AnalizadorLexico lex) {
+        Nodo.lex = lex;
     }
 
     public Nodo() {
@@ -25,7 +25,9 @@ public abstract class Nodo {
     }
 
 
-    public abstract String generarCodigo();
+    public abstract void generarCodigo();
+
+
 
     public String imprimision() {
         return auxiliarito(this, "");
@@ -45,7 +47,9 @@ public abstract class Nodo {
         return el_retorno;
     }
 
-    public String toString() {
+
+
+   /* public String toString() {
         return this.getClass().getSimpleName();
-    }
+    }*/
 }

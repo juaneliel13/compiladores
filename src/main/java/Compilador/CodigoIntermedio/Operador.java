@@ -8,8 +8,8 @@ public abstract class Operador extends ConTipo {
     }
 
     @Override
-    public String generarCodigo() {
-        return null;
+    public void generarCodigo() {
+        return;
     }
 
     public abstract void updateTipo();

@@ -26,7 +26,7 @@ public class Asignacion extends ConTipo {
 
 
     @Override
-    public String generarCodigo() {
-        return null;
+    public void generarCodigo() {
+        return;
     }
 }

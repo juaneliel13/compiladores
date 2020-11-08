@@ -416,8 +416,6 @@ llamada : ID '(' parametros ')'  {
 							//estaria todo ok
 							ArrayList<Parametro> parametros_func = (ArrayList) aux.get("Parametros");
 							ArrayList<String> parametros_llamada = (ArrayList) $3.obj;
-							System.out.println(parametros_func);
-							System.out.println(parametros_llamada);
 							int i;
 							for ( i = 0; i < parametros_func.size() && i < parametros_llamada.size(); i++) {
 								String parametro_func = getIdentificador(parametros_llamada.get(i));
@@ -554,7 +552,6 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 					logger.addError(lex.linea,"La variable de inicialización no es igual a la de condición");
 				}
 				//Creando la parte de la inicializacion de codigo
-				System.out.println(lex.tablaDeSimbolos);
 				Asignacion inicializacion = new Asignacion(new Hoja(var),new Hoja($5.sval));
 
 				//Creando la parte del incremento

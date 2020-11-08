@@ -7,8 +7,8 @@ public class Then extends Nodo {
     }
 
     @Override
-    public String generarCodigo() {
+    public void generarCodigo() {
         //
-        return izquierdo.generarCodigo();
+        return;
     }
 }

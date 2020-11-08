@@ -1,5 +1,6 @@
 package Compilador;
 
+import Compilador.CodigoIntermedio.ConTipo;
 import Compilador.CodigoIntermedio.Nodo;
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Sintactico.Parser;
@@ -32,6 +33,10 @@ public class App {
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
             System.out.println(lexico.tablaDeSimbolos.toString());
             System.out.println(parser.raiz.imprimision());
+            ConTipo raiz_ct=(ConTipo)(parser.raiz.izquierdo.izquierdo);
+            for(;!raiz_ct.marca;)
+                System.out.println(raiz_ct.recorrido());
+
             if (imprime) {
                 logger.dumpErrors();
                 logger.dumpEvents();

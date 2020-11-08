@@ -1,5 +1,7 @@
 package Compilador.CodigoIntermedio;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 public class Bloque extends Nodo {
 
     public Bloque(Nodo izquierdo, Nodo derecho) {
@@ -7,10 +9,8 @@ public class Bloque extends Nodo {
     }
 
     @Override
-    public String generarCodigo() {
-        if (derecho != null)
-            return izquierdo.generarCodigo() + derecho + generarCodigo();
-        return izquierdo.generarCodigo();
+    public void generarCodigo() {
+        return;
     }
 
 }
