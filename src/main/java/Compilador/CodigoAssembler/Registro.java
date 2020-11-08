@@ -17,7 +17,9 @@ public abstract class Registro extends Observable {
             this.addObserver((Observer) padre);
     }
 
-    public abstract boolean estaLibre();
+    public boolean estaLibre() {
+        return this.libre;
+    };
 
     public abstract void ocupar();
 

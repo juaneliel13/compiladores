@@ -1,35 +1,25 @@
 package Compilador.CodigoAssembler;
 
-import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
+import java.util.Vector;
 
 public class RegistroCompuesto extends Registro implements Observer {
 
-    Set<Registro> hijos;
+    Vector<Registro> hijos;
 
     public RegistroCompuesto(String nombre, Registro padre) {
         super(nombre, padre);
-        this.hijos = new HashSet<>();
+        this.hijos = new Vector<>();
 
-    }
-
-    @Override
-    public boolean estaLibre() {
-        for (Registro hijo : hijos) {
-            if (!hijo.estaLibre())
-                return false;
-        }
-        return true;
     }
 
     @Override
     public void ocupar() {
-
         for (Registro hijo : hijos) {
             hijo.ocupar();
         }
+        this.setChanged();
         this.notifyObservers();
     }
 
@@ -38,8 +28,8 @@ public class RegistroCompuesto extends Registro implements Observer {
         for (Registro hijo : hijos) {
             hijo.liberar();
         }
+        this.setChanged();
         this.notifyObservers();
-
     }
 
     public void addHijos(Registro...registros){
@@ -49,12 +39,28 @@ public class RegistroCompuesto extends Registro implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        boolean nLibre = true;
         for (Registro hijo : hijos) {
             if (!hijo.estaLibre()) {
-                this.libre = false;
-                return;
+                nLibre = false;
+                break;
             }
         }
-        this.libre = true;
+        if(nLibre != this.libre) {
+            this.libre = nLibre;
+            this.setChanged();
+            if(this.libre) {
+                if (this.nombre.length() == 3)
+                    AdministradorDeRegistros.add32bits(this);
+                else
+                    AdministradorDeRegistros.add16bits(this);
+            } else {
+                if (this.nombre.length() == 3)
+                    AdministradorDeRegistros.rm32bits(this);
+                else
+                    AdministradorDeRegistros.rm16bits(this);
+            }
+            this.notifyObservers();
+        }
     }
 }

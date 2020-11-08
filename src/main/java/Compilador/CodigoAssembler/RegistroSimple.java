@@ -7,13 +7,10 @@ public class RegistroSimple extends Registro{
     }
 
     @Override
-    public boolean estaLibre() {
-        return libre;
-    }
-
-    @Override
     public void ocupar() {
         libre=false;
+        AdministradorDeRegistros.rm8bits(this);
+        this.setChanged();
         this.notifyObservers();
     }
 
@@ -21,6 +18,7 @@ public class RegistroSimple extends Registro{
     public void liberar(){
         libre = true;
         AdministradorDeRegistros.add8bits(this);
+        this.setChanged();
         this.notifyObservers();
     }
 
