@@ -29,8 +29,4 @@ public class Mayor extends Operador {
         }
     }
 
-    @Override
-    public String metodoAbstracto() {
-        return null;
-    }
 }

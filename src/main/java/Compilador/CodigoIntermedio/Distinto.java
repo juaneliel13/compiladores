@@ -30,9 +30,8 @@ public class Distinto extends Operador {
         }
     }
 
-
     @Override
-    public String metodoAbstracto() {
-        return null;
+    public void generarCodigo() {
     }
+
 }

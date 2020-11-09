@@ -8,7 +8,10 @@ public class Bloque extends Nodo {
 
     @Override
     public void generarCodigo() {
-        return;
+        if(izquierdo != null)
+            izquierdo.generarCodigo();
+        if(derecho != null)
+            derecho.generarCodigo();
     }
 
 }

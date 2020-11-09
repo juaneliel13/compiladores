@@ -8,6 +8,5 @@ public class CuerpoIf extends Nodo {
 
     @Override
     public void generarCodigo() {
-        return;
     }
 }

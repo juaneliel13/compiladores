@@ -30,8 +30,4 @@ public class Igual extends Operador {
         }
     }
 
-    @Override
-    public String metodoAbstracto() {
-        return null;
-    }
 }

@@ -4,7 +4,10 @@ import Compilador.Lexico.AnalizadorLexico;
 
 public abstract class Nodo {
 
+    public static StringBuilder codigo = new StringBuilder(200);
+
     public Nodo izquierdo = null, derecho = null;
+
     public static AnalizadorLexico lex;
 
     public Nodo(Nodo izquierdo, Nodo derecho) {
@@ -24,10 +27,7 @@ public abstract class Nodo {
         return ((izquierdo == null) && (derecho == null));
     }
 
-
     public abstract void generarCodigo();
-
-
 
     public String imprimision() {
         return auxiliarito(this, "");
@@ -48,8 +48,7 @@ public abstract class Nodo {
     }
 
 
-
-   /* public String toString() {
+    public String toString() {
         return this.getClass().getSimpleName();
-    }*/
+    }
 }

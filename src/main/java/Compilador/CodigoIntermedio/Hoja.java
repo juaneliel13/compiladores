@@ -1,6 +1,5 @@
 package Compilador.CodigoIntermedio;
 
-import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Lexico.Tipos;
 
 public class Hoja extends ConTipo {
@@ -19,8 +18,11 @@ public class Hoja extends ConTipo {
 
     @Override
     public void generarCodigo() {
+    }
 
-        return;
+    @Override
+    public String getRef() {
+        return "_"+ref;
     }
 
     @Override

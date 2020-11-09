@@ -27,6 +27,16 @@ public class Asignacion extends ConTipo {
 
     @Override
     public void generarCodigo() {
-        return;
+        izquierdo.generarCodigo();
+        derecho.generarCodigo();
+        ConTipo izq = (ConTipo) izquierdo;
+        ConTipo der = (ConTipo) derecho;
+        codigo.append("MV ");
+        codigo.append(izq.getRef());
+        codigo.append(",");
+        codigo.append(der.getRef());
+        codigo.append("\n");
     }
+
+
 }

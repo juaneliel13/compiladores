@@ -29,7 +29,9 @@ public class Resta extends Operador {
     }
 
     @Override
-    public String metodoAbstracto() {
-        return null;
+    public void generarCodigo() {
+        izquierdo.generarCodigo();
+        derecho.generarCodigo();
+        codigo.append("Resta \n");
     }
 }

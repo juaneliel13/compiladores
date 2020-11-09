@@ -33,10 +33,8 @@ public class App {
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
             System.out.println(lexico.tablaDeSimbolos.toString());
             System.out.println(parser.raiz.imprimision());
-            ConTipo raiz_ct=(ConTipo)(parser.raiz.izquierdo.izquierdo);
-            for(;!raiz_ct.marca;)
-                System.out.println(raiz_ct.recorrido());
-
+            parser.raiz.generarCodigo();
+            System.out.println(Nodo.codigo);
             if (imprime) {
                 logger.dumpErrors();
                 logger.dumpEvents();

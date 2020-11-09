@@ -8,6 +8,5 @@ public class For extends Nodo {
 
     @Override
     public void generarCodigo() {
-        return;
     }
 }

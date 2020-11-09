@@ -1,5 +1,7 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.CodigoAssembler.AdministradorDeRegistros;
+import Compilador.CodigoAssembler.Registro;
 import Compilador.Lexico.Tipos;
 
 public class Multiplicacion extends Operador {
@@ -30,7 +32,38 @@ public class Multiplicacion extends Operador {
     }
 
     @Override
-    public String metodoAbstracto() {
-        return null;
+    public void generarCodigo() {
+        izquierdo.generarCodigo();
+        derecho.generarCodigo();
+        ConTipo izq = (ConTipo) izquierdo;
+        ConTipo der = (ConTipo) derecho;
+        if(this.getTipo() == Tipos.INTEGER){
+            if(!AdministradorDeRegistros.AX.estaLibre()){
+                ConTipo propietario = AdministradorDeRegistros.propietario(AdministradorDeRegistros.AX);
+                Registro aux = AdministradorDeRegistros.get16bits(propietario);
+                propietario.reg = aux;
+                codigo.append("MOV ");
+                codigo.append(AdministradorDeRegistros.AX);
+                codigo.append(",");
+                codigo.append(aux);
+                codigo.append("\n");
+            } else {
+                //Lo pido por primera vez
+                reg = AdministradorDeRegistros.getAX(this);
+            }
+            this.reg = AdministradorDeRegistros.AX;
+            this.reg.ocupar();
+            codigo.append(templateEntero(izq.getRef(),der.getRef())+"\n");
+        } else {
+            //generacion de codigo para multiplicacion flotante
+        }
+    }
+
+    private String templateEntero(String reg1, String reg2){
+        return "MOV AX,"+reg1+"\nIMUL AX,"+reg2;
+    }
+
+    private String templateFloat(String reg1, String reg2){
+        return "FLD " + reg1 + "\nFMUL " + reg2;
     }
 }

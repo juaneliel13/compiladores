@@ -29,8 +29,4 @@ public class MenorIgual extends Operador {
         }
     }
 
-    @Override
-    public String metodoAbstracto() {
-        return null;
-    }
 }

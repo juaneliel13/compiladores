@@ -8,6 +8,5 @@ public class DecProc extends Nodo{
 
     @Override
     public void generarCodigo() {
-        return;
     }
 }

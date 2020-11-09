@@ -9,6 +9,5 @@ public class Then extends Nodo {
     @Override
     public void generarCodigo() {
         //
-        return;
     }
 }

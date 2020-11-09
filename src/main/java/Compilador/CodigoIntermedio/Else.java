@@ -8,6 +8,5 @@ public class Else extends Nodo {
 
     @Override
     public void generarCodigo() {
-        return;
     }
 }

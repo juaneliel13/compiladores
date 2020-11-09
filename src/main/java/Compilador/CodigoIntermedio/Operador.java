@@ -9,9 +9,8 @@ public abstract class Operador extends ConTipo {
 
     @Override
     public void generarCodigo() {
-        return;
     }
 
     public abstract void updateTipo();
-    public abstract String metodoAbstracto();
+
 }

@@ -12,6 +12,5 @@ public class If extends Nodo {
         //y generar un BF a una nueva etiqueta (si hay else seria a
         //este agregaria la etiqueta luego del else, si no hay else
         //se agregaria la etiqueta luego del codigo del then)
-        return;
     }
 }

@@ -1,5 +1,8 @@
 package Compilador.CodigoAssembler;
 
+import Compilador.CodigoIntermedio.ConTipo;
+
+import java.util.HashMap;
 import java.util.Vector;
 
 public class AdministradorDeRegistros {
@@ -8,13 +11,18 @@ public class AdministradorDeRegistros {
     public static Vector<Registro> r_16bits;
     public static Vector<Registro> r_8bits;
 
+    static HashMap<Registro,ConTipo> nombre;
+
+    public static RegistroCompuesto AX;
+
     static {
         r_8bits = new Vector<>();
         r_16bits = new Vector<>();
         r_32bits = new Vector<>();
+        nombre = new HashMap<>();
 
         RegistroCompuesto EAX = new RegistroCompuesto("EAX",null);
-        RegistroCompuesto AX = new RegistroCompuesto("AX",EAX);
+        AX = new RegistroCompuesto("AX",EAX);
         EAX.addHijos(AX);
         RegistroSimple AH = new RegistroSimple("AH",AX);
         RegistroSimple AL = new RegistroSimple("AL",AX);
@@ -55,34 +63,40 @@ public class AdministradorDeRegistros {
         r_32bits.add(registro);
     }
 
-    public static Registro get8bits(){
+    public static Registro get8bits(ConTipo nodo){
         Registro aux = r_8bits.remove(0);
         aux.ocupar();
+        nombre.put(aux,nodo);
         return aux;
     }
 
-    public static Registro get16bits(){
+    public static Registro get16bits(ConTipo nodo){
         Registro aux = r_16bits.remove(0);
         aux.ocupar();
+        nombre.put(aux,nodo);
         return aux;
     }
 
-    public static Registro get32bits(){
+    public static Registro get32bits(ConTipo nodo){
         Registro aux = r_32bits.remove(0);
         aux.ocupar();
+        nombre.put(aux,nodo);
         return aux;
     }
 
     public static void rm8bits(Registro registro) {
         r_8bits.remove(registro);
+        nombre.remove(registro);
     }
 
     public static void rm16bits(Registro registro) {
         r_16bits.remove(registro);
+        nombre.remove(registro);
     }
 
     public static void rm32bits(Registro registro) {
         r_32bits.remove(registro);
+        nombre.remove(registro);
     }
 
     private static void addRegs8bits(Registro ...registros){
@@ -99,4 +113,15 @@ public class AdministradorDeRegistros {
         for(Registro r : registros)
             r_32bits.add(r);
     }
+
+    public static ConTipo propietario(Registro registro) {
+        return nombre.get(registro);
+    }
+
+    public static Registro getAX(ConTipo nodo){
+        AX.ocupar();
+        nombre.put(AX,nodo);
+        return AX;
+    }
+
 }

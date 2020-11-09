@@ -1,12 +1,13 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.CodigoAssembler.Registro;
 import Compilador.Lexico.Tipos;
 
-public class ConTipo extends Nodo {
+public abstract class ConTipo extends Nodo {
 
     private Tipos tipo;
 
-    public boolean marca=false;
+    public Registro reg = null;
 
     public ConTipo(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);
@@ -26,39 +27,14 @@ public class ConTipo extends Nodo {
 
     @Override
     public void generarCodigo() {
-        return;
+    }
+
+    public String getRef() {
+        return reg.toString();
     }
 
     public boolean esHoja() {
-        return ((izquierdo == null) && (derecho == null)) || this.marca;
+        return ((izquierdo == null) && (derecho == null));
     }
 
-    public ConTipo recorrido() {
-
-        if (this.esHoja())
-            return null;
-        if (izquierdo.esHoja() && derecho.esHoja()) {
-            this.marca=true;
-            return this;
-
-        } else {
-            ConTipo izq = (ConTipo)izquierdo;
-            ConTipo aux = izq.recorrido();
-            if (aux != null) {
-                aux.marca = true;
-                return aux;
-            } else {
-                ConTipo der = (ConTipo)derecho;
-                aux = der.recorrido();
-                if (aux != null) {
-                    aux.marca = true;
-                    return aux;
-                }
-                else {
-                    this.marca=true;
-                    return this;
-                }
-            }
-        }
-    }
 }
