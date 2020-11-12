@@ -126,7 +126,7 @@ dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' 
 		    	aux.put("NI",Integer.parseInt($7.sval));
 		    	aux.put("Parametros", $3.obj);
 		    	lex.tablaDeSimbolos.put($1.sval,aux);
-			DecProc proc = new DecProc((Nodo)$9.obj,null);
+			DecProc proc = new DecProc((Nodo)$9.obj,null,$1.sval);
 			$$ = new ParserVal(proc);
 
 
@@ -136,7 +136,7 @@ dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' 
 												HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
 												aux.put("NI",Integer.parseInt($6.sval));
 												lex.tablaDeSimbolos.put($1.sval,aux);
-												DecProc proc = new DecProc((Nodo)$8.obj,null);
+												DecProc proc = new DecProc((Nodo)$8.obj,null,$1.sval);
                                                                                                 $$ = new ParserVal(proc);
                   								       }
                   | encabezado_proc '(' lista_parametros ')' '{' conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
@@ -555,9 +555,10 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 				Asignacion inicializacion = new Asignacion(new Hoja(var),new Hoja($5.sval));
 
 				//Creando la parte del incremento
-				ConTipo incremento = (ConTipo)$11.obj;
+				Operador incremento = (Operador)$11.obj;
 				incremento.izquierdo = new Hoja(var);
 				incremento.derecho = new Hoja($12.sval);
+				incremento.updateTipo();
 				Asignacion asig = new Asignacion(new Hoja(var),incremento);
 
 				//Creando la parte de la condicion

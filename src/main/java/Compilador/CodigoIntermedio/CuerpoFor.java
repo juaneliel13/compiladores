@@ -8,5 +8,7 @@ public class CuerpoFor extends Nodo {
 
     @Override
     public void generarCodigo() {
+        izquierdo.generarCodigo();
+        derecho.generarCodigo();
     }
 }
