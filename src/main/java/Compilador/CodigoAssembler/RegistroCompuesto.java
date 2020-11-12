@@ -30,6 +30,10 @@ public class RegistroCompuesto extends Registro implements Observer {
         }
         this.setChanged();
         this.notifyObservers();
+        if (this.nombre.length() == 3)
+            AdministradorDeRegistros.add32bits(this);
+        else
+            AdministradorDeRegistros.add16bits(this);
     }
 
     public void addHijos(Registro...registros){
