@@ -2,7 +2,7 @@ package Compilador.CodigoIntermedio;
 
 import Compilador.Lexico.Tipos;
 
-public class MenorIgual extends Operador {
+public class MenorIgual extends Comparador {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
@@ -27,6 +27,11 @@ public class MenorIgual extends Operador {
         else {
             setTipo(compatibilidad[izq.getTipo().getValue()][der.getTipo().getValue()]);
         }
+    }
+
+    @Override
+    protected String getSalto() {
+        return "JNLE";
     }
 
 }

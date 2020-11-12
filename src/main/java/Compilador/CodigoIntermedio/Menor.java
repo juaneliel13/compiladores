@@ -2,7 +2,7 @@ package Compilador.CodigoIntermedio;
 
 import Compilador.Lexico.Tipos;
 
-public class Menor extends Operador {
+public class Menor extends Comparador {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
@@ -30,4 +30,8 @@ public class Menor extends Operador {
         }
     }
 
+    @Override
+    protected String getSalto() {
+        return "JGE";
+    }
 }

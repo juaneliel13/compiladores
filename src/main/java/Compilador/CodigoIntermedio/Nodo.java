@@ -2,9 +2,15 @@ package Compilador.CodigoIntermedio;
 
 import Compilador.Lexico.AnalizadorLexico;
 
+import java.util.Stack;
+
 public abstract class Nodo {
 
     public static StringBuilder codigo = new StringBuilder(200);
+
+    public static Stack<String> etiquetas = new Stack<>();
+
+    public static int cont_et=0;
 
     public Nodo izquierdo = null, derecho = null;
 
@@ -47,6 +53,14 @@ public abstract class Nodo {
         return el_retorno;
     }
 
+    public static String crearEtiqueta(){
+        etiquetas.push("etiqueta_"+cont_et++);
+        return etiquetas.peek();
+    }
+
+    public static String getEtiqueta(){
+        return etiquetas.pop();
+    }
 
     public String toString() {
         return this.getClass().getSimpleName();

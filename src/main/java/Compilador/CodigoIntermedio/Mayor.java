@@ -2,7 +2,7 @@ package Compilador.CodigoIntermedio;
 
 import Compilador.Lexico.Tipos;
 
-public class Mayor extends Operador {
+public class Mayor extends Comparador {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
@@ -29,4 +29,9 @@ public class Mayor extends Operador {
         }
     }
 
+
+    @Override
+    protected String getSalto() {
+        return "JLE";
+    }
 }

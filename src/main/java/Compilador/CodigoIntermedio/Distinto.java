@@ -2,7 +2,7 @@ package Compilador.CodigoIntermedio;
 
 import Compilador.Lexico.Tipos;
 
-public class Distinto extends Operador {
+public class Distinto extends Comparador {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
@@ -31,7 +31,8 @@ public class Distinto extends Operador {
     }
 
     @Override
-    public void generarCodigo() {
+    protected String getSalto() {
+        return "JE";
     }
 
 }
