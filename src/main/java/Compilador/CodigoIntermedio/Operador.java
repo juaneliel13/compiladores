@@ -7,9 +7,6 @@ public abstract class Operador extends ConTipo {
         super(izquierdo, derecho);
     }
 
-    @Override
-    public void generarCodigo() {
-    }
 
     public abstract void updateTipo();
 
