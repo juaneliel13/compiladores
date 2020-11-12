@@ -36,7 +36,8 @@ public class Asignacion extends ConTipo {
         codigo.append(",");
         codigo.append(der.getRef());
         codigo.append("\n");
-        der.reg.liberar();
+        if(!derecho.esHoja())
+            der.reg.liberar();
     }
 
 
