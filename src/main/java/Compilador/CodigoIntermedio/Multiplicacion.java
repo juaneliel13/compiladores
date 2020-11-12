@@ -43,9 +43,9 @@ public class Multiplicacion extends Operador {
                 Registro aux = AdministradorDeRegistros.get16bits(propietario);
                 propietario.reg = aux;
                 codigo.append("MOV ");
-                codigo.append(AdministradorDeRegistros.AX);
-                codigo.append(",");
                 codigo.append(aux);
+                codigo.append(",");
+                codigo.append(AdministradorDeRegistros.AX);
                 codigo.append("\n");
             } else {
                 //Lo pido por primera vez
