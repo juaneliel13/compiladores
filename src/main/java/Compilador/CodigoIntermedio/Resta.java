@@ -1,5 +1,6 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.CodigoAssembler.AdministradorDeRegistros;
 import Compilador.Lexico.Tipos;
 
 public class Resta extends Operador {
@@ -32,6 +33,27 @@ public class Resta extends Operador {
     public void generarCodigo() {
         izquierdo.generarCodigo();
         derecho.generarCodigo();
-        codigo.append("Resta \n");
+        ConTipo izq = (ConTipo) izquierdo;
+        ConTipo der = (ConTipo) derecho;
+        if(this.getTipo() == Tipos.INTEGER){
+            if(izquierdo.esHoja()) {
+                reg = AdministradorDeRegistros.get16bits(this);
+                codigo.append("MOV ");
+                codigo.append(reg);
+                codigo.append(",");
+                codigo.append(izq.getRef());
+                codigo.append("\n");
+            }
+            else{
+                reg = izq.reg;
+            }
+            codigo.append("SUB ");
+            codigo.append(reg.toString());
+            codigo.append(",");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+        } else {
+            //generacion de codigo para resta flotante
+        }
     }
 }

@@ -47,12 +47,8 @@ public class Multiplicacion extends Operador {
                 codigo.append(",");
                 codigo.append(AdministradorDeRegistros.AX);
                 codigo.append("\n");
-            } else {
-                //Lo pido por primera vez
-                reg = AdministradorDeRegistros.getAX(this);
             }
-            this.reg = AdministradorDeRegistros.AX;
-            this.reg.ocupar();
+            this.reg = AdministradorDeRegistros.getAX(this);
             codigo.append(templateEntero(izq.getRef(),der.getRef())+"\n");
         } else {
             //generacion de codigo para multiplicacion flotante

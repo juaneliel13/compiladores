@@ -1,5 +1,7 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.CodigoAssembler.AdministradorDeRegistros;
+import Compilador.CodigoAssembler.Registro;
 import Compilador.Lexico.Tipos;
 
 public class Division extends Operador {
@@ -33,6 +35,33 @@ public class Division extends Operador {
     public void generarCodigo() {
         izquierdo.generarCodigo();
         derecho.generarCodigo();
-        codigo.append("Division \n");
+        ConTipo izq = (ConTipo) izquierdo;
+        ConTipo der = (ConTipo) derecho;
+        if(this.getTipo() == Tipos.INTEGER){
+            if(!AdministradorDeRegistros.AX.estaLibre()){
+                ConTipo propietario = AdministradorDeRegistros.propietario(AdministradorDeRegistros.AX);
+                Registro aux = AdministradorDeRegistros.get16bits(propietario);
+                System.out.println(propietario);
+                propietario.reg = aux;
+                codigo.append("MOV ");
+                codigo.append(aux);
+                codigo.append(",");
+                codigo.append(AdministradorDeRegistros.AX);
+                codigo.append("\n");
+            }
+            this.reg = AdministradorDeRegistros.getAX(this);
+            codigo.append("MOV ");
+            codigo.append(reg);
+            codigo.append(",");
+            codigo.append(izq.getRef());
+            codigo.append("\n");
+            codigo.append("IDIV ");
+            codigo.append(reg.toString());
+            codigo.append(",");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+        } else {
+            //generacion de codigo para resta flotante
+        }
     }
 }
