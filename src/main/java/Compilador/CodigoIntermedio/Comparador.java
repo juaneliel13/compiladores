@@ -38,11 +38,14 @@ public abstract class Comparador extends Operador {
         codigo.append("\n");
 
         reg.liberar();
+        String etiqueta=crearEtiqueta();
 
         codigo.append(getSalto());
         codigo.append(" ");
-        codigo.append(crearEtiqueta());
+        codigo.append(etiqueta);
         codigo.append("\n");
+
+        apilar(etiqueta);
     }
 
     protected abstract String getSalto();

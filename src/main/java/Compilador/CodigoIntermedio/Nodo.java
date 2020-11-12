@@ -10,7 +10,7 @@ public abstract class Nodo {
 
     public static Stack<String> etiquetas = new Stack<>();
 
-    public static int cont_et=0;
+    public static int cont_et = 0;
 
     public Nodo izquierdo = null, derecho = null;
 
@@ -53,13 +53,16 @@ public abstract class Nodo {
         return el_retorno;
     }
 
-    public static String crearEtiqueta(){
-        etiquetas.push("etiqueta_"+cont_et++);
-        return etiquetas.peek();
+    public static String crearEtiqueta() {
+        return "etiqueta_" + (cont_et++);
     }
 
-    public static String getEtiqueta(){
+    public static String desapilar() {
         return etiquetas.pop();
+    }
+
+    public static void apilar(String etiqueta) {
+        etiquetas.push(etiqueta);
     }
 
     public String toString() {
