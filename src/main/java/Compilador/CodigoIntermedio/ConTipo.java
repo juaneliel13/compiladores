@@ -9,6 +9,8 @@ public abstract class ConTipo extends Nodo {
 
     public Registro reg = null;
 
+    public String var_aux = null;
+
     public ConTipo(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);
     }
@@ -30,7 +32,10 @@ public abstract class ConTipo extends Nodo {
     }
 
     public String getRef() {
-        return reg.toString();
+        if(reg!=null)
+            return reg.toString();
+        else
+            return var_aux;
     }
 
     public boolean esHoja() {
