@@ -46,12 +46,16 @@ public class Resta extends Operador {
             }
             else{
                 reg = izq.reg;
+                AdministradorDeRegistros.nombre.put(reg,this);
             }
             codigo.append("SUB ");
             codigo.append(reg.toString());
             codigo.append(",");
             codigo.append(der.getRef());
             codigo.append("\n");
+
+            if(!derecho.esHoja())
+                der.reg.liberar();
         } else {
             //generacion de codigo para resta flotante
         }
