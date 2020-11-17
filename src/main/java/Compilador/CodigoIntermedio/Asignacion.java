@@ -31,13 +31,22 @@ public class Asignacion extends ConTipo {
         derecho.generarCodigo();
         ConTipo izq = (ConTipo) izquierdo;
         ConTipo der = (ConTipo) derecho;
-        codigo.append("MOV ");
-        codigo.append(izq.getRef());
-        codigo.append(",");
-        codigo.append(der.getRef());
-        codigo.append("\n");
-        if(!derecho.esHoja())
-            der.reg.liberar();
+        if(getTipo()==Tipos.INTEGER){
+            codigo.append("MOV ");
+            codigo.append(izq.getRef());
+            codigo.append(",");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+            if(!derecho.esHoja())
+                der.reg.liberar();
+        }else{
+            codigo.append("FLD ");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+            codigo.append("FST ");
+            codigo.append(izq.getRef());
+            codigo.append("\n");
+        }
     }
 
 

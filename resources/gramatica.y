@@ -289,12 +289,12 @@ factor : ID {	String var = getIdentificador($1.sval);
 				int i = -(int) Integer.parseInt($2.sval);
 				if (!lex.tablaDeSimbolos.containsKey(String.valueOf(i))) {
 					    HashMap<String, Object> aux = new HashMap<String, Object>();
-					    aux.put("Tipo", "INT");
+					    aux.put("Tipo", Tipos.INTEGER);
 					    lex.tablaDeSimbolos.put(String.valueOf(i), aux);
 					}
 				int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-i)).get("Contador");
 				lex.tablaDeSimbolos.get(String.valueOf(-i)).put("Contador",aux-1);
-				$$ = new ParserVal(new Hoja($1.sval));
+				$$ = new ParserVal(new Hoja(String.valueOf(i)));
 			}
        		     }
       | '-' CTE_FLOAT {
@@ -304,12 +304,12 @@ factor : ID {	String var = getIdentificador($1.sval);
 				float f = -(float) Float.parseFloat($2.sval);
 				if (!lex.tablaDeSimbolos.containsKey(String.valueOf(f))) {
 					    HashMap<String, Object> aux = new HashMap<String, Object>();
-					    aux.put("Tipo", "FLOAT");
+					    aux.put("Tipo", Tipos.FLOAT);
 					    lex.tablaDeSimbolos.put(String.valueOf(f), aux);
 				}
 				int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-f)).get("Contador");
 				lex.tablaDeSimbolos.get(String.valueOf(-f)).put("Contador",aux-1);
-				$$ = new ParserVal(new Hoja($1.sval));
+				$$ = new ParserVal(new Hoja(String.valueOf(f)));
 			}
        		       }
        		       ;
