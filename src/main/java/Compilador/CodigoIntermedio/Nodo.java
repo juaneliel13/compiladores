@@ -12,6 +12,8 @@ public abstract class Nodo {
 
     public static int cont_et = 0;
 
+    public static int cont_aux = 0;
+
     public Nodo izquierdo = null, derecho = null;
 
     public static AnalizadorLexico lex;
@@ -55,6 +57,10 @@ public abstract class Nodo {
 
     public static String crearEtiqueta() {
         return "etiqueta_" + (cont_et++);
+    }
+
+    public static String crearAuxiliar() {
+        return "aux_" + (cont_aux++);
     }
 
     public static String desapilar() {
