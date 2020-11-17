@@ -38,7 +38,7 @@ public class Multiplicacion extends Operador {
         ConTipo izq = (ConTipo) izquierdo;
         ConTipo der = (ConTipo) derecho;
         if(this.getTipo() == Tipos.INTEGER){
-            if(!AdministradorDeRegistros.AX.estaLibre()){
+            if(!AdministradorDeRegistros.AX.estaLibre() && izq.reg!=AdministradorDeRegistros.AX){
                 ConTipo propietario = AdministradorDeRegistros.propietario(AdministradorDeRegistros.AX);
                 Registro aux = AdministradorDeRegistros.get16bits(propietario);
                 propietario.reg = aux;
@@ -47,9 +47,27 @@ public class Multiplicacion extends Operador {
                 codigo.append(",");
                 codigo.append(AdministradorDeRegistros.AX);
                 codigo.append("\n");
+
+            }
+            if(!AdministradorDeRegistros.DX.estaLibre()){
+                ConTipo propietario = AdministradorDeRegistros.propietario(AdministradorDeRegistros.DX);
+                Registro aux = AdministradorDeRegistros.get16bits(propietario);
+                propietario.reg = aux;
+                codigo.append("MOV ");
+                codigo.append(aux);
+                codigo.append(",");
+                codigo.append(AdministradorDeRegistros.DX);
+                codigo.append("\n");
             }
             this.reg = AdministradorDeRegistros.getAX(this);
-            codigo.append(templateEntero(izq.getRef(),der.getRef())+"\n");
+            AdministradorDeRegistros.getDX(this);
+            AdministradorDeRegistros.DX.liberar();
+            if(izq.reg!=AdministradorDeRegistros.AX)
+                codigo.append(templateEntero(izq.getRef(),der.getRef())+"\n");
+            else
+                codigo.append(templateEntero(der.getRef())+"\n");
+            if(!der.esHoja())
+                der.reg.liberar();
         } else {
             //generacion de codigo para multiplicacion flotante
         }
@@ -57,6 +75,10 @@ public class Multiplicacion extends Operador {
 
     private String templateEntero(String reg1, String reg2){
         return "MOV AX,"+reg1+"\nIMUL AX,"+reg2;
+    }
+
+    private String templateEntero(String reg2){
+        return "IMUL AX,"+reg2;
     }
 
     private String templateFloat(String reg1, String reg2){
