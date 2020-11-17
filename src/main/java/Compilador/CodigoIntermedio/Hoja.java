@@ -22,7 +22,10 @@ public class Hoja extends ConTipo {
 
     @Override
     public String getRef() {
-        return "_"+ref;
+        if(lex.tablaDeSimbolos.get(ref).get("Uso")!=null)
+            return "_"+ref;
+        else
+            return ref;
     }
 
     @Override
