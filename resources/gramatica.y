@@ -578,7 +578,7 @@ iteracion : FOR '(' ID '=' CTE_INT ';' ID comparador expresion ';' incr_decr CTE
 				Asignacion asig = new Asignacion(new Hoja(var),incremento);
 
 				//Creando la parte de la condicion
-				Operador comp = (Operador) $8.obj;
+				Comparador comp = (Comparador) $8.obj;
 				comp.izquierdo = new Hoja(var_comp);
 				comp.derecho = (Nodo) $9.obj;
 				comp.updateTipo();
