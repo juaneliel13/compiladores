@@ -57,6 +57,18 @@ public class Resta extends Operador {
             if(!derecho.esHoja())
                 der.reg.liberar();
         } else {
+            codigo.append("FLD ");
+            codigo.append(izq.getRef());
+            codigo.append("\n");
+            codigo.append("FSUB ");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+
+            String aux = crearAuxiliar();
+            codigo.append("FST ");
+            codigo.append(aux);
+            codigo.append("\n");
+            var_aux = aux;
             //generacion de codigo para resta flotante
         }
     }

@@ -69,6 +69,12 @@ public class Multiplicacion extends Operador {
             if(!der.esHoja())
                 der.reg.liberar();
         } else {
+            codigo.append(templateFloat(izq.getRef(),der.getRef()));
+            String aux = crearAuxiliar();
+            codigo.append("FST ");
+            codigo.append(aux);
+            codigo.append("\n");
+            var_aux = aux;
             //generacion de codigo para multiplicacion flotante
         }
     }
@@ -82,6 +88,6 @@ public class Multiplicacion extends Operador {
     }
 
     private String templateFloat(String reg1, String reg2){
-        return "FLD " + reg1 + "\nFMUL " + reg2;
+        return "FLD " + reg1 + "\nFMUL " + reg2 +"\n";
     }
 }
