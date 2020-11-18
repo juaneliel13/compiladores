@@ -31,6 +31,8 @@ public class MayorIgual extends Comparador {
 
     @Override
     protected String getSalto() {
-        return "JNGE";
+        if(getTipo() == Tipos.INTEGER)
+            return "JNGE";
+        return "JB";
     }
 }

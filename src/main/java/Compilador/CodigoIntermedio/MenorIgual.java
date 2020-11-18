@@ -31,7 +31,9 @@ public class MenorIgual extends Comparador {
 
     @Override
     protected String getSalto() {
-        return "JNLE";
+        if(getTipo() == Tipos.INTEGER)
+            return "JNLE";
+        return "JA";
     }
 
 }

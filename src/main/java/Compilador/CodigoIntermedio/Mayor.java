@@ -32,6 +32,8 @@ public class Mayor extends Comparador {
 
     @Override
     protected String getSalto() {
-        return "JLE";
+        if(getTipo() == Tipos.INTEGER)
+            return "JLE";
+        return "JBE";
     }
 }

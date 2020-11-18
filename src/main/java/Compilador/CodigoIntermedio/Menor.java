@@ -32,6 +32,8 @@ public class Menor extends Comparador {
 
     @Override
     protected String getSalto() {
-        return "JGE";
+        if(getTipo() == Tipos.INTEGER)
+            return "JGE";
+        return "JAE";
     }
 }
