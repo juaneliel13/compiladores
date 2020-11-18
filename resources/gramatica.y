@@ -376,15 +376,31 @@ bloque_ejecutables_for:bloque_ejecutables_llaves {
 		       				  }
 		       ;
 
-bloque_ejecutables_llaves: '{' bloque_ejecutables '}' {}
+bloque_ejecutables_llaves: '{' bloque_ejecutables '}' { $$ = new ParserVal($2.obj);}
 			 | '{' '}' {}
 			 //| bloque_ejecutables '}' {}
 			 | ejecutable {}
 			 ;
 
 
-bloque_ejecutables : ejecutable {}
-                   | ejecutable bloque_ejecutables  {}
+bloque_ejecutables : ejecutable {
+					try{
+						$$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
+					    }
+					    catch(Exception e){
+						error=true;
+					    }
+        			}
+                   | ejecutable bloque_ejecutables  {
+                   					if($1.obj!=null && $2.obj!=null)
+                                                            $$ = new ParserVal(new Bloque((Nodo)$1.obj,(Nodo)$2.obj));
+                                                        else{
+                                                            if($2.obj==null)
+                                                                $$ = new ParserVal(new Bloque((Nodo)$1.obj,null));
+                                                            else
+                                                                $$ = new ParserVal(new Bloque((Nodo)$2.obj,null));
+							}
+                   				    }
                    ;
 
 salida : OUT '(' CADENA ')' {}
