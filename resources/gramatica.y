@@ -120,41 +120,57 @@ encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
 			}
 			}
 
-dec_procedimiento : encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
+dec_procedimiento : encabezado_proc param_ni '{' conjunto_sentencias '}' {
 		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-		    	HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
-		    	aux.put("NI",Integer.parseInt($7.sval));
-		    	aux.put("Parametros", $3.obj);
-		    	lex.tablaDeSimbolos.put($1.sval,aux);
-			DecProc proc = new DecProc((Nodo)$9.obj,null,$1.sval);
+			DecProc proc = new DecProc((Nodo)$4.obj,null,$1.sval);
 			$$ = new ParserVal(proc);
 
 
 		   }
-                  | encabezado_proc '(' ')' NI '=' CTE_INT '{' conjunto_sentencias '}' {
-                  										ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-												HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($1.sval);
-												aux.put("NI",Integer.parseInt($6.sval));
-												lex.tablaDeSimbolos.put($1.sval,aux);
-												DecProc proc = new DecProc((Nodo)$8.obj,null,$1.sval);
-                                                                                                $$ = new ParserVal(proc);
-                  								       }
-                  | encabezado_proc '(' lista_parametros ')' '{' conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
-                  									   ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-                  									 }
-                  | encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba \"{\"");
-                  										      ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-                  										    }
-                  | encabezado_proc '(' ')' '{' conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
-                  							 ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+
+                  | encabezado_proc param_ni conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba \"{\"");
+                  							ambito=ambito.substring(0,ambito.lastIndexOf("@"));
                   							}
-                  | encabezado_proc '(' lista_parametros ')' NI '=' CTE_INT '{'  '}'{ logger.addError(lex.linea,"Se esperaba una sentencia");
-                  								      ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-                  								    }
-		  | encabezado_proc '(' ')' NI '=' CTE_INT '{'  '}'{logger.addError(lex.linea,"Se esperaba una sentencia");
-		  						    ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-		  						   }
+                  | encabezado_proc param_ni '{'  '}'{ logger.addError(lex.linea,"Se esperaba una sentencia");
+                  					ambito=ambito.substring(0,ambito.lastIndexOf("@"));
+                  					}
+
                   ;
+param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
+		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
+		System.out.println(nombre);
+		nombre=getIdentificador(nombre);
+		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
+		aux.put("NI",Integer.parseInt($6.sval));
+		aux.put("Parametros", $2.obj);
+		lex.tablaDeSimbolos.put(nombre,aux);}
+	| '(' ')' NI '=' CTE_INT {
+		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
+		System.out.println(nombre);
+		nombre=getIdentificador(nombre);
+		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
+		aux.put("NI",Integer.parseInt($5.sval));
+		lex.tablaDeSimbolos.put(nombre,aux);
+	}
+	| '(' lista_parametros ')' {    String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
+					System.out.println(nombre);
+					nombre=getIdentificador(nombre);
+					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
+					aux.put("NI",0);
+					aux.put("Parametros", $2.obj);
+					lex.tablaDeSimbolos.put(nombre,aux);
+					logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
+	}
+	| '(' ')'  {
+        		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
+        		System.out.println(nombre);
+        		nombre=getIdentificador(nombre);
+        		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
+        		aux.put("NI",0);
+        		lex.tablaDeSimbolos.put(nombre,aux);
+        }
+
+
 
 lista_parametros :parametro {
 				ArrayList<Parametro> parametros = new ArrayList<>();
