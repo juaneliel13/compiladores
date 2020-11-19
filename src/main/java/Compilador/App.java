@@ -70,7 +70,7 @@ public class App {
                 if (uso == "variable")
                     myFile.write("_" + entry.getKey() + " DW ?\n");
                 else
-                    myFile.write("_"+entry.getKey() +" DW "+ entry.getKey()+"\n");
+                    myFile.write("_"+entry.getKey().replace("-","N") +" DW "+ entry.getKey()+"\n");
             }
             else if(tipo==Tipos.FLOAT) {
                 if (uso == "variable")
@@ -78,7 +78,7 @@ public class App {
                 else if(uso=="auxiliar")
                     myFile.write("@" + entry.getKey() + " DQ ?\n");
                 else
-                    myFile.write("_" + entry.getKey().replace(".","_") + " DQ "+entry.getKey()+ "\n");
+                    myFile.write("_" + entry.getKey().replace(".","_").replace("-","N") + " DQ "+entry.getKey()+ "\n");
             }else if(tipo==Tipos.STRING)
                     myFile.write( "_"+entry.getKey().replaceAll("\'","") + " DB "+ entry.getKey()+ ",0\n");
 
@@ -87,7 +87,7 @@ public class App {
         myFile.write("\n");
         myFile.write(".CODE\n");
         myFile.write(DecProc.procs.toString());
-        myFile.write("_ZERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
+        myFile.write("_CERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
         myFile.write("START:\n");
         myFile.write(Nodo.codigo.toString());
         myFile.write("_END:\n");

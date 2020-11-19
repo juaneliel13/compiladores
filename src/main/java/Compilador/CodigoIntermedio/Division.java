@@ -79,7 +79,7 @@ public class Division extends Operador {
     }
 
     private String templateEntero(String reg1, String reg2){
-        return "MOV AX,"+reg1+"\nCWD\n"+"CMP "+reg2+",0\nJE _ZERO\n"+"IDIV "+reg2;
+        return "MOV AX,"+reg1+"\nCWD\n"+"CMP "+reg2+",0\nJE _CERO\n"+"IDIV "+reg2;
     }
 
     private String templateEntero(String reg2){
