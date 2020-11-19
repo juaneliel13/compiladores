@@ -1,17 +1,23 @@
 package Compilador;
 
 import Compilador.CodigoIntermedio.ConTipo;
+import Compilador.CodigoIntermedio.DecProc;
 import Compilador.CodigoIntermedio.Nodo;
 import Compilador.Lexico.AnalizadorLexico;
+import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         boolean imprime = true;
         if (args.length != 0) {
             File file = new File(args[0]);
@@ -31,17 +37,63 @@ public class App {
             Nodo.setLexico(lexico);
             Logger.setParser(parser);
             System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
-            System.out.println(lexico.tablaDeSimbolos.toString());
-            System.out.println(parser.raiz.imprimision());
-            parser.raiz.generarCodigo();
-            System.out.println(Nodo.codigo);
             if (imprime) {
                 logger.dumpErrors();
                 logger.dumpEvents();
                 logger.dumpWarnings();
             }
+            System.out.println(lexico.tablaDeSimbolos.toString());
+            if(!parser.error) {
+                System.out.println(parser.raiz.imprimision());
+                parser.raiz.generarCodigo();
+                generarCodigo(args[0],lexico);
+            }
+            System.out.println(DecProc.procs);
+            System.out.println(Nodo.codigo);
+
+
         } else {
             System.out.println("Se esperaban argumentos :c ");
         }
+    }
+
+    public static void generarCodigo(String direccion, AnalizadorLexico lexico) throws IOException {
+        File file = new File(direccion);
+        String filename = file.getName().split("\\.")[0];
+        String path = file.getAbsoluteFile().getParent() + File.separator;
+        FileWriter myFile = new FileWriter(path + filename + ".asm");
+        myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\ndll_dllcrt0 PROTO C\nprintf PROTO C :VARARG\n\n.DATA\n");
+        for(Map.Entry<String, HashMap<String,Object>> entry : lexico.tablaDeSimbolos.entrySet()){
+            Tipos tipo= (Tipos) entry.getValue().get("Tipo");
+            String uso= (String) entry.getValue().get("Uso");
+            if(tipo==Tipos.INTEGER) {
+                if (uso == "variable")
+                    myFile.write("_" + entry.getKey() + " DW ?\n");
+                else
+                    myFile.write("_"+entry.getKey() +" DW "+ entry.getKey()+"\n");
+            }
+            else if(tipo==Tipos.FLOAT) {
+                if (uso == "variable")
+                    myFile.write("_" + entry.getKey() + " DQ ?\n");
+                else if(uso=="auxiliar")
+                    myFile.write("@" + entry.getKey() + " DQ ?\n");
+                else
+                    myFile.write("_" + entry.getKey().replace(".","_") + " DQ "+entry.getKey()+ "\n");
+            }else if(tipo==Tipos.STRING)
+                    myFile.write( "_"+entry.getKey().replaceAll("\'","") + " DB "+ entry.getKey()+ ",0\n");
+
+        }
+        myFile.write("_cero DB 'Error: Division por cero',0\n");
+        myFile.write("\n");
+        myFile.write(".CODE\n");
+        myFile.write(DecProc.procs.toString());
+        myFile.write("_ZERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
+        myFile.write("START:\n");
+        myFile.write(Nodo.codigo.toString());
+        myFile.write("_END:\n");
+        myFile.write("exit,0\n");
+        myFile.write("END START\n");
+        myFile.close();
+
     }
 }
