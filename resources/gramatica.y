@@ -189,6 +189,10 @@ parametro: tipo ID {
                     $$ = new ParserVal(new Parametro($2.sval+ambito,(Tipos)$1.obj,"COPIA"));
 	   }
 	   | VAR tipo ID {
+	   			HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($3.sval);
+                                aux.put("Uso","variable");
+                                aux.put("Tipo",(Tipos)$2.obj);
+                                lex.tablaDeSimbolos.put($3.sval+ambito,aux);
 	   			$$ = new ParserVal(new Parametro($3.sval+ambito,(Tipos)$2.obj,"VAR"));
 	   		 }
 	   | VAR ID {logger.addError(lex.linea,"Se esperaba tipo");}
@@ -283,7 +287,10 @@ factor : ID {	String var = getIdentificador($1.sval);
 				}
 			}
 		 }
-       | CTE_FLOAT { $$ = new ParserVal(new Hoja($1.sval)); }
+       | CTE_FLOAT { 	if($1.sval!=null){
+       				$$ = new ParserVal(new Hoja($1.sval));
+       			}
+       			}
        | '-' CTE_INT {
        			if($2.sval!=null){
 				int i = -(int) Integer.parseInt($2.sval);
@@ -403,12 +410,17 @@ bloque_ejecutables : ejecutable {
                    				    }
                    ;
 
-salida : OUT '(' CADENA ')' {}
-       | OUT '(' ID ')' {}
-       | OUT '(' CTE_INT ')' {}
-       | OUT '(' '-' CTE_INT ')' {}
-       | OUT '(' CTE_FLOAT ')' {}
-       | OUT '(' '-' CTE_FLOAT ')' {}
+salida : OUT '(' CADENA ')' { $$=new ParserVal(new Salida($3.sval));}
+       | OUT '(' ID ')' {
+       			String var =getIdentificador($3.sval);
+                        if(var==null){
+                        	logger.addError(lex.linea,"Variable \""+ $3.sval+ "\" no declarada" );
+                        }else
+       				$$=new ParserVal(new Salida(var)); }
+       | OUT '(' CTE_INT ')' {$$=new ParserVal(new Salida($3.sval));}
+       | OUT '(' '-' CTE_INT ')' {$$=new ParserVal(new Salida("-"+$4.sval));}
+       | OUT '(' CTE_FLOAT ')' {$$=new ParserVal(new Salida($3.sval));}
+       | OUT '(' '-' CTE_FLOAT ')' {$$=new ParserVal(new Salida("-"+$4.sval));}
        | OUT '(' ')' {logger.addError(lex.linea,"Se esperaba una cadena");}
        | OUT error {logger.addError(lex.linea,"Sentencia OUT mal escrita");}
        ;
@@ -420,7 +432,7 @@ llamada : ID '(' parametros ')'  {
 				}
 				else{
 					String a;
-					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);;
+					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);
 					if(aux.get("Uso").equals("procedimiento")){
 						int ni = (Integer) aux.get("NI");
 						if ( ni <= 0 ) {
@@ -442,6 +454,10 @@ llamada : ID '(' parametros ')'  {
 										logger.addError(lex.linea,"Parametro \"" + parametros_llamada.get(i) + "\" de tipo \""
                                                                                                                         + tipo_func + "\" no coincide con el parametro formal de tipo \"" + parametros_func.get(i).tipo +  "\" en el llamado a \"" + $1.sval + "\"" );
 									}
+									else{
+										parametros_llamada.set(i,parametro_func);
+									}
+
 								} else {
 									logger.addError(lex.linea,"Parametro en el procedimiento \"" + parametros_llamada.get(i) + "\" fuera de alcance" );
 								}
@@ -449,14 +465,18 @@ llamada : ID '(' parametros ')'  {
 							if (i >= parametros_func.size() ^ i >= parametros_llamada.size()) {
 								logger.addError(lex.linea, "Llamada a procedimiento con cantidad de parametros erronea" );
 							}
+							lex.tablaDeSimbolos.put(proc,aux);
+							$$=new ParserVal(new Llamada(proc,parametros_llamada));
 						} else {
+							lex.tablaDeSimbolos.put(proc,aux);
 							logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no lleva parametros" );
 						}
 					}
 					else {
+						lex.tablaDeSimbolos.put(proc,aux);
 						logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no es un procedimiento" );
 					}
-					lex.tablaDeSimbolos.put(proc,aux);
+
 				}
 	}
 	| ID '(' ')'  {
@@ -475,16 +495,19 @@ llamada : ID '(' parametros ')'  {
 						aux.put("NI",(Integer)ni-1);
 					}
 					if(!aux.containsKey("Parametros")) {
-						//estaria todo ok
+						lex.tablaDeSimbolos.put(proc,aux);
+						$$=new ParserVal(new Llamada(proc,null));
 
 					} else {
+						lex.tablaDeSimbolos.put(proc,aux);
 						logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" lleva parametros" );
 					}
 				}
 				else {
+					lex.tablaDeSimbolos.put(proc,aux);
 					logger.addError(lex.linea,"Invocacion invalida, \"" + $1.sval + "\" no es un procedimiento" );
 				}
-				lex.tablaDeSimbolos.put(proc,aux);
+
 			}
 	}
 	;
