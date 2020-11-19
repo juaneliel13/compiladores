@@ -22,10 +22,10 @@ public class Hoja extends ConTipo {
 
     @Override
     public String getRef() {
-        if(lex.tablaDeSimbolos.get(ref).get("Uso")!=null)
+        if (lex.tablaDeSimbolos.get(ref).get("Tipo")!=Tipos.FLOAT)
             return "_"+ref;
         else
-            return ref;
+            return "_"+ref.replace(".","_");
     }
 
     @Override
