@@ -1,7 +1,9 @@
 package Compilador.CodigoIntermedio;
 
 import Compilador.Lexico.AnalizadorLexico;
+import Compilador.Lexico.Tipos;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 public abstract class Nodo {
@@ -60,7 +62,12 @@ public abstract class Nodo {
     }
 
     public static String crearAuxiliar() {
-        return "aux_" + (cont_aux++);
+        String aux="aux_" + (cont_aux++);
+        HashMap<String,Object> map_aux=new HashMap<>();
+        map_aux.put("Uso","auxiliar");
+        map_aux.put("Tipo", Tipos.FLOAT);
+        lex.tablaDeSimbolos.put(aux,map_aux);
+        return aux;
     }
 
     public static String desapilar() {
