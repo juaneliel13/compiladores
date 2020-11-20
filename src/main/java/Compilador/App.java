@@ -43,10 +43,10 @@ public class App {
                 logger.dumpWarnings();
             }
             System.out.println(lexico.tablaDeSimbolos.toString());
-            if(!parser.error) {
+            if (!parser.error) {
                 System.out.println(parser.raiz.imprimision());
                 parser.raiz.generarCodigo();
-                generarCodigo(args[0],lexico);
+                generarCodigo(args[0], lexico);
             }
             System.out.println(DecProc.procs);
             System.out.println(Nodo.codigo);
@@ -64,27 +64,28 @@ public class App {
         FileWriter myFile = new FileWriter(path + filename + ".asm");
         myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\ndll_dllcrt0 PROTO C\nprintf PROTO C :VARARG\n\n.DATA\n");
         myFile.write("aux_salida DD ?\n");
-        for(Map.Entry<String, HashMap<String,Object>> entry : lexico.tablaDeSimbolos.entrySet()){
-            Tipos tipo= (Tipos) entry.getValue().get("Tipo");
-            String uso= (String) entry.getValue().get("Uso");
-            if(tipo==Tipos.INTEGER) {
+        for (Map.Entry<String, HashMap<String, Object>> entry : lexico.tablaDeSimbolos.entrySet()) {
+            Tipos tipo = (Tipos) entry.getValue().get("Tipo");
+            String uso = (String) entry.getValue().get("Uso");
+            if (tipo == Tipos.INTEGER) {
                 if (uso == "variable") {
-                    String inic= (String) entry.getValue().get("Inic");
-                    myFile.write("_" + entry.getKey() + " DW "+inic+"\n");
-                }else
-                    myFile.write("_"+entry.getKey().replace("-","N") +" DW "+ entry.getKey()+"\n");
-            }
-            else if(tipo==Tipos.FLOAT) {
+                    String inic = (String) entry.getValue().get("Inic");
+                    myFile.write("_" + entry.getKey() + " DW " + inic + "\n");
+                } else {
+                    myFile.write("_" + entry.getKey().replace("-", "N") + " DW " + entry.getKey() + "\n");
+                }
+            } else if (tipo == Tipos.FLOAT) {
                 if (uso == "variable") {
-                    String inic= (String) entry.getValue().get("Inic");
-                    myFile.write("_" + entry.getKey() + " DQ "+inic+"\n");
-                }else if(uso=="auxiliar")
+                    String inic = (String) entry.getValue().get("Inic");
+                    myFile.write("_" + entry.getKey() + " DQ " + inic + "\n");
+                } else if (uso == "auxiliar") {
                     myFile.write("@" + entry.getKey() + " DQ ?\n");
-                else
-                    myFile.write("_" + entry.getKey().replace(".","_").replace("-","N") + " DQ "+entry.getKey()+ "\n");
-            }else if(tipo==Tipos.STRING)
-                    myFile.write( "_"+entry.getKey().replaceAll("\'","") + " DB "+ entry.getKey()+ ",0\n");
-
+                } else {
+                    myFile.write("_" + entry.getKey().replace(".", "_").replace("-", "N") + " DQ " + entry.getKey() + "\n");
+                }
+            } else if (tipo == Tipos.STRING) {
+                myFile.write("_" + entry.getKey().replaceAll("\'", "").replaceAll(" ","_") + " DB " + entry.getKey() + ",0\n");
+            }
         }
         myFile.write("_cero DB 'Error: Division por cero',0\n");
         myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");

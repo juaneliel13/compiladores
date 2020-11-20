@@ -34,7 +34,7 @@ public class Salida extends Nodo {
         codigo.append(tipo_print);
         codigo.append("\\n\"),");
         if(tipo==Tipos.STRING) {
-            codigo.append("OFFSET _" + ref.replace("'", ""));
+            codigo.append("OFFSET _" + ref.replaceAll("'", "").replaceAll(" ","_"));
         }else if(tipo==Tipos.INTEGER) {
             codigo.append("aux_salida");
         }else {
