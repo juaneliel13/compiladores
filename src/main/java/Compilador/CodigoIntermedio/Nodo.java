@@ -62,7 +62,7 @@ public abstract class Nodo {
     }
 
     public static String crearAuxiliar() {
-        String aux="aux_" + (cont_aux++);
+        String aux="@aux_" + (cont_aux++);
         HashMap<String,Object> map_aux=new HashMap<>();
         map_aux.put("Uso","auxiliar");
         map_aux.put("Tipo", Tipos.FLOAT);

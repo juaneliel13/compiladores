@@ -79,7 +79,7 @@ public class App {
                     String inic = (String) entry.getValue().get("Inic");
                     myFile.write("_" + entry.getKey() + " DQ " + inic + "\n");
                 } else if (uso == "auxiliar") {
-                    myFile.write("@" + entry.getKey() + " DQ ?\n");
+                    myFile.write(entry.getKey() + " DQ ?\n");
                 } else {
                     myFile.write("_" + entry.getKey().replace(".", "_").replace("-", "N") + " DQ " + entry.getKey() + "\n");
                 }
