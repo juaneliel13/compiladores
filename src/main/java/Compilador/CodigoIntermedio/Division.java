@@ -70,7 +70,7 @@ public class Division extends Operador {
         } else {
             codigo.append(templateFloat(izq.getRef(),der.getRef()));
             String aux = crearAuxiliar();
-            codigo.append("FST ");
+            codigo.append("FSTP ");
             codigo.append(aux);
             codigo.append("\n");
             var_aux = aux;

@@ -65,7 +65,7 @@ public class Resta extends Operador {
             codigo.append("\n");
 
             String aux = crearAuxiliar();
-            codigo.append("FST ");
+            codigo.append("FSTP ");
             codigo.append(aux);
             codigo.append("\n");
             var_aux = aux;
