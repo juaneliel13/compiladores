@@ -69,6 +69,7 @@ dec_variable : tipo lista_variables  {
  		    		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(id);
                                 aux.put("Uso","variable");
                                 aux.put("Tipo",$1.obj);
+                                aux.put("Inic","?");
                                 lex.tablaDeSimbolos.put(id+ambito,aux);
                         }
 
@@ -201,6 +202,7 @@ parametro: tipo ID {
 		    HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($2.sval);
 		    aux.put("Uso","variable");
 		    aux.put("Tipo",(Tipos)$1.obj);
+		    aux.put("Inic","?");
                     lex.tablaDeSimbolos.put($2.sval+ambito,aux);
                     $$ = new ParserVal(new Parametro($2.sval+ambito,(Tipos)$1.obj,"COPIA"));
 	   }
@@ -208,6 +210,7 @@ parametro: tipo ID {
 	   			HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($3.sval);
                                 aux.put("Uso","variable");
                                 aux.put("Tipo",(Tipos)$2.obj);
+                                aux.put("Inic","?");
                                 lex.tablaDeSimbolos.put($3.sval+ambito,aux);
 	   			$$ = new ParserVal(new Parametro($3.sval+ambito,(Tipos)$2.obj,"VAR"));
 	   		 }

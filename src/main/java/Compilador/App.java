@@ -63,19 +63,22 @@ public class App {
         String path = file.getAbsoluteFile().getParent() + File.separator;
         FileWriter myFile = new FileWriter(path + filename + ".asm");
         myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\ndll_dllcrt0 PROTO C\nprintf PROTO C :VARARG\n\n.DATA\n");
+        myFile.write("aux_salida DD ?\n");
         for(Map.Entry<String, HashMap<String,Object>> entry : lexico.tablaDeSimbolos.entrySet()){
             Tipos tipo= (Tipos) entry.getValue().get("Tipo");
             String uso= (String) entry.getValue().get("Uso");
             if(tipo==Tipos.INTEGER) {
-                if (uso == "variable")
-                    myFile.write("_" + entry.getKey() + " DW ?\n");
-                else
+                if (uso == "variable") {
+                    String inic= (String) entry.getValue().get("Inic");
+                    myFile.write("_" + entry.getKey() + " DW "+inic+"\n");
+                }else
                     myFile.write("_"+entry.getKey().replace("-","N") +" DW "+ entry.getKey()+"\n");
             }
             else if(tipo==Tipos.FLOAT) {
-                if (uso == "variable")
-                    myFile.write("_" + entry.getKey() + " DQ ?\n");
-                else if(uso=="auxiliar")
+                if (uso == "variable") {
+                    String inic= (String) entry.getValue().get("Inic");
+                    myFile.write("_" + entry.getKey() + " DQ "+inic+"\n");
+                }else if(uso=="auxiliar")
                     myFile.write("@" + entry.getKey() + " DQ ?\n");
                 else
                     myFile.write("_" + entry.getKey().replace(".","_").replace("-","N") + " DQ "+entry.getKey()+ "\n");
@@ -84,10 +87,12 @@ public class App {
 
         }
         myFile.write("_cero DB 'Error: Division por cero',0\n");
+        myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");
         myFile.write("\n");
         myFile.write(".CODE\n");
         myFile.write(DecProc.procs.toString());
         myFile.write("_CERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
+        myFile.write("_RECURSION:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _recursion\nJMP _END\n");
         myFile.write("START:\n");
         myFile.write(Nodo.codigo.toString());
         myFile.write("_END:\n");

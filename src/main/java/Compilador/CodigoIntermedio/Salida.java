@@ -23,14 +23,23 @@ public class Salida extends Nodo {
     }
     @Override
     public void generarCodigo() {
+        Tipos tipo = (Tipos) lex.tablaDeSimbolos.get(ref).get("Tipo");
+        if(tipo==Tipos.INTEGER) {
+            codigo.append("MOV AX, _" );
+            codigo.append(ref);
+            codigo.append("\nCWDE\nMOV aux_salida, EAX\n");
+        }
 
         codigo.append("invoke printf, cfm$(\"%");
         codigo.append(tipo_print);
         codigo.append("\\n\"),");
-        if(lex.tablaDeSimbolos.get(ref).get("Tipo")==Tipos.STRING)
-            codigo.append("OFFSET _"+ref.replace("'",""));
-        else
-            codigo.append("_"+ref.replace(".","_"));
+        if(tipo==Tipos.STRING) {
+            codigo.append("OFFSET _" + ref.replace("'", ""));
+        }else if(tipo==Tipos.INTEGER) {
+            codigo.append("aux_salida");
+        }else {
+            codigo.append("_" + ref.replace(".", "_"));
+        }
         codigo.append("\n");
 
 

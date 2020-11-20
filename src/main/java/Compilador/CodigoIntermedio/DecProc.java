@@ -9,6 +9,8 @@ public class DecProc extends Nodo{
 
     public static StringBuilder procs = new StringBuilder();
 
+
+
     String ref;
     public DecProc(Nodo izquierdo, Nodo derecho, String ref) {
         super(izquierdo, derecho);
@@ -18,6 +20,11 @@ public class DecProc extends Nodo{
     @Override
     public void generarCodigo() {
         StringBuilder aux = Nodo.codigo;
+        HashMap<String, Object> h_aux = new HashMap<String, Object>();
+        h_aux.put("Uso", "variable");
+        h_aux.put("Tipo",Tipos.INTEGER);
+        h_aux.put("Inic","0");
+        lex.tablaDeSimbolos.put("FLAG_"+ref, h_aux);
         Nodo.codigo = procs;
         codigo.append("_"+ref);
         codigo.append(" PROC ");
