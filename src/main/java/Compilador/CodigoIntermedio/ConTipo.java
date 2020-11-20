@@ -38,8 +38,4 @@ public abstract class ConTipo extends Nodo {
             return var_aux;
     }
 
-    public boolean esHoja() {
-        return ((izquierdo == null) && (derecho == null));
-    }
-
 }
