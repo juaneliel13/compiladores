@@ -7,6 +7,8 @@ public class Asignacion extends ConTipo {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
+        // Se inicializa la matriz de compatibilidad
+        // como no aceptamos conversiones ponemos todos null, salvo la diagonal
         for (int i = 0; i < compatibilidad.length; i++)
             for (int j = 0; j < compatibilidad[0].length; j++) {
                 if (i == j)
@@ -25,7 +27,6 @@ public class Asignacion extends ConTipo {
         }
     }
 
-
     @Override
     public void generarCodigo() {
         izquierdo.generarCodigo();
@@ -33,31 +34,54 @@ public class Asignacion extends ConTipo {
         ConTipo izq = (ConTipo) izquierdo;
         ConTipo der = (ConTipo) derecho;
         if (getTipo() == Tipos.INTEGER) {
-            if (der.esHoja()) {
-                this.reg = AdministradorDeRegistros.get16bits(this);
-                codigo.append("MOV ");
-                codigo.append(this.reg);
-                codigo.append(",");
-                codigo.append(der.getRef());
-                codigo.append("\n");
-            } else {
-                this.reg = der.reg;
-            }
-            codigo.append("MOV ");
-            codigo.append(izq.getRef());
-            codigo.append(",");
-            codigo.append(this.reg);
-            codigo.append("\n");
-            this.reg.liberar();
+            asignacionInteger(izq,der);
         } else {
-            codigo.append("FLD ");
-            codigo.append(der.getRef());
-            codigo.append("\n");
-            codigo.append("FST ");
-            codigo.append(izq.getRef());
-            codigo.append("\n");
+            asignacionFloat(izq,der);
         }
     }
 
+    /**
+     * Esta funcion genera el codigo assembler para la asignacion lValue = rValue de tipo INTEGER.
+     * @param lValue nodo Hoja donde se guarda el resultado de la expresion.
+     * @param rValue nodo ConTipo ( Hoja o Operador ) que tiene la expresion a guardar en la variable.
+     */
+    private void asignacionInteger(ConTipo lValue, ConTipo rValue){
+        //Si es una Hoja el lado derecho hay que moverlo a un registro
+        //ya que no se puede hacer un MOV de memoria a memoria.
+        //sino se asigna el registro del rValue a this para luego liberarlo
+        if (rValue.esHoja()) {
+            this.reg = AdministradorDeRegistros.get16bits(this);
+            codigo.append("MOV ");
+            codigo.append(this.reg);
+            codigo.append(",");
+            codigo.append(rValue.getRef());
+            codigo.append("\n");
+        } else {
+            this.reg = rValue.reg;
+        }
+
+        //se mueve la variable del rValue al lValue
+        codigo.append("MOV ");
+        codigo.append(lValue.getRef());
+        codigo.append(",");
+        codigo.append(this.reg);
+        codigo.append("\n");
+
+        //Se libera el registro utilizado
+        this.reg.liberar();
+    }
+
+    /**
+     * Esta funcion genera el codigo assembler para la asignacion lValue = rValue de tipo FLOAT.
+     * @param lValue nodo Hoja donde se guarda el resultado de la expresion.
+     * @param rValue nodo ConTipo ( Hoja o Operador ) que tiene la expresion a guardar en la variable.
+     */
+    private void asignacionFloat(ConTipo lValue, ConTipo rValue) {
+        codigo.append("FLD ");
+        codigo.append(rValue.getRef());
+        codigo.append("\nFST ");
+        codigo.append(lValue.getRef());
+        codigo.append("\n");
+    }
 
 }
