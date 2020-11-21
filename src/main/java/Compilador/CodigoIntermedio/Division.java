@@ -87,6 +87,7 @@ public class Division extends Operador {
     }
 
     private String templateFloat(String reg1, String reg2){
-        return "FLD " + reg1 + "\nFDIV " + reg2 +"\n";
+        return "FLD "+ reg2 +"\nFLD _0_0"+"\nFCOMP\nFSTSW mem2bytes"+"\nMOV AX, mem2bytes\nSAHF"+"\nJE _CERO\nFLD " + reg1 + "\nFDIVR\n";
     }
 }
+
