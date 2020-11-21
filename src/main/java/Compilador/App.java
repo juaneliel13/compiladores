@@ -34,14 +34,14 @@ public class App {
             Parser parser = new Parser(lexico);
             Nodo.setLexico(lexico);
             Logger.setParser(parser);
-            System.out.println("RETURN DEL YYPARSE: " + parser.yyparse_publico());
+            int ret_parser=parser.yyparse_publico();
             if (imprime) {
                 logger.dumpErrors();
                 logger.dumpEvents();
                 logger.dumpWarnings();
             }
             System.out.println(lexico.tablaDeSimbolos.toString());
-            if (!parser.error) {
+            if (!parser.error && ret_parser!=1) {
                 System.out.println(parser.raiz.imprimision());
                 parser.raiz.generarCodigo();
                 generarCodigo(args[0], lexico);
