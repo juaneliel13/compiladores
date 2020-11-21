@@ -42,7 +42,7 @@ public class App {
             }
             System.out.println(lexico.tablaDeSimbolos.toString());
             if (!parser.error) {
-                System.out.println(parser.raiz.imprimision());
+                System.out.println(parser.raiz.imprimir());
                 parser.raiz.generarCodigo();
                 generarCodigo(args[0], lexico);
             }

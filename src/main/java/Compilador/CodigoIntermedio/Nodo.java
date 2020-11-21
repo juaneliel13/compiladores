@@ -33,34 +33,55 @@ public abstract class Nodo {
 
     }
 
+    /**
+     * Retorna si el nodo es Hoja
+     * @return boolean
+     */
     public boolean esHoja() {
         return ((izquierdo == null) && (derecho == null));
     }
 
+    /**
+     * Genera el codigo almacenandolo en el StringBuilder codigo
+     */
     public abstract void generarCodigo();
 
-    public String imprimision() {
-        return auxiliarito(this, "");
+    /**
+     * Genera un String con la estructura representada en forma de arbol de directorio
+     * @return String con la estructura
+     */
+    public String imprimir() {
+        return imprimirRecursivo(this, "");
     }
 
-    private String auxiliarito(Nodo nodo, String tabs) {
+    /**
+     * Metodo auxiliar para imprimir de manera recursiva los nodos
+     * @param nodo es el nodo que se quiere imprimir
+     * @param tabs son la identacion que se tenia de antes (como profundidad)
+     * @return
+     */
+    private String imprimirRecursivo(Nodo nodo, String tabs) {
         String el_retorno = "";
         el_retorno += tabs + nodo.toString() + '\n';
         if (nodo.izquierdo != null)
-            el_retorno += auxiliarito(nodo.izquierdo, tabs + '\t');
-        /*else
-            el_retorno += tabs + "\tnull\n";*/
+            el_retorno += imprimirRecursivo(nodo.izquierdo, tabs + '\t');
         if (nodo.derecho != null)
-            el_retorno += auxiliarito(nodo.derecho, tabs + '\t');
-        /*else
-            el_retorno += tabs + "\tnull\n";*/
+            el_retorno += imprimirRecursivo(nodo.derecho, tabs + '\t');
         return el_retorno;
     }
 
+    /**
+     * Crea una nueva etiqueta
+     * @return la etiqueta
+     */
     public static String crearEtiqueta() {
         return "etiqueta_" + (cont_et++);
     }
 
+    /**
+     * Crea y agrega a la tabla de simbolos una nueva variable auxiliar
+     * @return la referencia de la variable auxiliar
+     */
     public static String crearAuxiliar() {
         String aux="@aux_" + (cont_aux++);
         HashMap<String,Object> map_aux=new HashMap<>();
@@ -70,10 +91,18 @@ public abstract class Nodo {
         return aux;
     }
 
+    /**
+     * Desapila una etiqueta
+     * @return la etiqueta que estaba en el tope
+     */
     public static String desapilar() {
         return etiquetas.pop();
     }
 
+    /**
+     * Apila la etiqueta.
+     * @param etiqueta
+     */
     public static void apilar(String etiqueta) {
         etiquetas.push(etiqueta);
     }
