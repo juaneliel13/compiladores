@@ -3,11 +3,13 @@ package Compilador.CodigoIntermedio;
 import Compilador.Lexico.Tipos;
 
 public class Salida extends Nodo {
+    public static boolean hay_salida=false;
+    public static boolean integer=false;
     String ref;
     String tipo_print;
     public Salida(String ref){
         this.ref=ref;
-
+        hay_salida=true;
         Tipos tipo = (Tipos) lex.tablaDeSimbolos.get(ref).get("Tipo");
         switch (tipo){
             case INTEGER:
@@ -36,6 +38,7 @@ public class Salida extends Nodo {
         if(tipo==Tipos.STRING) {
             codigo.append("OFFSET _" + ref.replaceAll("'", "").replaceAll(" ","_"));
         }else if(tipo==Tipos.INTEGER) {
+            integer=true;
             codigo.append("aux_salida");
         }else {
             codigo.append("_" + ref.replace(".", "_"));
