@@ -143,7 +143,12 @@ param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
 		aux.put("NI",Integer.parseInt($6.sval));
 		aux.put("Parametros", $2.obj);
-		lex.tablaDeSimbolos.put(nombre,aux);}
+		lex.tablaDeSimbolos.put(nombre,aux);
+		HashMap<String, Object> aux2=lex.tablaDeSimbolos.remove($6.sval);
+		Integer NI = (Integer)aux2.remove("NI");
+		aux2.put("NI",++NI);
+		lex.tablaDeSimbolos.put($6.sval,aux2);
+		}
 	| '(' ')' NI '=' CTE_INT {
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
 		nombre=getIdentificador(nombre);

@@ -1,8 +1,6 @@
 package Compilador;
 
-import Compilador.CodigoIntermedio.ConTipo;
-import Compilador.CodigoIntermedio.DecProc;
-import Compilador.CodigoIntermedio.Nodo;
+import Compilador.CodigoIntermedio.*;
 import Compilador.Lexico.AnalizadorLexico;
 import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
@@ -62,8 +60,10 @@ public class App {
         String filename = file.getName().split("\\.")[0];
         String path = file.getAbsoluteFile().getParent() + File.separator;
         FileWriter myFile = new FileWriter(path + filename + ".asm");
-        myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\ndll_dllcrt0 PROTO C\nprintf PROTO C :VARARG\n\n.DATA\n");
-        myFile.write("aux_salida DD ?\n");
+        myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc");
+        if(Salida.hay_salida)
+            myFile.write("dll_dllcrt0 PROTO C\nprintf PROTO C :VARARG");
+        myFile.write("\n\n.DATA\n");
         for (Map.Entry<String, HashMap<String, Object>> entry : lexico.tablaDeSimbolos.entrySet()) {
             Tipos tipo = (Tipos) entry.getValue().get("Tipo");
             String uso = (String) entry.getValue().get("Uso");
@@ -72,6 +72,7 @@ public class App {
                     String inic = (String) entry.getValue().get("Inic");
                     myFile.write("_" + entry.getKey() + " DW " + inic + "\n");
                 } else {
+                    if(entry.getValue().get("NI")!=entry.getValue().get("Contador"))
                     myFile.write("_" + entry.getKey().replace("-", "N") + " DW " + entry.getKey() + "\n");
                 }
             } else if (tipo == Tipos.FLOAT) {
@@ -87,6 +88,8 @@ public class App {
                 myFile.write("_" + entry.getKey().replaceAll("\'", "").replaceAll(" ","_") + " DB " + entry.getKey() + ",0\n");
             }
         }
+        if(Salida.integer)
+            myFile.write("aux_salida DD ?");
         myFile.write("mem2bytes DW ?");
         myFile.write("_cero DB 'Error: Division por cero',0\n");
         myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");

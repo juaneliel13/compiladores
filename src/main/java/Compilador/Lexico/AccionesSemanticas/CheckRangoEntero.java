@@ -33,6 +33,7 @@ public class CheckRangoEntero extends AccionSemantica {
                 HashMap<String, Object> aux = new HashMap<String, Object>();
                 aux.put("Tipo", Tipos.INTEGER);
                 aux.put("Contador", 1);
+                aux.put("NI",0);
                 lexico.tablaDeSimbolos.put(String.valueOf(entero), aux);
             } else {
                 int aux = (int) lexico.tablaDeSimbolos.get(String.valueOf(entero)).get("Contador");
