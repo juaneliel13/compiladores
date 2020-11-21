@@ -1001,24 +1001,22 @@ case 22:
 		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
 			DecProc proc = new DecProc((Nodo)val_peek(1).obj,null,val_peek(4).sval);
 			yyval = new ParserVal(proc);
-
-
-		   }
+		  }
 break;
 case 23:
-//#line 132 "gramatica.y"
+//#line 130 "gramatica.y"
 { logger.addError(lex.linea,"Se esperaba \"{\"");
                   							ambito=ambito.substring(0,ambito.lastIndexOf("@"));
                   							}
 break;
 case 24:
-//#line 135 "gramatica.y"
+//#line 133 "gramatica.y"
 { logger.addError(lex.linea,"Se esperaba una sentencia");
                   					ambito=ambito.substring(0,ambito.lastIndexOf("@"));
                   					}
 break;
 case 25:
-//#line 140 "gramatica.y"
+//#line 138 "gramatica.y"
 {
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
 		nombre=getIdentificador(nombre);
@@ -1033,7 +1031,7 @@ case 25:
 		}
 break;
 case 26:
-//#line 152 "gramatica.y"
+//#line 150 "gramatica.y"
 {
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
 		nombre=getIdentificador(nombre);
@@ -1043,7 +1041,7 @@ case 26:
 	}
 break;
 case 27:
-//#line 159 "gramatica.y"
+//#line 157 "gramatica.y"
 {    String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
 					nombre=getIdentificador(nombre);
 					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
@@ -1054,7 +1052,7 @@ case 27:
 	}
 break;
 case 28:
-//#line 167 "gramatica.y"
+//#line 165 "gramatica.y"
 {
         		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
         		System.out.println(nombre);
@@ -1062,10 +1060,11 @@ case 28:
         		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
         		aux.put("NI",0);
         		lex.tablaDeSimbolos.put(nombre,aux);
+        		logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
         }
 break;
 case 29:
-//#line 178 "gramatica.y"
+//#line 177 "gramatica.y"
 {
 				ArrayList<Parametro> parametros = new ArrayList<>();
 				parametros.add((Parametro)val_peek(0).obj);
@@ -1073,7 +1072,7 @@ case 29:
 			    }
 break;
 case 30:
-//#line 183 "gramatica.y"
+//#line 182 "gramatica.y"
 {
                  				ArrayList<Parametro> parametros = new ArrayList<>();
 						parametros.add((Parametro)val_peek(2).obj);
@@ -1082,7 +1081,7 @@ case 30:
                 			     }
 break;
 case 31:
-//#line 189 "gramatica.y"
+//#line 188 "gramatica.y"
 {
                  						ArrayList<Parametro> parametros = new ArrayList<>();
                  						parametros.add((Parametro)val_peek(4).obj);
@@ -1092,27 +1091,27 @@ case 31:
                   					    }
 break;
 case 32:
-//#line 196 "gramatica.y"
+//#line 195 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 33:
-//#line 197 "gramatica.y"
+//#line 196 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 34:
-//#line 198 "gramatica.y"
+//#line 197 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 35:
-//#line 199 "gramatica.y"
+//#line 198 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba \",\"");}
 break;
 case 36:
-//#line 200 "gramatica.y"
+//#line 199 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaban como maximo 3 parametros");}
 break;
 case 37:
-//#line 203 "gramatica.y"
+//#line 202 "gramatica.y"
 {
 		    HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(val_peek(0).sval);
 		    aux.put("Uso","variable");
@@ -1123,7 +1122,7 @@ case 37:
 	   }
 break;
 case 38:
-//#line 211 "gramatica.y"
+//#line 210 "gramatica.y"
 {
 	   			HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(val_peek(0).sval);
                                 aux.put("Uso","variable");
@@ -1134,19 +1133,19 @@ case 38:
 	   		 }
 break;
 case 39:
-//#line 219 "gramatica.y"
+//#line 218 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba tipo");}
 break;
 case 40:
-//#line 220 "gramatica.y"
+//#line 219 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba tipo");}
 break;
 case 41:
-//#line 221 "gramatica.y"
+//#line 220 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba identificador");}
 break;
 case 42:
-//#line 222 "gramatica.y"
+//#line 221 "gramatica.y"
 {logger.addError(lex.linea,"Se esperaba VAR TIPO ID");
 	   		 HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(val_peek(0).sval);
 			 aux.put("Uso","variable");
@@ -1810,7 +1809,7 @@ case 128:
           	   yyval = new ParserVal(new Resta(null,null));
 	 	 }
 break;
-//#line 1737 "Parser.java"
+//#line 1736 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
