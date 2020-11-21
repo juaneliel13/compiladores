@@ -87,7 +87,7 @@ public abstract class Comparador extends Operador {
         //la creo
         codigo.append("FLD ");// op1
         codigo.append(izq.getRef());
-        codigo.append("\nFCOM ");//op2
+        codigo.append("\nFCOMP ");//op2
         codigo.append(der.getRef());
         codigo.append("\nFSTSW mem2bytes\nMOV AX, mem2bytes\nSAHF\n");
     }
