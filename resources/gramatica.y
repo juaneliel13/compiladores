@@ -125,9 +125,7 @@ dec_procedimiento : encabezado_proc param_ni '{' conjunto_sentencias '}' {
 		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
 			DecProc proc = new DecProc((Nodo)$4.obj,null,$1.sval);
 			$$ = new ParserVal(proc);
-
-
-		   }
+		  }
 
                   | encabezado_proc param_ni conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba \"{\"");
                   							ambito=ambito.substring(0,ambito.lastIndexOf("@"));
@@ -135,8 +133,8 @@ dec_procedimiento : encabezado_proc param_ni '{' conjunto_sentencias '}' {
                   | encabezado_proc param_ni '{'  '}'{ logger.addError(lex.linea,"Se esperaba una sentencia");
                   					ambito=ambito.substring(0,ambito.lastIndexOf("@"));
                   					}
-
                   ;
+
 param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
 		nombre=getIdentificador(nombre);
@@ -166,11 +164,11 @@ param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 	}
 	| '(' ')'  {
         		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
-        		System.out.println(nombre);
         		nombre=getIdentificador(nombre);
         		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
         		aux.put("NI",0);
         		lex.tablaDeSimbolos.put(nombre,aux);
+        		logger.addError(lex.linea,"Se esperaba NI=CTE_INT en la declaracion de PROC");
         }
 
 
@@ -228,6 +226,7 @@ parametro: tipo ID {
 	   		 $$ = new ParserVal(new Parametro($3.sval+ambito,(Tipos)$1.obj,"VAR"));
 	   		 }
            ;
+
 
 ejecutable : asignacion ';'{ logger.addEvent(lex.linea,"Se encontró una sentencia de asignación");
 			     $$ = $1;
