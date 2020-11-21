@@ -121,19 +121,18 @@ encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
 			}
 			}
 
-dec_procedimiento : encabezado_proc param_ni '{' conjunto_sentencias '}' {
+dec_procedimiento : encabezado_proc param_ni bloque_llaves{
 		    	ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-			DecProc proc = new DecProc((Nodo)$4.obj,null,$1.sval);
+			DecProc proc = new DecProc((Nodo)$3.obj,null,$1.sval);
 			$$ = new ParserVal(proc);
-		  }
+			}
+			;
 
-                  | encabezado_proc param_ni conjunto_sentencias '}' { logger.addError(lex.linea,"Se esperaba \"{\"");
-                  							ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-                  							}
-                  | encabezado_proc param_ni '{'  '}'{ logger.addError(lex.linea,"Se esperaba una sentencia");
-                  					ambito=ambito.substring(0,ambito.lastIndexOf("@"));
-                  					}
-                  ;
+bloque_llaves: '{' conjunto_sentencias '}' { $$ = new ParserVal($2.obj);}
+		| '{' '}' {logger.addError(lex.linea,"Se esperaba una sentencia");}
+		| sentencia{ logger.addError(lex.linea,"Se esperaban llaves en la declaracion del procedimiento");}
+		;
+
 
 param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
@@ -153,6 +152,10 @@ param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
 		aux.put("NI",Integer.parseInt($5.sval));
 		lex.tablaDeSimbolos.put(nombre,aux);
+		HashMap<String, Object> aux2=lex.tablaDeSimbolos.remove($5.sval);
+		Integer NI = (Integer)aux2.remove("NI");
+		aux2.put("NI",++NI);
+		lex.tablaDeSimbolos.put($5.sval,aux2);
 	}
 	| '(' lista_parametros ')' {    String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
 					nombre=getIdentificador(nombre);
@@ -413,7 +416,6 @@ bloque_ejecutables_for:bloque_ejecutables_llaves {
 
 bloque_ejecutables_llaves: '{' bloque_ejecutables '}' { $$ = new ParserVal($2.obj);}
 			 | '{' '}' {}
-			 //| bloque_ejecutables '}' {}
 			 | ejecutable {}
 			 ;
 
