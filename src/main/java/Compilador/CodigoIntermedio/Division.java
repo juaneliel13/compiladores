@@ -8,12 +8,12 @@ public class Division extends Operador {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
-        for(int i=0;i<compatibilidad.length;i++)
-            for(int j=0;j<compatibilidad[0].length;j++){
-                if(i==j)
-                    compatibilidad[i][j]=Tipos.valueOf(i);
+        for (int i = 0; i < compatibilidad.length; i++)
+            for (int j = 0; j < compatibilidad[0].length; j++) {
+                if (i == j)
+                    compatibilidad[i][j] = Tipos.valueOf(i);
                 else
-                    compatibilidad[i][j]=null;
+                    compatibilidad[i][j] = null;
             }
     }
 
@@ -21,10 +21,10 @@ public class Division extends Operador {
         super(izquierdo, derecho);
     }
 
-    public void updateTipo(){
-        ConTipo izq = (ConTipo)izquierdo;
-        ConTipo der = (ConTipo)derecho;
-        if(izquierdo==null || izq.getTipo()==null || derecho==null || der.getTipo()==null)
+    public void updateTipo() {
+        ConTipo izq = (ConTipo) izquierdo;
+        ConTipo der = (ConTipo) derecho;
+        if (izquierdo == null || izq.getTipo() == null || derecho == null || der.getTipo() == null)
             setTipo(null);
         else {
             setTipo(compatibilidad[izq.getTipo().getValue()][der.getTipo().getValue()]);
@@ -37,57 +37,89 @@ public class Division extends Operador {
         derecho.generarCodigo();
         ConTipo izq = (ConTipo) izquierdo;
         ConTipo der = (ConTipo) derecho;
-        if(this.getTipo() == Tipos.INTEGER){
-            if(!AdministradorDeRegistros.AX.estaLibre() && izq.reg!=AdministradorDeRegistros.AX){
-                ConTipo propietario = AdministradorDeRegistros.propietario(AdministradorDeRegistros.AX);
-                Registro aux = AdministradorDeRegistros.get16bits(propietario);
-                propietario.reg = aux;
-                codigo.append("MOV ");
-                codigo.append(aux);
-                codigo.append(",");
-                codigo.append(AdministradorDeRegistros.AX);
-                codigo.append("\n");
-            }
-            if(!AdministradorDeRegistros.DX.estaLibre()){
-                ConTipo propietario = AdministradorDeRegistros.propietario(AdministradorDeRegistros.DX);
-                Registro aux = AdministradorDeRegistros.get16bits(propietario);
-                propietario.reg = aux;
-                codigo.append("MOV ");
-                codigo.append(aux);
-                codigo.append(",");
-                codigo.append(AdministradorDeRegistros.DX);
-                codigo.append("\n");
-            }
-            this.reg = AdministradorDeRegistros.getAX(this);
-            AdministradorDeRegistros.getDX(this);
-            AdministradorDeRegistros.DX.liberar();
-            if(izq.reg!=AdministradorDeRegistros.AX)
-                codigo.append(templateEntero(izq.getRef(),der.getRef())+"\n");
-            else
-                codigo.append(templateEntero(der.getRef())+"\n");
-            if(!der.esHoja())
-                der.reg.liberar();
+        if (this.getTipo() == Tipos.INTEGER) {
+            divisionEntero(izq, der);
         } else {
-            codigo.append(templateFloat(izq.getRef(),der.getRef()));
-            String aux = crearAuxiliar();
-            codigo.append("FSTP ");
-            codigo.append(aux);
-            codigo.append("\n");
-            var_aux = aux;
-            //generacion de codigo para resta flotante
+            divisionFloat(izq, der);
         }
     }
 
-    private String templateEntero(String reg1, String reg2){
-        return "MOV AX,"+reg1+"\nCWD\n"+"CMP "+reg2+",0\nJE _CERO\n"+"IDIV "+reg2;
+    /**
+     * Esta funcion genera el codigo assembler para la division de izq / der de INTEGER.
+     * @param izq Nodo ConTipo que representa el dividendo
+     * @param der Nodo ConTipo que representa el divisor
+     */
+    private void divisionEntero(ConTipo izq, ConTipo der) {
+
+        //Si estan ocupados los registros AX o DX se liberan
+        if (!AdministradorDeRegistros.AX.estaLibre() && izq.reg != AdministradorDeRegistros.AX) {
+            liberarReg(AdministradorDeRegistros.AX);
+        }
+        if (!AdministradorDeRegistros.DX.estaLibre()) {
+            liberarReg(AdministradorDeRegistros.DX);
+        }
+
+        //Se ocupan los registros AX y DX
+        this.reg = AdministradorDeRegistros.getAX(this);
+        AdministradorDeRegistros.getDX(this);
+        AdministradorDeRegistros.DX.liberar();
+
+        if (izq.reg != AdministradorDeRegistros.AX) {
+            //Quiere decir que izq es una hoja
+            //se mueve el lado izq en AX
+            codigo.append("MOV AX, ");
+            codigo.append(izq.getRef());
+            codigo.append("\nCWD\nCMP ");
+            codigo.append(der.getRef());
+            codigo.append(", 0\nJE _CERO\nIDIV ");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+        } else {
+            //Se divide directamente (izq siempre va a ser AX)
+            codigo.append("CWD\nCMP ");
+            codigo.append(der.getRef());
+            codigo.append(", 0\nJE _CERO\nIDIV ");
+            codigo.append(der.getRef());
+            codigo.append("\n");
+        }
+
+        //Se libera el registro de la expresion del lado derecho
+        if (!der.esHoja())
+            der.reg.liberar();
     }
 
-    private String templateEntero(String reg2){
-        return "CWD\nIDIV "+reg2;
+    /**
+     * Esta funcion genera el codigo assembler para la division de izq / der de FLOAT.
+     * @param izq Nodo ConTipo que representa el dividendo
+     * @param der Nodo ConTipo que representa el divisor
+     */
+    private void divisionFloat(ConTipo izq, ConTipo der) {
+        codigo.append("FLD ");
+        codigo.append(der.getRef());
+        codigo.append("\nFLD _0_0\nFCOMP\nFSTSW mem2bytes\nMOV AX, mem2bytes\nSAHF\nJE _CERO\nFLD ");
+        codigo.append(izq.getRef());
+        codigo.append("\nFDIVR\n");
+        String aux = crearAuxiliar();
+        codigo.append("FSTP ");
+        codigo.append(aux);
+        codigo.append("\n");
+        var_aux = aux;
     }
 
-    private String templateFloat(String reg1, String reg2){
-        return "FLD "+ reg2 +"\nFLD _0_0"+"\nFCOMP\nFSTSW mem2bytes"+"\nMOV AX, mem2bytes\nSAHF"+"\nJE _CERO\nFLD " + reg1 + "\nFDIVR\n";
+    /**
+     * Libera el registro 'reg'. Para esto se pide un nuevo registro 'aux' donde guardarlo
+     * y el nodo que tenia asociado 'reg' se le asocia 'aux'.
+     * @param reg Registro que se quiere liberar
+     */
+    private void liberarReg(Registro reg) {
+        ConTipo propietario = AdministradorDeRegistros.propietario(reg);
+        Registro aux = AdministradorDeRegistros.get16bits(propietario);
+        propietario.reg = aux;
+        codigo.append("MOV ");
+        codigo.append(aux);
+        codigo.append(", ");
+        codigo.append(reg);
+        codigo.append("\n");
     }
 }
 
