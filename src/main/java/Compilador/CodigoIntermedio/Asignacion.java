@@ -29,6 +29,7 @@ public class Asignacion extends ConTipo {
 
     /**
      * Esta funcion genera el codigo assembler para la asignacion lValue = rValue de tipo INTEGER.
+     *
      * @param lValue nodo Hoja donde se guarda el resultado de la expresion.
      * @param rValue nodo ConTipo ( Hoja o Operador ) que tiene la expresion a guardar en la variable.
      */
@@ -60,6 +61,7 @@ public class Asignacion extends ConTipo {
 
     /**
      * Esta funcion genera el codigo assembler para la asignacion lValue = rValue de tipo FLOAT.
+     *
      * @param lValue nodo Hoja donde se guarda el resultado de la expresion.
      * @param rValue nodo ConTipo ( Hoja o Operador ) que tiene la expresion a guardar en la variable.
      */
