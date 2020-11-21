@@ -12,12 +12,9 @@ public class Hoja extends ConTipo {
         setTipo((Tipos)lex.tablaDeSimbolos.get(ref).get("Tipo"));
     }
 
-    public Hoja() {
-        super();
-    }
-
     @Override
     public void generarCodigo() {
+
     }
 
     @Override
