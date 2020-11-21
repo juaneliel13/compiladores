@@ -139,7 +139,6 @@ dec_procedimiento : encabezado_proc param_ni '{' conjunto_sentencias '}' {
                   ;
 param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
-		System.out.println(nombre);
 		nombre=getIdentificador(nombre);
 		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
 		aux.put("NI",Integer.parseInt($6.sval));
@@ -147,14 +146,12 @@ param_ni: '(' lista_parametros ')' NI '=' CTE_INT{
 		lex.tablaDeSimbolos.put(nombre,aux);}
 	| '(' ')' NI '=' CTE_INT {
 		String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
-		System.out.println(nombre);
 		nombre=getIdentificador(nombre);
 		HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
 		aux.put("NI",Integer.parseInt($5.sval));
 		lex.tablaDeSimbolos.put(nombre,aux);
 	}
 	| '(' lista_parametros ')' {    String nombre = ambito.substring(ambito.lastIndexOf("@")+1,ambito.length());
-					System.out.println(nombre);
 					nombre=getIdentificador(nombre);
 					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(nombre);
 					aux.put("NI",0);
@@ -217,6 +214,14 @@ parametro: tipo ID {
 	   | VAR ID {logger.addError(lex.linea,"Se esperaba tipo");}
 	   | ID {logger.addError(lex.linea,"Se esperaba tipo");}
 	   | VAR tipo error {logger.addError(lex.linea,"Se esperaba identificador");}
+	   | tipo VAR ID {logger.addError(lex.linea,"Se esperaba VAR TIPO ID");
+	   		 HashMap<String, Object> aux=lex.tablaDeSimbolos.remove($3.sval);
+			 aux.put("Uso","variable");
+			 aux.put("Tipo",(Tipos)$1.obj);
+			 aux.put("Inic","?");
+			 lex.tablaDeSimbolos.put($3.sval+ambito,aux);
+	   		 $$ = new ParserVal(new Parametro($3.sval+ambito,(Tipos)$1.obj,"VAR"));
+	   		 }
            ;
 
 ejecutable : asignacion ';'{ logger.addEvent(lex.linea,"Se encontró una sentencia de asignación");
