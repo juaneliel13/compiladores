@@ -4,19 +4,6 @@ import Compilador.CodigoAssembler.AdministradorDeRegistros;
 import Compilador.Lexico.Tipos;
 
 public class Asignacion extends ConTipo {
-    static Tipos[][] compatibilidad = new Tipos[3][3];
-
-    static {
-        // Se inicializa la matriz de compatibilidad
-        // como no aceptamos conversiones ponemos todos null, salvo la diagonal
-        for (int i = 0; i < compatibilidad.length; i++)
-            for (int j = 0; j < compatibilidad[0].length; j++) {
-                if (i == j)
-                    compatibilidad[i][j] = Tipos.valueOf(i);
-                else
-                    compatibilidad[i][j] = null;
-            }
-    }
 
     public Asignacion(ConTipo izquierdo, ConTipo derecho) {
         super(izquierdo, derecho);
