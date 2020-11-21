@@ -14,10 +14,6 @@ public class Parametro {
         this.tipoPasaje = tipoPasaje;
     }
 
-    public Parametro(){
-
-    }
-
     @Override
     public String toString(){
         return "{" + idRef + "," + tipo + "," + tipoPasaje + "}";
