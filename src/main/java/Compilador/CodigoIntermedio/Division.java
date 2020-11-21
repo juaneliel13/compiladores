@@ -17,7 +17,7 @@ public class Division extends Operador {
         ConTipo izq = (ConTipo) izquierdo;
         ConTipo der = (ConTipo) derecho;
         if (this.getTipo() == Tipos.INTEGER) {
-            divisionEntero(izq, der);
+            divisionInteger(izq, der);
         } else {
             divisionFloat(izq, der);
         }
@@ -29,7 +29,7 @@ public class Division extends Operador {
      * @param izq Nodo ConTipo que representa el dividendo
      * @param der Nodo ConTipo que representa el divisor
      */
-    private void divisionEntero(ConTipo izq, ConTipo der) {
+    private void divisionInteger(ConTipo izq, ConTipo der) {
 
         //Si estan ocupados los registros AX o DX se liberan
         if (!AdministradorDeRegistros.AX.estaLibre() && izq.reg != AdministradorDeRegistros.AX) {
