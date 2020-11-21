@@ -1,5 +1,8 @@
 package Compilador.CodigoIntermedio;
 
+import Compilador.CodigoAssembler.AdministradorDeRegistros;
+import Compilador.CodigoAssembler.Registro;
+
 public abstract class Operador extends ConTipo {
 
     public Operador(Nodo izquierdo, Nodo derecho) {
@@ -14,6 +17,23 @@ public abstract class Operador extends ConTipo {
         else {
             setTipo(compatibilidad[izq.getTipo().getValue()][der.getTipo().getValue()]);
         }
+    }
+
+    /**
+     * Libera el registro 'reg'. Para esto se pide un nuevo registro 'aux' donde guardarlo
+     * y el nodo que tenia asociado 'reg' se le asocia 'aux'.
+     *
+     * @param reg Registro que se quiere liberar
+     */
+    protected void liberarReg(Registro reg) {
+        ConTipo propietario = AdministradorDeRegistros.propietario(reg);
+        Registro aux = AdministradorDeRegistros.get16bits(propietario);
+        propietario.reg = aux;
+        codigo.append("MOV ");
+        codigo.append(aux);
+        codigo.append(", ");
+        codigo.append(reg);
+        codigo.append("\n");
     }
 
 }

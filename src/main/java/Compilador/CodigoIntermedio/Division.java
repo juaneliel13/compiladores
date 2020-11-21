@@ -1,7 +1,6 @@
 package Compilador.CodigoIntermedio;
 
 import Compilador.CodigoAssembler.AdministradorDeRegistros;
-import Compilador.CodigoAssembler.Registro;
 import Compilador.Lexico.Tipos;
 
 public class Division extends Operador {
@@ -87,21 +86,5 @@ public class Division extends Operador {
         var_aux = aux;
     }
 
-    /**
-     * Libera el registro 'reg'. Para esto se pide un nuevo registro 'aux' donde guardarlo
-     * y el nodo que tenia asociado 'reg' se le asocia 'aux'.
-     *
-     * @param reg Registro que se quiere liberar
-     */
-    private void liberarReg(Registro reg) {
-        ConTipo propietario = AdministradorDeRegistros.propietario(reg);
-        Registro aux = AdministradorDeRegistros.get16bits(propietario);
-        propietario.reg = aux;
-        codigo.append("MOV ");
-        codigo.append(aux);
-        codigo.append(", ");
-        codigo.append(reg);
-        codigo.append("\n");
-    }
 }
 
