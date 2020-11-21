@@ -60,7 +60,7 @@ public class App {
         String filename = file.getName().split("\\.")[0];
         String path = file.getAbsoluteFile().getParent() + File.separator;
         FileWriter myFile = new FileWriter(path + filename + ".asm");
-        myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc");
+        myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\n");
         if(Salida.hay_salida)
             myFile.write("dll_dllcrt0 PROTO C\nprintf PROTO C :VARARG");
         myFile.write("\n\n.DATA\n");
@@ -89,8 +89,8 @@ public class App {
             }
         }
         if(Salida.integer)
-            myFile.write("aux_salida DD ?");
-        myFile.write("mem2bytes DW ?");
+            myFile.write("aux_salida DD ?\n");
+        myFile.write("mem2bytes DW ?\n");
         myFile.write("_cero DB 'Error: Division por cero',0\n");
         myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");
         myFile.write("\n");
