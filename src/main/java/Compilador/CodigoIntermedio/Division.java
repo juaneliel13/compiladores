@@ -48,13 +48,18 @@ public class Division extends Operador {
             //se mueve el lado izq en AX
             codigo.append("MOV AX, ");
             codigo.append(izq.getRef());
+
+            //Se verifica que el divisor sea distinto de cero
             codigo.append("\nCWD\nCMP ");
             codigo.append(der.getRef());
-            codigo.append(", 0\nJE _CERO\nIDIV ");
+            codigo.append(", 0\nJE _CERO\n");
+
+            //Se efectua la division
+            codigo.append("IDIV ");
             codigo.append(der.getRef());
             codigo.append("\n");
         } else {
-            //Se divide directamente (izq siempre va a ser AX)
+            //Se verifica que el divisor sea distinto de cero y divide directamente (izq siempre va a ser AX)
             codigo.append("CWD\nCMP ");
             codigo.append(der.getRef());
             codigo.append(", 0\nJE _CERO\nIDIV ");
@@ -74,11 +79,21 @@ public class Division extends Operador {
      * @param der Nodo ConTipo que representa el divisor
      */
     private void divisionFloat(ConTipo izq, ConTipo der) {
+
+        //Se carga el divisor a la pila
         codigo.append("FLD ");
         codigo.append(der.getRef());
+
+        //Se verifica que el divisor no sea 0
         codigo.append("\nFLD _0_0\nFCOMP\nFSTSW mem2bytes\nMOV AX, mem2bytes\nSAHF\nJE _CERO\nFLD ");
+
+        //Se carga el dividendo a la pila
         codigo.append(izq.getRef());
+
+        //Se efectua la division
         codigo.append("\nFDIVR\n");
+
+        //Se crea una variable auxiliar y se almacena el resultado en ella
         String aux = crearAuxiliar();
         codigo.append("FSTP ");
         codigo.append(aux);
