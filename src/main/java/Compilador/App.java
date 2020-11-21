@@ -87,6 +87,7 @@ public class App {
                 myFile.write("_" + entry.getKey().replaceAll("\'", "").replaceAll(" ","_") + " DB " + entry.getKey() + ",0\n");
             }
         }
+        myFile.write("mem2bytes DW ?");
         myFile.write("_cero DB 'Error: Division por cero',0\n");
         myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");
         myFile.write("\n");
