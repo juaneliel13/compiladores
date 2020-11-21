@@ -9,7 +9,7 @@ public class Hoja extends ConTipo {
     public Hoja(String ref) {
         super(null, null);
         this.ref = ref;
-        setTipo((Tipos)lex.tablaDeSimbolos.get(ref).get("Tipo"));
+        setTipo((Tipos) lex.tablaDeSimbolos.get(ref).get("Tipo"));
     }
 
     @Override
@@ -19,10 +19,10 @@ public class Hoja extends ConTipo {
 
     @Override
     public String getRef() {
-        if (lex.tablaDeSimbolos.get(ref).get("Tipo")!=Tipos.FLOAT)
-            return "_"+ref.replace("-","N");
+        if (lex.tablaDeSimbolos.get(ref).get("Tipo") != Tipos.FLOAT)
+            return "_" + ref.replace("-", "N");
         else
-            return "_"+ref.replace(".","_").replace("-","N");
+            return "_" + ref.replace(".", "_").replace("-", "N");
     }
 
     @Override

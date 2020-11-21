@@ -8,12 +8,12 @@ public abstract class ConTipo extends Nodo {
     static Tipos[][] compatibilidad = new Tipos[3][3];
 
     static {
-        for(int i=0;i<compatibilidad.length;i++)
-            for(int j=0;j<compatibilidad[0].length;j++){
-                if(i==j)
-                    compatibilidad[i][j]=Tipos.valueOf(i);
+        for (int i = 0; i < compatibilidad.length; i++)
+            for (int j = 0; j < compatibilidad[0].length; j++) {
+                if (i == j)
+                    compatibilidad[i][j] = Tipos.valueOf(i);
                 else
-                    compatibilidad[i][j]=null;
+                    compatibilidad[i][j] = null;
             }
     }
 
@@ -44,7 +44,7 @@ public abstract class ConTipo extends Nodo {
     }
 
     public String getRef() {
-        if(reg!=null)
+        if (reg != null)
             return reg.toString();
         else
             return var_aux;

@@ -18,14 +18,12 @@ public abstract class Comparador extends Operador {
         ConTipo der = (ConTipo) derecho;
 
         //Genero el codigo de la comparacion de los numeros
-        if(izq.getTipo() == Tipos.INTEGER) {
-            comparadorInteger(izq,der);
-        }
-        else
-        {
+        if (izq.getTipo() == Tipos.INTEGER) {
+            comparadorInteger(izq, der);
+        } else {
             //Al solo tener dos tipos y solo llamarlo a generar codigo
             //cuando no hay errores en este caso seria un Float
-            comparadorFloat(izq,der);
+            comparadorFloat(izq, der);
         }
 
         //Creo la etiqueta y agrego el codigo para saltar
@@ -40,6 +38,7 @@ public abstract class Comparador extends Operador {
 
     /**
      * Metodo templado para obtener la instruccion de salto segun el tipo de Comparador concreto
+     *
      * @return devuelve la instruccion de salto.
      */
     protected abstract String getSalto();
@@ -47,12 +46,13 @@ public abstract class Comparador extends Operador {
 
     /**
      * Genera el codigo para comparar dos Integer.
+     *
      * @param izq Nodo izquierdo de la comparacion
      * @param der Nodo derecho de la comparacion
      */
     private void comparadorInteger(ConTipo izq, ConTipo der) {
         String reg1, reg2;
-        reg2=der.getRef();
+        reg2 = der.getRef();
         if (izq.esHoja() && der.esHoja()) {
             this.reg = AdministradorDeRegistros.get16bits(this);
             codigo.append("MOV ");
@@ -79,6 +79,7 @@ public abstract class Comparador extends Operador {
 
     /**
      * Genera el codigo para comparar dos Floats.
+     *
      * @param izq Nodo izquierdo de la comparacion
      * @param der Nodo derecho de la comparacion
      */

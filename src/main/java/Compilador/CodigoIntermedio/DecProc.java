@@ -4,14 +4,15 @@ import Compilador.Lexico.Tipos;
 
 import java.util.HashMap;
 
-public class DecProc extends Nodo{
+public class DecProc extends Nodo {
 
     public static StringBuilder procs = new StringBuilder();
 
     String ref;
+
     public DecProc(Nodo izquierdo, Nodo derecho, String ref) {
         super(izquierdo, derecho);
-        this.ref=ref;
+        this.ref = ref;
     }
 
     @Override
@@ -48,9 +49,9 @@ public class DecProc extends Nodo{
     private void generarFlagRecursion() {
         HashMap<String, Object> h_aux = new HashMap<String, Object>();
         h_aux.put("Uso", "variable");
-        h_aux.put("Tipo",Tipos.INTEGER);
-        h_aux.put("Inic","0");
-        lex.tablaDeSimbolos.put("FLAG_"+ref, h_aux);
+        h_aux.put("Tipo", Tipos.INTEGER);
+        h_aux.put("Inic", "0");
+        lex.tablaDeSimbolos.put("FLAG_" + ref, h_aux);
     }
 
     /**
