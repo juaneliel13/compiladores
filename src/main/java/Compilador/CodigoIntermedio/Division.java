@@ -5,30 +5,9 @@ import Compilador.CodigoAssembler.Registro;
 import Compilador.Lexico.Tipos;
 
 public class Division extends Operador {
-    static Tipos[][] compatibilidad = new Tipos[3][3];
-
-    static {
-        for (int i = 0; i < compatibilidad.length; i++)
-            for (int j = 0; j < compatibilidad[0].length; j++) {
-                if (i == j)
-                    compatibilidad[i][j] = Tipos.valueOf(i);
-                else
-                    compatibilidad[i][j] = null;
-            }
-    }
 
     public Division(ConTipo izquierdo, ConTipo derecho) {
         super(izquierdo, derecho);
-    }
-
-    public void updateTipo() {
-        ConTipo izq = (ConTipo) izquierdo;
-        ConTipo der = (ConTipo) derecho;
-        if (izquierdo == null || izq.getTipo() == null || derecho == null || der.getTipo() == null)
-            setTipo(null);
-        else {
-            setTipo(compatibilidad[izq.getTipo().getValue()][der.getTipo().getValue()]);
-        }
     }
 
     @Override
@@ -46,6 +25,7 @@ public class Division extends Operador {
 
     /**
      * Esta funcion genera el codigo assembler para la division de izq / der de INTEGER.
+     *
      * @param izq Nodo ConTipo que representa el dividendo
      * @param der Nodo ConTipo que representa el divisor
      */
@@ -90,6 +70,7 @@ public class Division extends Operador {
 
     /**
      * Esta funcion genera el codigo assembler para la division de izq / der de FLOAT.
+     *
      * @param izq Nodo ConTipo que representa el dividendo
      * @param der Nodo ConTipo que representa el divisor
      */
@@ -109,6 +90,7 @@ public class Division extends Operador {
     /**
      * Libera el registro 'reg'. Para esto se pide un nuevo registro 'aux' donde guardarlo
      * y el nodo que tenia asociado 'reg' se le asocia 'aux'.
+     *
      * @param reg Registro que se quiere liberar
      */
     private void liberarReg(Registro reg) {

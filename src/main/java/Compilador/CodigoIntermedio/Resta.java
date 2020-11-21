@@ -4,29 +4,9 @@ import Compilador.CodigoAssembler.AdministradorDeRegistros;
 import Compilador.Lexico.Tipos;
 
 public class Resta extends Operador {
-    static Tipos[][] compatibilidad = new Tipos[3][3];
 
-    static {
-        for(int i=0;i<compatibilidad.length;i++)
-            for(int j=0;j<compatibilidad[0].length;j++){
-                if(i==j)
-                    compatibilidad[i][j]=Tipos.valueOf(i);
-                else
-                    compatibilidad[i][j]=null;
-            }
-    }
     public Resta(ConTipo izquierdo, ConTipo derecho) {
         super(izquierdo, derecho);
-    }
-
-    public void updateTipo(){
-        ConTipo izq = (ConTipo)izquierdo;
-        ConTipo der = (ConTipo)derecho;
-        if(izquierdo==null || izq.getTipo()==null || derecho==null || der.getTipo()==null)
-            setTipo(null);
-        else {
-            setTipo(compatibilidad[izq.getTipo().getValue()][der.getTipo().getValue()]);
-        }
     }
 
     @Override
@@ -35,18 +15,17 @@ public class Resta extends Operador {
         derecho.generarCodigo();
         ConTipo izq = (ConTipo) izquierdo;
         ConTipo der = (ConTipo) derecho;
-        if(this.getTipo() == Tipos.INTEGER){
-            if(izquierdo.esHoja()) {
+        if (this.getTipo() == Tipos.INTEGER) {
+            if (izquierdo.esHoja()) {
                 reg = AdministradorDeRegistros.get16bits(this);
                 codigo.append("MOV ");
                 codigo.append(reg);
                 codigo.append(",");
                 codigo.append(izq.getRef());
                 codigo.append("\n");
-            }
-            else{
+            } else {
                 reg = izq.reg;
-                AdministradorDeRegistros.nombre.put(reg,this);
+                AdministradorDeRegistros.nombre.put(reg, this);
             }
             codigo.append("SUB ");
             codigo.append(reg.toString());
@@ -54,7 +33,7 @@ public class Resta extends Operador {
             codigo.append(der.getRef());
             codigo.append("\n");
 
-            if(!derecho.esHoja())
+            if (!derecho.esHoja())
                 der.reg.liberar();
         } else {
             codigo.append("FLD ");
