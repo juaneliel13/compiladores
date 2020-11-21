@@ -10,10 +10,5 @@ public class If extends Nodo {
     public void generarCodigo() {
         izquierdo.generarCodigo();
         derecho.generarCodigo();
-        crearEtiqueta();
-        //Este codigo deberia de llamar a izquierda luego a derecha
-        //y generar un BF a una nueva etiqueta (si hay else seria a
-        //este agregaria la etiqueta luego del else, si no hay else
-        //se agregaria la etiqueta luego del codigo del then)
     }
 }
