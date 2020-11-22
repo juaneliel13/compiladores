@@ -61,7 +61,7 @@ public class App {
         String path = file.getAbsoluteFile().getParent() + File.separator;
         FileWriter myFile = new FileWriter(path + filename + ".asm");
         myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\n");
-        if(Salida.hay_salida)
+        if(Salida.hay_salida || Llamada.hay_llamada)
             myFile.write("dll_dllcrt0 PROTO C\nprintf PROTO C :VARARG");
         myFile.write("\n\n.DATA\n");
         for (Map.Entry<String, HashMap<String, Object>> entry : lexico.tablaDeSimbolos.entrySet()) {
@@ -86,18 +86,36 @@ public class App {
                 }
             } else if (tipo == Tipos.STRING) {
                 myFile.write("_" + entry.getKey().replaceAll("\'", "").replaceAll(" ","_") + " DB " + entry.getKey() + ",0\n");
+            }else {
+                if(uso=="procedimiento"){
+                    String nombre_proc= entry.getKey();
+                    myFile.write("NI_"+nombre_proc+ " DW " +lexico.tablaDeSimbolos.get(nombre_proc).get("NI") +"\n");
+                    myFile.write("FLAG_"+nombre_proc+ " DW 0\n");
+                    myFile.write("nombre_"+nombre_proc+ " DB " + "\'"+nombre_proc.substring(0,nombre_proc.indexOf("@")) +"\',0\n");
+                }
             }
+
         }
         if(Salida.integer)
             myFile.write("aux_salida DD ?\n");
-        myFile.write("mem2bytes DW ?\n");
-        myFile.write("_cero DB 'Error: Division por cero',0\n");
-        myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");
+        if(Comparador.comp_float)
+            myFile.write("mem2bytes DW ?\n");
+        if(Division.hay_division)
+            myFile.write("_cero DB 'Error: Division por cero',0\n");
+        if(Llamada.hay_llamada) {
+            myFile.write("_recursion DB 'Error: Llamado recursivo de',0\n");
+            myFile.write("_invocacion DB 'Error: Se alcanzo el numero maximo de invocaciones permitidas para el procedimiento',0\n");
+            myFile.write("nombre_proc DD ?\n");
+        }
         myFile.write("\n");
         myFile.write(".CODE\n");
         myFile.write(DecProc.procs.toString());
-        myFile.write("_CERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
-        myFile.write("_RECURSION:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _recursion\nJMP _END\n");
+        if(Division.hay_division)
+            myFile.write("_CERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
+        if(Llamada.hay_llamada) {
+            myFile.write("_RECURSION:\ninvoke printf, cfm$(\"%s %s\\n\"),OFFSET _recursion,nombre_proc\nJMP _END\n");
+            myFile.write("_INVOCACION:\ninvoke printf, cfm$(\"%s %s\\n\"),OFFSET _invocacion,nombre_proc\nJMP _END\n");
+        }
         myFile.write("START:\n");
         myFile.write(Nodo.codigo.toString());
         myFile.write("_END:\n");

@@ -5,6 +5,8 @@ import Compilador.Lexico.Tipos;
 
 public class Division extends Operador {
 
+    public static boolean hay_division=false;
+
     public Division(ConTipo izquierdo, ConTipo derecho) {
         super(izquierdo, derecho);
     }
@@ -20,6 +22,7 @@ public class Division extends Operador {
         } else {
             divisionFloat(izq, der);
         }
+        hay_division=true;
     }
 
     /**

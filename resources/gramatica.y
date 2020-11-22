@@ -492,12 +492,6 @@ llamada : ID '(' parametros ')'  {
 					String a;
 					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);
 					if(aux.get("Uso").equals("procedimiento")){
-						int ni = (Integer) aux.get("NI");
-						if ( ni <= 0 ) {
-							logger.addError(lex.linea,"Se agotaron los llamados para el procedimiento \""+ $1.sval+ "\"" );
-						} else {
-							aux.put("NI",(Integer)ni-1);
-						}
 						if(aux.containsKey("Parametros")) {
 							//estaria todo ok
 							ArrayList<Parametro> parametros_func = (ArrayList) aux.get("Parametros");
@@ -546,12 +540,6 @@ llamada : ID '(' parametros ')'  {
 				String a;
 				HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);
 				if(aux.get("Uso").equals("procedimiento")){
-					int ni = (Integer) aux.get("NI");
-					if ( ni <= 0 ) {
-						logger.addError(lex.linea,"Se agotaron los llamados para el procedimiento \""+ $1.sval+ "\"" );
-					} else {
-						aux.put("NI",(Integer)ni-1);
-					}
 					if(!aux.containsKey("Parametros")) {
 						lex.tablaDeSimbolos.put(proc,aux);
 						$$=new ParserVal(new Llamada(proc,null));

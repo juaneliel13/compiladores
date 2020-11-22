@@ -22,10 +22,7 @@ public class DecProc extends Nodo {
         StringBuilder aux = new StringBuilder();
         StringBuilder save_nodo = Nodo.codigo;
         Nodo.codigo = aux;
-
-        //Genero la variable para controlar la recursion en ejecucion
-        generarFlagRecursion();
-
+        
         //Genero la etiqueta del procedimiento
         generarEtiquetaProc();
 
@@ -40,18 +37,6 @@ public class DecProc extends Nodo {
 
         //Restauro el StringBuilder del nodo
         Nodo.codigo = save_nodo;
-    }
-
-    /**
-     * Agrega una variable a la tabla de simbolos
-     * para controlar la recursion de los procedimientos
-     */
-    private void generarFlagRecursion() {
-        HashMap<String, Object> h_aux = new HashMap<String, Object>();
-        h_aux.put("Uso", "variable");
-        h_aux.put("Tipo", Tipos.INTEGER);
-        h_aux.put("Inic", "0");
-        lex.tablaDeSimbolos.put("FLAG_" + ref, h_aux);
     }
 
     /**

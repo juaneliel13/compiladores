@@ -9,6 +9,7 @@ public class Llamada extends Nodo {
     String ref;
     List<String> parametros_reales;
     List<Parametro> parametros_formales;
+    public static boolean hay_llamada = false;
 
     public Llamada(String ref, List<String> parametros_reales) {
         this.ref = ref;
@@ -20,23 +21,52 @@ public class Llamada extends Nodo {
     public void generarCodigo() {
 
         generarCheckeoRecursion();
+        generarCheckeoNI();
         generarPasajeCopiaValor();
         generarCall();
         generarPasajeCopiaValorResultado();
+        hay_llamada = true;
 
     }
 
     /**
-     * Genera el codigo que chekea que el flag _FLAG_<nombre_proc> no
+     * Genera el codigo que chekea que el flag FLAG_<nombre_proc> no
      * tenga un 1 (si este tiene 1 quiere decir que se esta ejecutando)
      * luego del chekeo se setea en 1 el flag
      */
     private void generarCheckeoRecursion() {
-        codigo.append("MOV AX, _FLAG_");
+        String etiqueta = crearEtiqueta();
+        codigo.append("MOV AX, FLAG_");
         codigo.append(ref);
-        codigo.append("\nCMP AX, 1\nJE _RECURSION\nMOV _FLAG_");
+        codigo.append("\nCMP AX, 1\nJNE ");
+        codigo.append(etiqueta);
+        codigo.append("\nMOV nombre_proc, OFFSET nombre_");
+        codigo.append(ref);
+        codigo.append("\nJMP _RECURSION\n");
+        codigo.append(etiqueta);
+        codigo.append(":\nMOV FLAG_");
         codigo.append(ref);
         codigo.append(", 1\n");
+    }
+
+    /**
+     * Genera el código que checkea que el flag _NI_<nombre_proc> no
+     * sea igual a 0 (si es igual a 0 salta a INVOCACION donde
+     * se mostrará un mensaje de error). En caso contrario se le resta 1.
+     */
+    private void generarCheckeoNI() {
+        String etiqueta = crearEtiqueta();
+        codigo.append("MOV AX, NI_");
+        codigo.append(ref);
+        codigo.append("\nCMP AX, 0\nJNE ");
+        codigo.append(etiqueta);
+        codigo.append("\nMOV nombre_proc, OFFSET nombre_");
+        codigo.append(ref);
+        codigo.append("\nJMP _INVOCACION\n");
+        codigo.append(etiqueta);
+        codigo.append(":\nSUB AX, 1\nMOV NI_");
+        codigo.append(ref);
+        codigo.append(", AX\n");
     }
 
     /**
@@ -70,7 +100,7 @@ public class Llamada extends Nodo {
     private void generarCall() {
         codigo.append("CALL _");
         codigo.append(ref);
-        codigo.append("\nMOV _FLAG_");
+        codigo.append("\nMOV FLAG_");
         codigo.append(ref);
         codigo.append(", 0\n");
     }
