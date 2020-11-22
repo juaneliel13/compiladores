@@ -68,7 +68,7 @@ public class Asignacion extends ConTipo {
     private void asignacionFloat(ConTipo lValue, ConTipo rValue) {
         codigo.append("FLD ");
         codigo.append(rValue.getRef());
-        codigo.append("\nFST ");
+        codigo.append("\nFSTP ");
         codigo.append(lValue.getRef());
         codigo.append("\n");
     }
