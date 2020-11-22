@@ -328,8 +328,10 @@ factor : ID {	String var = getIdentificador($1.sval);
 				if (!lex.tablaDeSimbolos.containsKey(String.valueOf(i))) {
 					    HashMap<String, Object> aux = new HashMap<String, Object>();
 					    aux.put("Tipo", Tipos.INTEGER);
+                                            aux.put("Contador", 1);
+                                            aux.put("NI",0);
 					    lex.tablaDeSimbolos.put(String.valueOf(i), aux);
-					}
+				}
 				int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-i)).get("Contador");
 				lex.tablaDeSimbolos.get(String.valueOf(-i)).put("Contador",aux-1);
 				$$ = new ParserVal(new Hoja(String.valueOf(i)));
@@ -343,7 +345,9 @@ factor : ID {	String var = getIdentificador($1.sval);
 				if (!lex.tablaDeSimbolos.containsKey(String.valueOf(f))) {
 					    HashMap<String, Object> aux = new HashMap<String, Object>();
 					    aux.put("Tipo", Tipos.FLOAT);
-					    lex.tablaDeSimbolos.put(String.valueOf(f), aux);
+                                            aux.put("Contador", 1);
+                                            aux.put("NI",0);
+                                            lex.tablaDeSimbolos.put(String.valueOf(f), aux);
 				}
 				int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-f)).get("Contador");
 				lex.tablaDeSimbolos.get(String.valueOf(-f)).put("Contador",aux-1);
@@ -451,10 +455,12 @@ salida : OUT '(' CADENA ')' { $$=new ParserVal(new Salida($3.sval));}
        | OUT '(' '-' CTE_INT ')' {
 					int i = -(int) Integer.parseInt($4.sval);
 					if (!lex.tablaDeSimbolos.containsKey(String.valueOf(i))) {
-						    HashMap<String, Object> aux = new HashMap<String, Object>();
-						    aux.put("Tipo", Tipos.INTEGER);
-						    lex.tablaDeSimbolos.put(String.valueOf(i), aux);
-						}
+						HashMap<String, Object> aux = new HashMap<String, Object>();
+                                                aux.put("Tipo", Tipos.INTEGER);
+						aux.put("Contador", 1);
+						aux.put("NI",0);
+                                                lex.tablaDeSimbolos.put(String.valueOf(i), aux);
+					}
 					int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-i)).get("Contador");
 					lex.tablaDeSimbolos.get(String.valueOf(-i)).put("Contador",aux-1);
 					$$=new ParserVal(new Salida("-"+$4.sval));
@@ -464,9 +470,11 @@ salida : OUT '(' CADENA ')' { $$=new ParserVal(new Salida($3.sval));}
        | OUT '(' '-' CTE_FLOAT ')' {
        					float f = -(float) Float.parseFloat($4.sval);
 					if (!lex.tablaDeSimbolos.containsKey(String.valueOf(f))) {
-						    HashMap<String, Object> aux = new HashMap<String, Object>();
-						    aux.put("Tipo", Tipos.FLOAT);
-						    lex.tablaDeSimbolos.put(String.valueOf(f), aux);
+						HashMap<String, Object> aux = new HashMap<String, Object>();
+						aux.put("Tipo", Tipos.FLOAT);
+						aux.put("Contador", 1);
+                                                aux.put("NI",0);
+						lex.tablaDeSimbolos.put(String.valueOf(f), aux);
 					}
 					int aux = (int) lex.tablaDeSimbolos.get(String.valueOf(-f)).get("Contador");
 					lex.tablaDeSimbolos.get(String.valueOf(-f)).put("Contador",aux-1);
