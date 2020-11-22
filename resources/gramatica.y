@@ -386,7 +386,7 @@ condicion_if_parentesis : '(' condicion_if ')' { $$=$2; }
 			;
 
 condicion_if: expresion comparador expresion{
-					      Operador aux = (Operador)$2.obj;
+					      Comparador aux = (Comparador)$2.obj;
 					      aux.izquierdo = (Nodo)$1.obj;
 					      aux.derecho = (Nodo)$3.obj;
 					      aux.updateTipo();

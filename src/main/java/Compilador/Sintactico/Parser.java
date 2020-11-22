@@ -1421,7 +1421,7 @@ break;
 case 83:
 //#line 388 "gramatica.y"
 {
-					      Operador aux = (Operador)val_peek(1).obj;
+					      Comparador aux = (Comparador)val_peek(1).obj;
 					      aux.izquierdo = (Nodo)val_peek(2).obj;
 					      aux.derecho = (Nodo)val_peek(0).obj;
 					      aux.updateTipo();
