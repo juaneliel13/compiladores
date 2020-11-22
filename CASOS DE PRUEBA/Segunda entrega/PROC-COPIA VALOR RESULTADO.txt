@@ -1,12 +1,19 @@
 INTEGER a;
-INTEGER b;
-PROC proc1(VAR INTEGER a) NI=2_i{
-    a=a+b;
+INTEGER c;
+FLOAT d;
+PROC proc1(VAR INTEGER a, VAR FLOAT b) NI=2_i{
+    a=a+c;
+    b=1.0;
     OUT('Valor de a dentro del proc1');
     OUT(a);
+    OUT('Valor de d dentro del proc1');
+    OUT(b);
 }
 a=10_i;
-b=2_i;
-proc1(a);
+c=2_i;
+d=5.0;
+proc1(a,d);
 OUT('Valor de a en el main');
 OUT(a);
+OUT('Valor de d en el main');
+OUT(d);
