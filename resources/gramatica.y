@@ -117,8 +117,9 @@ encabezado_proc:PROC ID{if(lex.tablaDeSimbolos.containsKey($2.sval+ambito)){
 				aux.put("Uso","procedimiento");
 				lex.tablaDeSimbolos.put($2.sval+ambito,aux);
 				$$=new ParserVal($2.sval+ambito);
-				ambito+="@"+$2.sval;
+
 			}
+			ambito+="@"+$2.sval;
 			}
 
 dec_procedimiento : encabezado_proc param_ni bloque_llaves{
