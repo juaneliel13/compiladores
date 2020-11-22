@@ -67,7 +67,7 @@ public class App {
     public static void generarCodigo(AnalizadorLexico lexico) throws IOException {
         FileWriter myFile = new FileWriter(path + filename + ".asm");
         myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\n");
-        if(Salida.hay_salida || Llamada.hay_llamada)
+        if(Salida.hay_salida || Llamada.hay_llamada || Division.hay_division)
             myFile.write("dll_dllcrt0 PROTO C\nprintf PROTO C :VARARG");
         myFile.write("\n\n.DATA\n");
         for (Map.Entry<String, HashMap<String, Object>> entry : lexico.tablaDeSimbolos.entrySet()) {
