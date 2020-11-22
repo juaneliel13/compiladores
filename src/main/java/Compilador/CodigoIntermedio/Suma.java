@@ -64,7 +64,7 @@ public class Suma extends Operador {
      */
     private void sumaFloat(ConTipo izq, ConTipo der) {
 
-        //Se carga el primer operando al la pila
+        //Se carga el primer operando a la pila
         codigo.append("FLD ");
         codigo.append(izq.getRef());
         codigo.append("\n");
@@ -74,7 +74,7 @@ public class Suma extends Operador {
         codigo.append(der.getRef());
         codigo.append("\n");
 
-        //Se crea una variable auxiliar y se guarda el resultado en ella
+        //Se crea una variable auxiliar y se almacena el resultado en ella
         String aux = crearAuxiliar();
         codigo.append("FSTP ");
         codigo.append(aux);

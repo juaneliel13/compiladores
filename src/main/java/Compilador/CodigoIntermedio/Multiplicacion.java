@@ -69,10 +69,16 @@ public class Multiplicacion extends Operador {
      * @param der Nodo ConTipo que representa el segundo operando
      */
     private void multiplicacionFloat(ConTipo izq, ConTipo der) {
+
+        //Se carga el primer operando a la pila
         codigo.append("FLD ");
         codigo.append(izq.getRef());
+
+        //Se efectua la multiplicacion con el segundo operando
         codigo.append("\nFMUL ");
         codigo.append(der.getRef());
+
+        //Se crea una varible auxiliar y se almacena el resultado en ella
         String aux = crearAuxiliar();
         codigo.append("\nFSTP ");
         codigo.append(aux);
