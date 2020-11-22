@@ -1,0 +1,9 @@
+INTEGER a;
+
+PROC proc1() NI=3_i{
+   b=a;
+   PROC proc2() NI=3_i{
+      INTEGER b;
+   }
+}
+proc2();

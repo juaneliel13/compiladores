@@ -1,0 +1,6 @@
+INTEGER a;
+INTEGER b;
+FLOAT c;
+b=1.5; /% Incompatibles %/
+c=2.0;
+a=c+0.5; /% a incompatible con c y 0.5 %/

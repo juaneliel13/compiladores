@@ -1,0 +1,7 @@
+INTEGER a;
+INTEGER b;
+FOR(a=0_i;a<10_i;UP 1_i)
+    FOR(b=0_i;b<2_i;UP 1_i)
+        IF(a!=b) THEN
+            OUT(a);
+        END_IF

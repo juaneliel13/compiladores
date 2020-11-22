@@ -1,0 +1,9 @@
+PROC proc1() NI=3_i{
+   OUT('procedimiento 1');
+   PROC proc2() NI=2_i{
+        proc1();
+        OUT('procedimiento 2');
+   }
+   proc2();
+}
+proc1();

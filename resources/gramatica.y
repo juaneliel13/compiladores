@@ -50,7 +50,8 @@ declarativa : dec_variable ';'{logger.addEvent(lex.linea,"Se encontró una sente
 				$$=new ParserVal();}
             | dec_procedimiento {logger.addEvent(lex.linea,"Se encontró una sentencia declarativa de procedimiento");
             			$$=$1;}
-            | dec_variable {logger.addError(lex.linea,"Se esperaba \";\"");}
+            | dec_variable {logger.addError(lex.linea,"Se esperaba \";\"");
+            		    $$=new ParserVal();}
             ;
 
 dec_variable : tipo lista_variables  {
@@ -378,6 +379,7 @@ seleccion : IF condicion_if_parentesis THEN bloque_ejecutables_then END_IF {
           | IF condicion_if_parentesis THEN bloque_ejecutables_then ELSE declarativa END_IF {logger.addError(lex.linea,"No se permite declaraciones dentro del ELSE");}
           | IF condicion_if_parentesis THEN declarativa ELSE bloque_ejecutables_then END_IF {logger.addError(lex.linea,"No se permite declaraciones dentro del IF");}
           | IF condicion_if_parentesis THEN declarativa ELSE declarativa END_IF {logger.addError(lex.linea,"No se permite declaraciones dentro del IF");}
+          | IF condicion_if_parentesis bloque_ejecutables_then error{logger.addError(lex.linea,"Sentiencia IF mal escrita");}
           ;
 
 condicion_if_parentesis : '(' condicion_if ')' { $$=$2; }

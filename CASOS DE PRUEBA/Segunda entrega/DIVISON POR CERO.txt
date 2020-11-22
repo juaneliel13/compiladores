@@ -1,0 +1,6 @@
+INTEGER a;
+PROC proc1() NI=3_i{
+   OUT('procedimiento 1');
+}
+a=2_i/0_i;
+proc1();

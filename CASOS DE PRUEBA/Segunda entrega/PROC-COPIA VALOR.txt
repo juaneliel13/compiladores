@@ -1,0 +1,12 @@
+INTEGER a;
+INTEGER b;
+PROC proc1(INTEGER a) NI=2_i{
+    a=a+b;
+    OUT('Valor de a dentro del proc1');
+    OUT(a);
+}
+a=10_i;
+b=2_i;
+proc1(a);
+OUT('Valor de a en el main');
+OUT(a);

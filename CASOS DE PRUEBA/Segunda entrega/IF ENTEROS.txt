@@ -1,0 +1,6 @@
+INTEGER a;
+IF(a<2_i) THEN
+    OUT('Es menor');
+ELSE
+    OUT('Es mayor o igual');
+END_IF

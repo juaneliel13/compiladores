@@ -1,0 +1,3 @@
+INTEGER a;
+FOR(a=0_i;a<10_i;UP 1_i)
+    OUT(a);

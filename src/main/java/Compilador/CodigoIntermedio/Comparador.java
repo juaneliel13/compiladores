@@ -65,6 +65,10 @@ public abstract class Comparador extends Operador {
             reg1 = this.reg.toString();
         } else {
             reg1 = izq.getRef();
+            if(der.esHoja())
+                reg = izq.reg;
+            else
+                reg = der.reg;
         }
 
         //genero la comparacion

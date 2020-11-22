@@ -1,0 +1,7 @@
+FLOAT a;
+a=0.0;
+IF(a<2.0) THEN
+    OUT('Es menor');
+ELSE
+    OUT('Es mayor o igual');
+END_IF
