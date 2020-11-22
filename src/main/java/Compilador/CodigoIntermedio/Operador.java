@@ -36,4 +36,13 @@ public abstract class Operador extends ConTipo {
         codigo.append("\n");
     }
 
+    protected void moverHojaAReg(ConTipo izq) {
+        reg = AdministradorDeRegistros.get16bits(this);
+        codigo.append("MOV ");
+        codigo.append(reg);
+        codigo.append(", ");
+        codigo.append(izq.getRef());
+        codigo.append("\n");
+    }
+
 }
