@@ -26,6 +26,9 @@ public class DecProc extends Nodo {
         //Genero la variable para controlar la recursion en ejecucion
         generarFlagRecursion();
 
+        //Genero la variable para controlar el numero de invocaciones
+        generarControlNI();
+
         //Genero la etiqueta del procedimiento
         generarEtiquetaProc();
 
@@ -73,4 +76,15 @@ public class DecProc extends Nodo {
         codigo.append(" ENDP\n");
     }
 
+    /**
+     * Agrega una variable a la tabla de simbolos
+     * para el control de la cantidad de invocacion.
+     */
+    private void generarControlNI(){
+        HashMap<String,Object> h_aux = new HashMap<String, Object>();
+        h_aux.put("Uso", "variable");
+        h_aux.put("Tipo", Tipos.INTEGER);
+        h_aux.put("Inic", lex.tablaDeSimbolos.get(ref).get("NI").toString());
+        lex.tablaDeSimbolos.put("NI_" + ref, h_aux);
+    }
 }

@@ -20,6 +20,7 @@ public class Llamada extends Nodo {
     public void generarCodigo() {
 
         generarCheckeoRecursion();
+        generarCheckeoNI();
         generarPasajeCopiaValor();
         generarCall();
         generarPasajeCopiaValorResultado();
@@ -39,6 +40,19 @@ public class Llamada extends Nodo {
         codigo.append(", 1\n");
     }
 
+    /**
+     * Genera el código que checkea que el flag _NI_<nombre_proc> no
+     * sea igual a 0 (si es igual a 0 salta a INVOCACION donde
+     * se mostrará un mensaje de error). En caso contrario se le resta 1.
+     */
+    private void generarCheckeoNI(){
+        codigo.append("MOV AX, _NI_");
+        codigo.append(ref);
+        codigo.append("\nCMP AX, 0\nJE _INVOCACION\nSUB AX, 1\nMOV _NI_");
+        codigo.append(ref);
+        codigo.append(", AX\n");
+
+    }
     /**
      * Genera los movs de los parametros reales a los
      * parametros formales

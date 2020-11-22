@@ -93,11 +93,13 @@ public class App {
         myFile.write("mem2bytes DW ?\n");
         myFile.write("_cero DB 'Error: Division por cero',0\n");
         myFile.write("_recursion DB 'Error: Recursion no permitida',0\n");
+        myFile.write("_invocacion DB 'Error: Se alcanzo el numero maximo de invocaciones permitidas',0\n");
         myFile.write("\n");
         myFile.write(".CODE\n");
         myFile.write(DecProc.procs.toString());
         myFile.write("_CERO:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _cero\nJMP _END\n");
         myFile.write("_RECURSION:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _recursion\nJMP _END\n");
+        myFile.write("_INVOCACION:\ninvoke printf, cfm$(\"%s\\n\"),OFFSET _invocacion\nJMP _END\n");
         myFile.write("START:\n");
         myFile.write(Nodo.codigo.toString());
         myFile.write("_END:\n");
