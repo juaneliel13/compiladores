@@ -63,13 +63,18 @@ public class Suma extends Operador {
      * @param der Nodo ConTipo que representa el segundo operando
      */
     private void sumaFloat(ConTipo izq, ConTipo der) {
+
+        //Se carga el primer operando al la pila
         codigo.append("FLD ");
         codigo.append(izq.getRef());
         codigo.append("\n");
+
+        //Se efectua la suma con el segundo operando
         codigo.append("FADD ");
         codigo.append(der.getRef());
         codigo.append("\n");
 
+        //Se crea una variable auxiliar y se guarda el resultado en ella
         String aux = crearAuxiliar();
         codigo.append("FSTP ");
         codigo.append(aux);
