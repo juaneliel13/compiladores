@@ -1,0 +1,11 @@
+INTEGER a;
+INTEGER b;
+a=3_i;
+b=2_i;
+IF(a==b) THEN
+   OUT('a y b son iguales');
+ELSE
+    IF(b<5_i) THEN
+        OUT('b es menor a 5');
+    END_IF
+END_IF
