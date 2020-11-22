@@ -6,6 +6,8 @@ import Compilador.Lexico.Tipos;
 
 public abstract class Comparador extends Operador {
 
+    public static boolean comp_float=false;
+
     public Comparador(Nodo izquierdo, Nodo derecho) {
         super(izquierdo, derecho);
     }
@@ -91,6 +93,7 @@ public abstract class Comparador extends Operador {
         codigo.append("\nFCOMP ");//op2
         codigo.append(der.getRef());
         codigo.append("\nFSTSW mem2bytes\nMOV AX, mem2bytes\nSAHF\n");
+        comp_float=true;
     }
 
 }
