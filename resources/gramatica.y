@@ -248,6 +248,7 @@ asignacion : ID '=' expresion  { String var =getIdentificador($1.sval);
                                 	logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
                                 }
 				else{
+					lex.tablaDeSimbolos.remove($1.sval);
 					$1.obj = new Hoja(var);
 					Asignacion asignacion = new Asignacion((ConTipo)$1.obj,(ConTipo)$3.obj);
 					if(asignacion.getTipo()==null)
@@ -304,8 +305,10 @@ factor : ID {	String var = getIdentificador($1.sval);
 		if(var==null){
 			logger.addError(lex.linea,"Variable \""+ $1.sval+ "\" no declarada" );
 		}
-		else
+		else{
+			lex.tablaDeSimbolos.remove($1.sval);
 			$$ = new ParserVal(new Hoja(var));
+			}
 	}
        | CTE_INT {
 
@@ -490,6 +493,7 @@ llamada : ID '(' parametros ')'  {
 				}
 				else{
 					String a;
+					lex.tablaDeSimbolos.remove($1.sval);
 					HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);
 					if(aux.get("Uso").equals("procedimiento")){
 						if(aux.containsKey("Parametros")) {
@@ -538,6 +542,7 @@ llamada : ID '(' parametros ')'  {
 			}
 			else{
 				String a;
+				lex.tablaDeSimbolos.remove($1.sval);
 				HashMap<String, Object> aux=lex.tablaDeSimbolos.remove(proc);
 				if(aux.get("Uso").equals("procedimiento")){
 					if(!aux.containsKey("Parametros")) {
