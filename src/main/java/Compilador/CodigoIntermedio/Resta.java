@@ -58,13 +58,18 @@ public class Resta extends Operador {
      * @param der Nodo ConTipo que representa el segundo operando
      */
     private void restaFloat(ConTipo izq, ConTipo der) {
+
+        //Se carga el primer operando a la pila
         codigo.append("FLD ");
         codigo.append(izq.getRef());
         codigo.append("\n");
+
+        //Se efectua la resta con el segundo operando
         codigo.append("FSUB ");
         codigo.append(der.getRef());
         codigo.append("\n");
 
+        //Se crea una variable auxiliar y se almacena el resultado en ella
         String aux = crearAuxiliar();
         codigo.append("FSTP ");
         codigo.append(aux);
