@@ -6,9 +6,7 @@ import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -19,6 +17,8 @@ public class App {
         boolean imprime = true;
         if (args.length != 0) {
             File file = new File(args[0]);
+
+
             String data = "";
             Logger logger = Logger.getInstance();
             Logger.setFilename(file);
@@ -44,7 +44,7 @@ public class App {
             if (!parser.error && ret_parser!=1) {
                 System.out.println(parser.raiz.imprimir());
                 parser.raiz.generarCodigo();
-                generarCodigo(args[0], lexico);
+                generarCodigo(args[0], lexico,"C:\\masm32\\bin");
             }
             System.out.println(DecProc.procs);
             System.out.println(Nodo.codigo);
@@ -55,8 +55,9 @@ public class App {
         }
     }
 
-    public static void generarCodigo(String direccion, AnalizadorLexico lexico) throws IOException {
+    public static void generarCodigo(String direccion, AnalizadorLexico lexico, String masm_path) throws IOException {
         File file = new File(direccion);
+
         String filename = file.getName().split("\\.")[0];
         String path = file.getAbsoluteFile().getParent() + File.separator;
         FileWriter myFile = new FileWriter(path + filename + ".asm");
@@ -94,7 +95,6 @@ public class App {
                     myFile.write("nombre_"+nombre_proc+ " DB " + "\'"+nombre_proc.substring(0,nombre_proc.indexOf("@")) +"\',0\n");
                 }
             }
-
         }
         if(Salida.integer)
             myFile.write("aux_salida DD ?\n");
@@ -123,5 +123,25 @@ public class App {
         myFile.write("END START\n");
         myFile.close();
 
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.directory(new File(masm_path));
+        processBuilder.command("cmd.exe", "/c" ,
+                        "copy " + path + filename + ".asm " + filename + ".asm " +
+                        "& ml /c /coff " + filename + ".asm " +
+                        "& link /SUBSYSTEM:CONSOLE " + filename + ".obj " +
+                        "& del /f " + filename + ".asm " +
+                        "& move " + filename + ".obj " + path + filename + ".obj " +
+                        "& move " + filename + ".exe " + path + filename + ".exe ");
+        try {
+
+            Process process = processBuilder.start();
+            int exitCode = process.waitFor();
+            System.out.println("\nBuild exited with error code : " + exitCode);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
