@@ -32,9 +32,9 @@ public class Logger {
         return instance;
     }
 
-    public static void setFilename(File file) {
-        Logger.filename = file.getName().split("\\.")[0];
-        Logger.path = file.getAbsoluteFile().getParent() + File.separator;
+    public static void setFilename(String path, String filename) {
+        Logger.path = path;
+        Logger.filename = filename;
     }
 
     public static void setParser(Parser parser){

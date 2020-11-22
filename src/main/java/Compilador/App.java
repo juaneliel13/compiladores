@@ -11,26 +11,37 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class App {
+
+    public static String path,filename,masm_path;
+
     public static void main(String[] args) throws IOException {
         boolean imprime = true;
         if (args.length != 0) {
             File file = new File(args[0]);
-
-
+            Properties prop = new Properties();
+            try {
+                InputStream in = new FileInputStream("conf.properties");
+                prop.load(in);
+                in.close();
+                masm_path = prop.getProperty("masm_path");
+            }
+            catch(Exception e) {
+                masm_path = "C:\\masm32\\bin\\";
+            }
             String data = "";
+            path = file.getAbsoluteFile().getParent() + File.separator;
+            filename = file.getName().split("\\.")[0];
             Logger logger = Logger.getInstance();
-            Logger.setFilename(file);
+            Logger.setFilename(path,filename);
             try {
                 data = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             AnalizadorLexico lexico = new AnalizadorLexico(data);
-            /*for(int i=-1; i!=0;i=lexico.getToken()){
-                System.out.println(i);
-            }*/
             Parser parser = new Parser(lexico);
             Nodo.setLexico(lexico);
             Logger.setParser(parser);
@@ -42,24 +53,18 @@ public class App {
             }
             System.out.println(lexico.tablaDeSimbolos.toString());
             if (!parser.error && ret_parser!=1) {
-                System.out.println(parser.raiz.imprimir());
+                FileWriter myFile = new FileWriter(path + filename + "-arbol-sintactico.txt");
+                myFile.write(parser.raiz.imprimir());
+                myFile.close();
                 parser.raiz.generarCodigo();
-                generarCodigo(args[0], lexico,"C:\\masm32\\bin");
+                generarCodigo(lexico);
             }
-            System.out.println(DecProc.procs);
-            System.out.println(Nodo.codigo);
-
-
         } else {
             System.out.println("Se esperaban argumentos :c ");
         }
     }
 
-    public static void generarCodigo(String direccion, AnalizadorLexico lexico, String masm_path) throws IOException {
-        File file = new File(direccion);
-
-        String filename = file.getName().split("\\.")[0];
-        String path = file.getAbsoluteFile().getParent() + File.separator;
+    public static void generarCodigo(AnalizadorLexico lexico) throws IOException {
         FileWriter myFile = new FileWriter(path + filename + ".asm");
         myFile.write(".386\n.model flat, stdcall\n.stack 200h\noption casemap :none\ninclude \\masm32\\include\\masm32rt.inc\n");
         if(Salida.hay_salida || Llamada.hay_llamada)
