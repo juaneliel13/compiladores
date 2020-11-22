@@ -77,18 +77,24 @@ public class Llamada extends Nodo {
         if (parametros_reales != null) {
             for (int i = 0; i < parametros_formales.size(); i++) {
                 if (parametros_formales.get(i).tipo == Tipos.FLOAT) {
-                    codigo.append("MOV EAX, _");
+                    codigo.append("FLD _");
                 } else {
                     codigo.append("MOV AX, _");
                 }
                 codigo.append(parametros_reales.get(i));
-                codigo.append("\nMOV _");
-                codigo.append(parametros_formales.get(i).idRef);
+
+
                 if (parametros_formales.get(i).tipo == Tipos.FLOAT) {
-                    codigo.append(", EAX\n");
+                    codigo.append("\nFSTP _");
+                    codigo.append(parametros_formales.get(i).idRef);
+
                 } else {
-                    codigo.append(", AX\n");
+                    codigo.append("\nMOV _");
+                    codigo.append(parametros_formales.get(i).idRef);
+                    codigo.append(", AX");
                 }
+
+                codigo.append("\n");
             }
         }
     }
@@ -114,18 +120,21 @@ public class Llamada extends Nodo {
             for (int i = 0; i < parametros_formales.size(); i++) {
                 if (parametros_formales.get(i).tipoPasaje == "VAR") {
                     if (parametros_formales.get(i).tipo == Tipos.FLOAT) {
-                        codigo.append("MOV EAX, _");
+                        codigo.append("FLD _");
                     } else {
                         codigo.append("MOV AX, _");
                     }
                     codigo.append(parametros_formales.get(i).idRef);
-                    codigo.append("\nMOV _");
-                    codigo.append(parametros_reales.get(i));
+
                     if (parametros_formales.get(i).tipo == Tipos.FLOAT) {
-                        codigo.append(", EAX\n");
+                        codigo.append("\nFSTP _");
+                        codigo.append(parametros_reales.get(i));
                     } else {
-                        codigo.append(", AX\n");
+                        codigo.append("\nMOV _");
+                        codigo.append(parametros_reales.get(i));
+                        codigo.append(", AX");
                     }
+                    codigo.append("\n");
                 }
             }
         }
