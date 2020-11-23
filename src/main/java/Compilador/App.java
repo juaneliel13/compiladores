@@ -147,6 +147,8 @@ public class App {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("No se pudo compilar el archivo " + filename + ".asm, no se encontro el MASM.");
         }
     }
 }
