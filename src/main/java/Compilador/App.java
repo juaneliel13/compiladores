@@ -143,11 +143,8 @@ public class App {
             int exitCode = process.waitFor();
             System.out.println("\nBuild exited with error code : " + exitCode);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
             System.out.println("No se pudo compilar el archivo " + filename + ".asm, no se encontro el MASM.");
         }
     }
