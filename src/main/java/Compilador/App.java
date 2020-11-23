@@ -131,12 +131,12 @@ public class App {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.directory(new File(masm_path));
         processBuilder.command("cmd.exe", "/c" ,
-                        "copy " + path + filename + ".asm " + filename + ".asm " +
-                        "& ml /c /coff " + filename + ".asm " +
-                        "& link /SUBSYSTEM:CONSOLE " + filename + ".obj " +
-                        "& del /f " + filename + ".asm " +
-                        "& move " + filename + ".obj " + path + filename + ".obj " +
-                        "& move " + filename + ".exe " + path + filename + ".exe ");
+                        "copy \"" + path + filename + ".asm\" \"" + filename + ".asm\" " +
+                        "& ml /c /coff \"" + filename + ".asm\" " +
+                        "& link /SUBSYSTEM:CONSOLE \"" + filename + ".obj\" " +
+                        "& del /f \"" + filename + ".asm\" " +
+                        "& move \"" + filename + ".obj\" \"" + path + filename + ".obj\" " +
+                        "& move \"" + filename + ".exe\" \"" + path + filename + ".exe\" ");
         try {
 
             Process process = processBuilder.start();
