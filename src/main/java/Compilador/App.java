@@ -103,8 +103,11 @@ public class App {
         }
         if(Salida.integer)
             myFile.write("aux_salida DD ?\n");
-        if(Comparador.comp_float)
+        if(Comparador.comp_float || Division.hay_division_float){
             myFile.write("mem2bytes DW ?\n");
+            if(!lexico.tablaDeSimbolos.containsKey("0.0"))
+                myFile.write("_0_0 DQ 0\n");
+        }
         if(Division.hay_division)
             myFile.write("_cero DB 'Error: Division por cero',0\n");
         if(Llamada.hay_llamada) {
