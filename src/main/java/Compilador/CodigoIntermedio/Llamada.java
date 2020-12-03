@@ -139,4 +139,11 @@ public class Llamada extends Nodo {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Llamada{" +
+                "ref='" + ref + '\'' +
+                '}';
+    }
 }

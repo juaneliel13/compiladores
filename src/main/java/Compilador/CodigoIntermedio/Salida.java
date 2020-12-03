@@ -62,4 +62,11 @@ public class Salida extends Nodo {
         }
         codigo.append("\n");
     }
+
+    @Override
+    public String toString() {
+        return "Salida{" +
+                "ref='" + ref + '\'' +
+                '}';
+    }
 }
