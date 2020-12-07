@@ -59,6 +59,9 @@ public class App {
                 parser.raiz.generarCodigo();
                 generarCodigo(lexico);
             }
+            else{
+                System.out.println("Se encontraron errores.");
+            }
         } else {
             System.out.println("Se esperaban argumentos :c ");
         }
