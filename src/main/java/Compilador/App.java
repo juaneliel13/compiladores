@@ -6,7 +6,6 @@ import Compilador.Lexico.Tipos;
 import Compilador.Sintactico.Parser;
 import Compilador.Utilidad.Logger;
 
-import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -56,6 +55,8 @@ public class App {
                         myFile.close();
                         parser.raiz.generarCodigo();
                         generarCodigo(lexico);
+                    } else {
+                        System.out.println("Se encontraron errores.");
                     }
                 } else {
                     System.out.println("Archivo \"" + file.getName() + "\" inexistente.");
@@ -63,7 +64,6 @@ public class App {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         } else {
             System.out.println("Se esperaban argumentos :c ");
         }
