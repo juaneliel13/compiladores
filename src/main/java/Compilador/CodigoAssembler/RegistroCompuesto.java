@@ -1,16 +1,17 @@
 package Compilador.CodigoAssembler;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
 public class RegistroCompuesto extends Registro implements Observer {
 
-    Vector<Registro> hijos;
+    ArrayList<Registro> hijos;
 
     public RegistroCompuesto(String nombre, Registro padre) {
         super(nombre, padre);
-        this.hijos = new Vector<>();
+        this.hijos = new ArrayList<>();
 
     }
 
