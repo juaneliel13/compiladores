@@ -1,0 +1,14 @@
+FLOAT a,b;
+
+PROC proc1() NI=3_i{
+
+   OUT('procedimiento 1');
+
+}
+
+b = 0.;
+
+a=2./b;
+
+proc1();
+
