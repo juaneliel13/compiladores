@@ -2,14 +2,15 @@ package Compilador.CodigoAssembler;
 
 import Compilador.CodigoIntermedio.ConTipo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
 public class AdministradorDeRegistros {
 
-    public static Vector<Registro> r_32bits;
-    public static Vector<Registro> r_16bits;
-    public static Vector<Registro> r_8bits;
+    public static ArrayList<Registro> r_32bits;
+    public static ArrayList<Registro> r_16bits;
+    public static ArrayList<Registro> r_8bits;
 
     public static HashMap<Registro, ConTipo> nombre;
 
@@ -19,9 +20,9 @@ public class AdministradorDeRegistros {
     public static RegistroCompuesto DX;
 
     static {
-        r_8bits = new Vector<>();
-        r_16bits = new Vector<>();
-        r_32bits = new Vector<>();
+        r_8bits = new ArrayList<>();
+        r_16bits = new ArrayList<>();
+        r_32bits = new ArrayList<>();
         nombre = new HashMap<>();
 
         RegistroCompuesto EAX = new RegistroCompuesto("EAX", null);
