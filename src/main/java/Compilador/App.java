@@ -51,7 +51,7 @@ public class App {
                     System.out.println(lexico.tablaDeSimbolos.toString());
                     if (!parser.error && ret_parser != 1) {
                         FileWriter myFile = new FileWriter(path + filename + "-arbol-sintactico.txt");
-                        myFile.write(parser.raiz.imprimir());
+                        myFile.write(parser.raiz.imprimir().toString());
                         myFile.close();
                         parser.raiz.generarCodigo();
                         generarCodigo(lexico);

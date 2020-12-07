@@ -50,7 +50,7 @@ public abstract class Nodo {
      * Genera un String con la estructura representada en forma de arbol de directorio
      * @return String con la estructura
      */
-    public String imprimir() {
+    public StringBuilder imprimir() {
         return imprimirRecursivo(this, "");
     }
 
@@ -60,13 +60,15 @@ public abstract class Nodo {
      * @param tabs son la identacion que se tenia de antes (como profundidad)
      * @return
      */
-    private String imprimirRecursivo(Nodo nodo, String tabs) {
-        String el_retorno = "";
-        el_retorno += tabs + nodo.toString() + '\n';
+    private StringBuilder imprimirRecursivo(Nodo nodo, String tabs) {
+        StringBuilder el_retorno = new StringBuilder();
+        el_retorno.append(tabs);
+        el_retorno.append(nodo.toString());
+        el_retorno.append('\n');
         if (nodo.izquierdo != null)
-            el_retorno += imprimirRecursivo(nodo.izquierdo, tabs + '\t');
+            el_retorno.append(imprimirRecursivo(nodo.izquierdo, tabs + '\t'));
         if (nodo.derecho != null)
-            el_retorno += imprimirRecursivo(nodo.derecho, tabs + '\t');
+            el_retorno.append(imprimirRecursivo(nodo.derecho, tabs + '\t'));
         return el_retorno;
     }
 
